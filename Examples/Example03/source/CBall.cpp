@@ -3,7 +3,7 @@
 //Class definition
 #include "CBall.h"
 //Our ball PNG data
-#include "ball.h"
+#include "ball_png.h"
 
 //These variables are shared between all instances, only one image is needed in memory at a time to draw every ball ;)
 int CBall::nInstances = 0;
@@ -14,7 +14,7 @@ CBall::CBall(int x, int y, int angle, int speed)		{
    //First time: load the ball image
 	if (this->nInstances == 0)			{
 		//We load our ball image. Note that the format is PAL2 (4 colors). It's enough because our image is nearly monochrome.
-		this->imgBall = ulLoadImageFilePNG((const char*)ball, (int)ball_size, UL_IN_VRAM, UL_PF_PAL2);
+		this->imgBall = ulLoadImageFilePNG((const char*)ball_png, (int)ball_png_size, UL_IN_VRAM, UL_PF_PAL2);
 	}
    this->nInstances++;
    

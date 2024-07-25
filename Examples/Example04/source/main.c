@@ -6,9 +6,9 @@
 
 #include <ulib/ulib.h>
 //Our map data is in the file Map.c
-#include "map.h"
+#include "Map.h"
 //Our tileset PNG data
-#include "mountains.h"
+#include "mountains_png.h"
 
 //Make it global so we can access it from our Render function
 UL_MAP *mapMountains;
@@ -48,7 +48,7 @@ int main()
 
 	//Load our tileset
 	ulSetTransparentColor(RGB15(31, 0, 31));
-	imgMountains = ulLoadImageFilePNG((void*)mountains, (int)mountains_size, UL_IN_RAM, UL_PF_PAL4);
+	imgMountains = ulLoadImageFilePNG((void*)mountains_png, (int)mountains_png_size, UL_IN_RAM, UL_PF_PAL4);
 
 	//Now we can create a map with that tileset
 	mapMountains = ulCreateMap(

@@ -5,7 +5,7 @@
 */
 
 #include <ulib/ulib.h>
-#include "tails.h"
+#include "tails_png_bin.h"
 
 int main()
 {
@@ -29,7 +29,7 @@ int main()
 	ulSetTransparentColor(RGB15(31, 0, 31));
 	{
 		//We load our Tails character image. Note that the format is PAL4 (16 colors). It is enough for our image but may not for others.
-		imgTails = ulLoadImageFilePNG((void*)tails, (int)tails_size, UL_IN_VRAM, UL_PF_PAL4);
+		imgTails = ulLoadImageFilePNG((void*)tails_png_bin, (int)tails_png_bin_size, UL_IN_VRAM, UL_PF_PAL4);
 	}
 	ulDisableTransparentColor();
 	

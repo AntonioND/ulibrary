@@ -5,7 +5,7 @@
 */
 
 #include <ulib/ulib.h>
-#include "james.h"
+#include "james_png.h"
 
 //Our image contains 3 frames, one next to the other vertically, and 32 pixel wide.
 #define FRAME_HEIGHT 32
@@ -30,7 +30,7 @@ int main()
 	ulSetTransparentColor(RGB15(31, 0, 31));
 	{
 		//We load our James character image. Note that the format is PAL4 (16 colors). It is enough for our image but may not for others.
-		imgJames = ulLoadImageFilePNG((void*)james, (int)james_size, UL_IN_VRAM, UL_PF_PAL4);
+		imgJames = ulLoadImageFilePNG((void*)james_png, (int)james_png_size, UL_IN_VRAM, UL_PF_PAL4);
 	}
 	ulDisableTransparentColor();
 	

@@ -5,8 +5,8 @@
 */
 
 #include <ulib/ulib.h>
-#include "calibri.h"
-#include "test.h"
+#include "Calibri_bin.h"
+#include "test_png.h"
 
 int play()
 {
@@ -19,13 +19,13 @@ int play()
 	//Initialize the graphical part
 	ulInitGfx();
 	
-	font = ulLoadFontFile((const char*)Calibri, (int)Calibri_size);
+	font = ulLoadFontFile((const char*)Calibri_bin, (int)Calibri_bin_size);
 	if (!font)
 		return -1;
 
 	ulSetFont(font);
 
-	img = ulLoadImageFilePNG((const char*)test, (int)test_size, UL_IN_VRAM, UL_PF_PAL5_A3);
+	img = ulLoadImageFilePNG((const char*)test_png, (int)test_png_size, UL_IN_VRAM, UL_PF_PAL5_A3);
 	if (!img)
 		return -2;
 
