@@ -27,7 +27,7 @@ static inline int ulGetLoadUtilitySource()		{
 }   
 
 /** Defines the default source for files open via this utility. Note that by default, the last initialized source is used, so if you do nothing it will be
-	memory, if you initialize libFat or GBFS it will be this one. */
+	memory, if you initialize libFat or NitroFS it will be this one. */
 static inline int ulSetLoadUtilitySource(int source)			{
 	int currentSource = ulGetLoadUtilitySource();   
 	ul_loadUtilActiveSource = source;
@@ -35,7 +35,7 @@ static inline int ulSetLoadUtilitySource(int source)			{
 }
 
 /** \ingroup images_loading
-	Load directly from a file. If the file is a filename for FAT or GBFS, the size should be 0.
+	Load directly from a file. If the file is a filename for FAT or NitroFS, the size should be 0.
 	If you're loading from memory, then fileName is a pointer to the memory address and fileSize its size.
 	
 See the Loading utility section for more informations. */

@@ -126,16 +126,16 @@ void VirtualFileInit();
 	\param param1
 		Depends on the file source. By default:
 		   - VF_MEMORY: pointer to your data
-		   - VF_GBFS, VF_FILE: pointer to a string containing the file name
+		   - VF_NITRO, VF_FILE: pointer to a string containing the file name
 	\param param2
 		Depends on the file source. By default:
 		   - VF_MEMORY: total size of the memory block
-		   - VF_GBFS, VF_FILE: 0
+		   - VF_NITRO, VF_FILE: 0
 	\param type
 		File type. By default, can be:
 			- VF_MEMORY: read/write from a memory block
 			- VF_FILE: read from standard stdio routines (libfat). Requires a prior call to ulInitLibFat.
-			- VF_GBFS: read from GBFS. Requires a prior call to ulInitGBFS.
+			- VF_NITRO: read from NitroFS. Requires a prior call to ulInitNitroFs.
 	\param mode
 		One of VF_OPEN_MODES.
 */	
@@ -180,7 +180,7 @@ Reading stops to the next carriage return found (\\n, \\r\\n or \\r), supporting
 		Returns the identifier of your source or -1 if it has failed. You can then use this ID as a file type (parameter for VirtualFileOpen). */
 int VirtualFileRegisterSource(VIRTUAL_FILE_SOURCE *vfs);
 /**
-	Registers a file list for RAM based devices (such as VF_MEMORY). This way you can make a virtual file driver for files in RAM and then easily switch from a libFat, GBFS or RAM system, only by speficying file names when loading.
+	Registers a file list for RAM based devices (such as VF_MEMORY). This way you can make a virtual file driver for files in RAM and then easily switch from a libFat, NitroFS or RAM system, only by speficying file names when loading.
 	\param vfl
 		List of files (each file is a UL_VIRTUALFILENAME item)
 */
@@ -232,18 +232,10 @@ extern VIRTUAL_FILE_SOURCE vfsMemory;
 You have to call this routine before you can work with files. libFat support will be added to your code, eating something like 75 kB. */
 int ulInitLibFat();
 
-#if 0
-/** Initializes GBFS - returns 0 in case of success or -1 if it failed.
+/** Initializes NitroFs - returns 0 in case of success or -1 if it failed.
 
-You have to call this routine before you can open any GBFS file. GBFS support will be added to your application, it's quite small (less than 2 kB IIRC). */
-int ulInitGBFS(int compatMode);
-
-/** GBFS compatibility modes. Used with ulInitGBFS. */
-enum GBFS_INIT_MODES {
-   GBFS_COMPATIBLE_MODE,				//!< Enables compatibility with EZ3 (and maybe other linkers). It needs more time (2 ~ 3 seconds) if no GBFS file system is present into the ROM.
-	GBFS_DEFAULT_MODE						//!< Default (fast) mode. Not compatible with EZ3.
-};
-#endif
+You have to call this routine before you can open any NitroFS file. */
+int ulInitNitroFs();
 
 /** Read and write from memory. Automatically registered when initializing µLibrary. */
 extern int VF_MEMORY;
@@ -251,12 +243,12 @@ extern int VF_MEMORY;
 Needs to call ulInitLibFat to use it. However, it will crash if no device supporting libFat is present, so be careful.
 
 If you want to create several versions, I suggest you to keep a global variable that identifies the virtual file source you're using. In one
-version, it could have the value of VF_GBFS, in another VF_FILE. At startup you would just have to do:
+version, it could have the value of VF_NITRO, in another VF_FILE. At startup you would just have to do:
 	\code
 int myID;
 [...]
-#if defined(USE_GBFS)
-myID = ulInitGBFS(GBFS_COMPATIBLE_MODE);
+#if defined(USE_NITROFS)
+myID = ulInitNitroFs();
 #elif defined(USE_LIBFAT)
 myID = ulInitLibFat();
 #endif
@@ -269,10 +261,8 @@ VIRTUAL_FILE *f = VirtualFileOpen("/test.txt", 0, myID, VF_O_READ);
 */
 extern int VF_FILE;
 
-#if 0
-/** Use GBFS (Game Boy File System). Needs to call ulInitGBFS to use that source. */
-extern int VF_GBFS;
-#endif
+/** Use NitroFS. Needs to call ulInitNitroFs to use that source. */
+extern int VF_NITRO;
 
 /** @} */ // end of virtualfile_sources
 
