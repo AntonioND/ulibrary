@@ -1,0 +1,64 @@
+8
+
+dir
+235
+http://88.175.148.72/svn/uLibrary/trunk
+http://88.175.148.72/svn
+
+
+
+2007-04-19T20:07:50.390625Z
+211
+brunni
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+0d903697-206d-d345-9d5f-4bc42892a2a3
+
+Source
+dir
+
+Documentation
+dir
+
+Install.bat
+file
+
+
+
+
+2007-04-26T20:07:51.453125Z
+2fa69cf07fa0bac528334da9771ef398
+2007-04-19T20:07:50.390625Z
+211
+brunni
+
+README.txt
+file
+
+
+
+
+2007-04-26T20:07:51.468750Z
+1a0f3069f8cb40e064fa9ce3ff086cb8
+2007-04-19T20:07:50.390625Z
+211
+brunni
+
+Examples
+dir
+
+Templates
+dir
+

@@ -1,0 +1,173 @@
+# Makefile for zlib
+# Copyright (C) 1995-2005 Jean-loup Gailly.
+# For conditions of distribution and use, see copyright notice in zlib.h
+
+# To compile and test, type:
+#    ./configure; make test
+# The call of configure is optional if you don't have special requirements
+# If you wish to build zlib as a shared library, use: ./configure -s
+
+# To use the asm code, type:
+#    cp contrib/asm?86/match.S ./match.S
+#    make LOC=-DASMV OBJA=match.o
+
+# To install /usr/local/lib/libz.* and /usr/local/include/zlib.h, type:
+#    make install
+# To install in $HOME instead of /usr/local, use:
+#    make install prefix=$HOME
+
+PATH 		:= $(DEVKITARM)/bin:$(PATH)
+
+CC=arm-eabi-gcc
+
+#CFLAGS=-O2 -mthumb-interwork
+#---------------------------------------------------------------------------------
+# options for code generation
+#---------------------------------------------------------------------------------
+ARCH	:=	-mthumb-interwork
+
+#Répertoire de la librairie
+ULDIR = $(DEVKITPRO)/Projects/Test/uLibrary/
+
+# note: arm9tdmi isn't the correct CPU arch, but anything newer and LD
+# *insists* it has a FPU or VFP, and it won't take no for an answer!
+CFLAGSDEFAULT	:=	-mcpu=arm9tdmi -mtune=arm9tdmi -fomit-frame-pointer\
+		-ffast-math \
+		$(ARCH)
+
+CFLAGSDEFAULT	+=	$(INCLUDE) -DARM9 -I$(DEVKITPRO)/PAlib/include/nds -I$(DEVKITPRO)/libnds/include -Iinclude -I$(ULDIR)
+ASFLAGS	:=	-g $(ARCH)
+#LDFLAGS	:=	-g $(ARCH) -mno-fpu -L$(DEVKITPRO)/PAlib/lib -lpa9
+
+CFLAGS = -g -Wall -O2 $(CFLAGSDEFAULT)
+CFLAGSOS = -g -Wall -Os $(CFLAGSDEFAULT)
+
+LDFLAGS=-L. -mthumb-interwork
+LDSHARED=arm-elf-gcc
+CPP=arm-elf-gcc -E
+
+LIBS=libul.a
+
+AR=arm-eabi-ar rc
+RANLIB=arm-eabi-ranlib
+TAR=tar
+SHELL=/bin/sh
+EXE=
+
+prefix =/usr/local
+exec_prefix =${prefix}
+libdir =${exec_prefix}/lib
+includedir =${prefix}/include
+mandir =${prefix}/share/man
+man3dir = ${mandir}/man3
+
+OBJS = ulib.o drawing.o glWrapper.o \
+	map.o text.o \
+	vfile/VirtualFile.o vfile/vfsLibFat.o vfile/vfsGBFS.o vfile/ulReadEntireFileToMemory.o \
+	texVramManager.o texPalManager.o \
+	libLoadPng.o gba-jpeg-decode.o libLoadJpg.o \
+	libLoadGif.o gif/dev2gif.o gif/dgif_lib.o gif/egif_lib.o gif/gif_err.o gif/gif_font.o gif/gifalloc.o gif/quantize.o \
+	keys.o \
+	image/ulConvertImageToPaletted.o image/ulDrawImage.o image/ulCreateImageFromTexture.o image/ulCreateImagePalette.o image/ulDrawFillRect.o image/ulDrawLine.o image/ulDrawRect.o image/ulDrawGradientRect.o image/ulSetImagePixel.o image/ulGetImagePixel.o \
+	image/lock_unlock_image.o image/mirror_h_v.o image/ulUnrealizeImage.o \
+	messagebox.o textSize.o \
+	loadutil/loading_utility.o loadutil/ulLoadImageFilePNG.o loadutil/ulLoadImageFileJPG.o loadutil/ulLoadImageFileGIF.o loadutil/ulLoadFontFile.o \
+	splash/ulShowSplashScreen1.o splash/ulShowSplashScreen2.o
+
+OBJA =
+# to use the asm code: make OBJA=match.o
+
+#TEST_OBJS = main.o
+TEST_OBJS = 
+
+all: $(LIBS)
+
+#%.o: %.c
+#test/hehe.o: test/hehe.c
+#	$(CC) $(CFLAGSOS) -c $< -o $@
+
+libLoadGif.o: libLoadGif.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/dev2gif.o: gif/dev2gif.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/dgif_lib.o: gif/dgif_lib.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/egif_lib.o: gif/egif_lib.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/gif_err.o: gif/gif_err.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/gif_font.o: gif/gif_font.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/gifalloc.o: gif/gifalloc.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+gif/quantize.o: gif/quantize.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+libLoadPng.o: libLoadPng.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+	
+vfile/vfsLibFat.o: vfile/vfsLibFat.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+vfile/vfsLibGBFS.o: vfile/vfsLibGBFS.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+vfile/ulReadEntireFile.o: vfile/ulReadEntireFile.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+messagebox.o: messagebox.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+textSize.o: textSize.c
+	$(CC) $(CFLAGSOS) -c $< -o $@
+
+#gba-jpeg-decode.o: gba-jpeg-decode.c
+#	$(CC) $(CFLAGSOS) -c $< -o $@
+
+
+libul.a: $(OBJS) $(OBJA)
+	$(AR) $@ $(OBJS) $(OBJA)
+	-@ ($(RANLIB) $@ || true) >/dev/null 2>&1
+
+clean:
+	rm -f *.o libul.a
+	rm -f gif/*.o
+	rm -f image/*.o
+	rm -f vfile/*.o
+
+maintainer-clean: distclean
+distclean: clean
+	cp -p Makefile.in Makefile
+	cp -p zconf.in.h zconf.h
+	rm -f .DS_Store
+
+tags:
+	etags *.[ch]
+
+depend:
+	makedepend -- $(CFLAGS) -- *.[ch]
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+#adler32.o: zlib.h zconf.h
+#compress.o: zlib.h zconf.h
+#crc32.o: crc32.h zlib.h zconf.h
+#deflate.o: deflate.h zutil.h zlib.h zconf.h
+#example.o: zlib.h zconf.h
+#gzio.o: zutil.h zlib.h zconf.h
+#inffast.o: zutil.h zlib.h zconf.h inftrees.h inflate.h inffast.h
+#inflate.o: zutil.h zlib.h zconf.h inftrees.h inflate.h inffast.h
+#infback.o: zutil.h zlib.h zconf.h inftrees.h inflate.h inffast.h
+#inftrees.o: zutil.h zlib.h zconf.h inftrees.h
+#minigzip.o: zlib.h zconf.h
+#trees.o: deflate.h zutil.h zlib.h zconf.h trees.h
+#uncompr.o: zlib.h zconf.h
+#zutil.o: zutil.h zlib.h zconf.h
+

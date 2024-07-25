@@ -1,0 +1,20 @@
+Version 1.11 - 23.08.2008
+- devKitPro has not really changed (thankfully), so no mandatory updates were needed
+- fixes a few bugs, namely the palette issues reported by some people
+
+Version 1.10 - 26.12.2007
+- As usual, works with and requires the latest libnds version; that's a shame because nothing will run on emulators from now. You can however solve this problem by replacing your copy of basic.arm7 in your libnds folder by mine (you can find it in the tools folder).
+- Added ulMoveScreenView, ulRotateScreenView, ulScaleScreenView and ulResetScreenView to apply special transformations to your screen. You can for example rotate the screen as a whole or only a list of objects without any effort. This will namely allow you to scale and rotate objects like maps and text, which isn't available by default.
+- Fonts now work better. Now the font2oft tool is in the 'tools' folder.
+- Added ulGetColorRed, ulGetColorGreen, ulGetColorBlue to retrieve the component values of a color.
+- Added ulLoadFontFile to directly load a font from a file.
+- PNG files with alpha can now be loaded directly as UL_PF_PAL5_A3 and UL_PF_PAL3_A5. The alpha will be taken in account and set in the resulting image. Note that you will have to enable blending as usual with ulSetAlpha and by setting another polygroup, because if all objects are with the same polygroup, none will blend with any other.
+- Loading unpaletted PNG files to paletted formats reworked. If there isn't enough colors for the whole image, the nearest is taken. However you should avoid this situation because it's an extremely simple but weak method for reducing the colors of an image.
+
+
+Version 1.00 bêta 4 - 14.07.07
+- Works with, and requires the last libnds version!
+- Added ulDeleteMap function
+- Using bank B for textures wasn't working correctly; all my excuses!
+- Some JPG files with a vertical size not multiple of 8 or 16 were loaded incorrectly.
+

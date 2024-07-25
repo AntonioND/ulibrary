@@ -1,0 +1,56 @@
+8
+
+dir
+235
+http://88.175.148.72/svn/uLibrary/trunk/Documentation
+http://88.175.148.72/svn
+
+
+
+2007-04-19T20:07:50.390625Z
+211
+brunni
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+0d903697-206d-d345-9d5f-4bc42892a2a3
+
+Readme.txt
+file
+
+
+
+
+2007-04-26T20:07:30.406250Z
+e900c99fe223ba9bb0509f384f3fbcb9
+2007-04-19T20:07:50.390625Z
+211
+brunni
+
+Doxygen
+dir
+
+Help.chm
+file
+
+
+
+
+2007-04-26T20:07:30.421875Z
+f6d04c6db58e1c740ba0c6986546b75a
+2007-04-19T20:07:50.390625Z
+211
+brunni
+has-props
+
