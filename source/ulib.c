@@ -21,10 +21,6 @@ void _initSinTables()		{
 void ulInit(UL_INIT_FLAGS flags)		{
    if (flags == UL_INIT_ALL)			{
 		powerOn(POWER_ALL);
-	
-		//irqs are nice
-		irqInit();
-		irqEnable(IRQ_VBLANK);
 	}
    
 	_initSinTables();
