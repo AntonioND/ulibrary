@@ -5,7 +5,7 @@
 */
 
 #include <ulib/ulib.h>
-#include "roll.h"
+#include "roll_png.h"
 
 //Draws a shadowed string
 void drawShadowedText(int x, int y, int color, const char *text);
@@ -14,7 +14,7 @@ void drawShadowedText(int x, int y, int color, const char *text);
 
 //Files stored in RAM.
 UL_VIRTUALFILENAME ram_names[] =		{
-   {"roll.png", (void*)roll, (int)roll_size, &VF_MEMORY},
+   {"roll.png", (void*)roll_png, (int)roll_png_size, &VF_MEMORY},
 };
 
 int main()
@@ -41,7 +41,7 @@ int main()
 	UL_MSGBOX_BUTTON buttons[3] = {
 	   {UL_KEY_Y, "Y: LibFat"},
 	   {UL_KEY_B, "B: None"},
-	   {UL_KEY_A, "A: GBFS"},
+	   {UL_KEY_A, "A: NitroFS"},
 	};
 	//Note the Render argument: this function will be called from within ulMessageBoxEx to render the background image!
 	nSystem = ulMessageBoxEx("Please select the system you want to use for loading files.", "Hello", 3, buttons, NULL, 0);
@@ -49,7 +49,7 @@ int main()
 	//First register the file names for the "none" system
 	ulSetVirtualFilenameList(ram_names, ulNumberof(ram_names));
 	
-	//Auto select source (RAM by default, GBFS or libFat if they're initialized)
+	//Auto select source (RAM by default, NitroFS or libFat if they're initialized)
 	ulSetLoadUtilitySource(-1);
 
 	switch (nSystem)			{
@@ -60,9 +60,9 @@ int main()
 				fsInited = 1;
 			break;
 	   case 2:
-			//Try to init GBFS	
-			ulDebug("Initializing GBFS. If it's not found, verify that you have a slot 2 linker and that you appended GBFS to the end of the ROM.\n");
-			if (ulInitGBFS(GBFS_COMPATIBLE_MODE) > 0)
+			//Try to init NitroFS	
+			ulDebug("Initializing NitroFS. If it's not found, verify that you have a loader with argv support or that your emulator is working.\n");
+			if (ulInitNitroFs() > 0)
 				fsInited = 1;
 			break;
 	}
@@ -82,7 +82,7 @@ int main()
 	{
 		//If a filesystem initialized correctly, we will load from it
 		if (fsInited)		{
-		   //By default all file loading functions will be using GBFS or FAT because we called that functions.
+		   //By default all file loading functions will be using NitroFS or FAT because we called that functions.
 		   imgBack = ulLoadImageFileJPG("/back.jpg", 0, UL_IN_VRAM, UL_PF_5551);
 		   if (imgBack)			{
 			   //No matter its size, the image should be stretched (or shrinked) to take the entire screen
