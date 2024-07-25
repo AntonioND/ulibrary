@@ -1,3 +1,4 @@
+#if 0
 #include "ulib.h"
 #include <gbfs.h>
 
@@ -97,5 +98,4 @@ int ulInitGBFS(int compatMode)		{
 
    return VF_GBFS;
 }
-
-
+#endif

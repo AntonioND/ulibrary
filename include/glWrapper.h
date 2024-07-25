@@ -146,11 +146,14 @@ void ulFreeTextures(int n, int *names);
 int uluTexLoadPal(u16* pal, u16 count, uint8 format);
 /** glTexUnloadPal replacement. */
 void uluTexUnloadPal(u32 addr);
+
+#if 0
 /** Binds a texture so that you can use it with the standard VideoGL API.
 
 This is an awful hack, and will REPLACE the currently active texture in VideoGL. You should not use both systems at once, this hack is only
 designed so that you can select a texture and use VideoGL commands that rely on the active texture. */
 void ulBindTextureToGl(int target, int name);
+#endif
 
 /** */
 extern inline void ulSetTexAlphaMask(int enable)			{

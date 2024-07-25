@@ -1,3 +1,5 @@
+#include <nds/registers_alt.h>
+
 #include "ulib.h"
 
 const int ul_circle_mask_size = 1380;

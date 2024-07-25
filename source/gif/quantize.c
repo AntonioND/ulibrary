@@ -25,7 +25,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <PA9.h>
+//#include <PA9.h>
+#include <nds/ndstypes.h>
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"

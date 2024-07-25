@@ -115,7 +115,7 @@ extern inline void ulDebugText(char *text)		{
    if (!ul_isConsoleInited)
 	   consoleDemoInit();
 	ul_isConsoleInited = 1;
-	iprintf(text);
+	printf(text);
 }
 
 /** Debug text with PALib */

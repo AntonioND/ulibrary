@@ -329,13 +329,13 @@ void ulBindTexture(int target, int name) {
 
 	ulTextureActive = name;
 }
-
+#if 0
 //Permet d'utiliser une texture de UL avec la librairie VideoGL intégrée à libnds
 void ulBindTextureToGl(int target, int name)		{
    glGlob->textures[glGlob->activeTexture] = ulTextureParams[name];
 	glBindTexture(target, name);
 }
-
+#endif
 //1 on success, 0 on failure
 int ulSetTexVramParameters(int activeBanks, void *baseAddr, int totalSize)			{
    int curVramSize = ul_texVramSize >> 4;

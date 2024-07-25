@@ -232,6 +232,7 @@ extern VIRTUAL_FILE_SOURCE vfsMemory;
 You have to call this routine before you can work with files. libFat support will be added to your code, eating something like 75 kB. */
 int ulInitLibFat();
 
+#if 0
 /** Initializes GBFS - returns 0 in case of success or -1 if it failed.
 
 You have to call this routine before you can open any GBFS file. GBFS support will be added to your application, it's quite small (less than 2 kB IIRC). */
@@ -242,6 +243,7 @@ enum GBFS_INIT_MODES {
    GBFS_COMPATIBLE_MODE,				//!< Enables compatibility with EZ3 (and maybe other linkers). It needs more time (2 ~ 3 seconds) if no GBFS file system is present into the ROM.
 	GBFS_DEFAULT_MODE						//!< Default (fast) mode. Not compatible with EZ3.
 };
+#endif
 
 /** Read and write from memory. Automatically registered when initializing µLibrary. */
 extern int VF_MEMORY;
@@ -266,8 +268,11 @@ VIRTUAL_FILE *f = VirtualFileOpen("/test.txt", 0, myID, VF_O_READ);
 	It could even be a choice proposed to the user at startup.
 */
 extern int VF_FILE;
+
+#if 0
 /** Use GBFS (Game Boy File System). Needs to call ulInitGBFS to use that source. */
 extern int VF_GBFS;
+#endif
 
 /** @} */ // end of virtualfile_sources
 

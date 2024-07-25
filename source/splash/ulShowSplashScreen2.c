@@ -1,3 +1,5 @@
+#include <nds/registers_alt.h>
+
 #include "ulib.h"
 
 const unsigned long ul_neoflashlogo[] =		{

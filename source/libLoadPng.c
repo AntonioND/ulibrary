@@ -1,8 +1,9 @@
 #include "ulib.h"
-#include "libpng/png.h"
-#include "libpng/pngconf.h"
-#include "libpng/zlib.h"
-#include "libpng/zconf.h"
+
+#include <png.h>
+#include <pngconf.h>
+#include <zlib.h>
+#include <zconf.h>
 
 //Lecture / écriture des PNG
 void ulPngReadFn(png_structp png_ptr, png_bytep data, png_size_t length)			{
@@ -63,7 +64,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 		goto error;
 	}
 
-	if ( setjmp( pPngStruct->jmpbuf ) != 0 )
+	if ( setjmp(png_jmpbuf(pPngStruct)) != 0 )
 	{
 		png_destroy_read_struct( &pPngStruct, NULL, NULL );
 		goto error;
@@ -75,10 +76,10 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 	png_set_sig_bytes( pPngStruct, nSigSize );
 	png_read_png( pPngStruct, pPngInfo, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | /*PNG_TRANSFORM_EXPAND |*/ PNG_TRANSFORM_BGR, NULL );
 
-	png_uint_32 width = pPngInfo->width;
-	png_uint_32 height = pPngInfo->height;
-	png_uint_32 depth = pPngInfo->bit_depth;
-	int color_type = pPngInfo->color_type;
+	png_uint_32 width = png_get_image_width(pPngStruct, pPngInfo);
+	png_uint_32 height = png_get_image_height(pPngStruct, pPngInfo);
+	png_uint_32 depth = png_get_bit_depth(pPngStruct, pPngInfo);
+	int color_type = png_get_color_type(pPngStruct, pPngInfo);
 
 	//On supporte uniquement les palettes 8 bits et moins
 /*	if (depth > 8 && color_type == PNG_COLOR_TYPE_PALETTE)			{
@@ -86,16 +87,21 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 		goto error;
 	}*/
 
-	png_byte **pRowTable = pPngInfo->row_pointers;
+	png_byte **pRowTable = png_get_rows(pPngStruct, pPngInfo);
 	unsigned char r=0, g=0, b=0, a=0;
 
 	//Pas de palette dans le PNG mais notre pixelformat en veut une?
-	if (!pPngInfo->num_palette && ul_pixelWidth[pixelFormat] <= 8)
+	int num_palette = 0;
+	png_colorp palette = NULL;
+	// Even if this fails, it is okay
+	png_get_PLTE(pPngStruct, pPngInfo, &palette, &num_palette);
+
+	if (!num_palette && ul_pixelWidth[pixelFormat] <= 8)
 		dynamicPaletteRequired = 1;
 
 	//Gestion de la couleur transparente - Retiré, devrait être fonctionnel mais pas testé, on utilisera le color key
 /*	if (pPngInfo->num_trans > 0)			{
-	   if (pPngInfo->num_palette > 0)		{
+	   if (num_palette > 0)		{
 			for (i=0;i<pPngInfo->num_trans;i++)		{
 			   if (pPngInfo->trans[i] < 128)
 			   	transpActive = 1, theTransparentColor = i;
@@ -115,7 +121,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 				//!!! Note qu'il faudrait aussi prendre en compte num_trans pour la couleur transparente
 				if (!dynamicPaletteRequired)		{
 					// Faire attention de ne pas créer trop de couleurs, mais en réserver une pour le décalage si jamais aucune couleur transparente n'a été trouvée
-					ulCreateImagePalette(img, UL_IN_RAM, ulMin(pPngInfo->num_palette + 1, 1 << ul_paletteSizes[pixelFormat]));
+					ulCreateImagePalette(img, UL_IN_RAM, ulMin(num_palette + 1, 1 << ul_paletteSizes[pixelFormat]));
 				}
 				else		{
 					//Palette dynamique, on crée le max possible de couleurs; on verra plus tard
@@ -124,36 +130,36 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 				
 				if (img->palette && !dynamicPaletteRequired)			{
 				   //Make sure to not use too much colors!
-				   pPngInfo->num_palette = ulMin(pPngInfo->num_palette, img->palCount);
+				   num_palette = ulMin(num_palette, img->palCount);
 				   
 					//Nous devons trouver la couleur transparente (color key) parmis toutes les couleurs de la palette
 					if (ul_colorKeyEnabled)			{
-						for (i=0;i<pPngInfo->num_palette;i++)			{
-						   if (RGB15(pPngInfo->palette[i].red >> 3, pPngInfo->palette[i].green >> 3, pPngInfo->palette[i].blue >> 3) == ul_colorKeyValue)
+						for (i=0;i<num_palette;i++)			{
+						   if (RGB15(palette[i].red >> 3, palette[i].green >> 3, palette[i].blue >> 3) == ul_colorKeyValue)
 						      transparentColor = i;
 						}
 					}
 					
 					//Toujours pas trouvé de couleur transparente??? - on décale tout d'un alors pour que la couleur 0 ne soit pas utilisée
 					if (transparentColor == -1 && !ul_firstPaletteColorOpaque)			{
-					   transparentColor = pPngInfo->num_palette;
+					   transparentColor = num_palette;
 					   ((u16*)img->palette)[0] = 0;
-						for (i=0;i<pPngInfo->num_palette;i++)		{
+						for (i=0;i<num_palette;i++)		{
 						   //Vérifie qu'on ne déborde pas
 						   if (i + 1 < img->palCount)
-						   	((u16*)img->palette)[i + 1] = RGB15(pPngInfo->palette[i].red >> 3, pPngInfo->palette[i].green >> 3, pPngInfo->palette[i].blue >> 3) /*| 1 << 15*/;
+						   	((u16*)img->palette)[i + 1] = RGB15(palette[i].red >> 3, palette[i].green >> 3, palette[i].blue >> 3) /*| 1 << 15*/;
 						}
 					}
 					else		{
 					   //Tenons compte de la couleur transparente (il faut la mettre en première position pour qu'elle soit transparente)
-						i = pPngInfo->num_palette;
-						j = pPngInfo->num_palette;
+						i = num_palette;
+						j = num_palette;
 						while (--i >= 0)  {
 						   if (i == transparentColor)
-						   	((u16*)img->palette)[0] = RGB15(pPngInfo->palette[i].red >> 3, pPngInfo->palette[i].green >> 3, pPngInfo->palette[i].blue >> 3);
+						   	((u16*)img->palette)[0] = RGB15(palette[i].red >> 3, palette[i].green >> 3, palette[i].blue >> 3);
 						   else
 						      //Cette couleur est affichée (0x8000 = alpha à 1)
-								((u16*)img->palette)[--j] = RGB15(pPngInfo->palette[i].red >> 3, pPngInfo->palette[i].green >> 3, pPngInfo->palette[i].blue >> 3) | 1 << 15;
+								((u16*)img->palette)[--j] = RGB15(palette[i].red >> 3, palette[i].green >> 3, palette[i].blue >> 3) | 1 << 15;
 						}
 					}
 				}
@@ -206,9 +212,9 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 						//Dernier pixel pour cet octet
 						if (x % color_per_entry == color_per_entry - 1)
 							pRow++;
-						b = pPngInfo->palette[pixel_value].blue;
-						g = pPngInfo->palette[pixel_value].green;
-						r = pPngInfo->palette[pixel_value].red;
+						b = palette[pixel_value].blue;
+						g = palette[pixel_value].green;
+						r = palette[pixel_value].red;
 						a = 0xff;
 						break;
 					}

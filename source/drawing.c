@@ -1,3 +1,5 @@
+#include <nds/registers_alt.h>
+
 #include "ulib.h"
 
 s32 ul_currentDepth;

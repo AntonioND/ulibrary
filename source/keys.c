@@ -1,8 +1,5 @@
 #include "ulib.h"
 
-//Merci à libnds
-#define REG_KEYS (( ((~REG_KEYINPUT)&0x3ff) | (((~IPC->buttons)&3)<<10) | (((~IPC->buttons)<<6) & (KEY_TOUCH|KEY_LID) ))^KEY_LID)
-
 //UL_CONTROLLER ul_internalKeys;
 //UL_CONTROLLER *ul_defaultKeys = &ul_internalKeys;
 //#define ul_keys (*ul_defaultKeys)
@@ -25,7 +22,8 @@ UL_CONTROLLER ul_keys = {
 };
 
 void ulReadKeys(int flags)			{
-   unsigned short buttons = REG_KEYS;
+    scanKeys();
+   unsigned short buttons = keysHeld();
    signed short lastX, lastY;
    
 	if (ul_keys.autoRepeatInterval > 0)			{					//Auto repeat activé?
@@ -51,8 +49,10 @@ void ulReadKeys(int flags)			{
 	
 	//Touchpad
 	if (ul_keys.held.touch)		{
-		ul_keys.touch.x = IPC->touchXpx;
-		ul_keys.touch.y = IPC->touchYpx;
+		touchPosition touch_pos;
+		touchRead(&touch_pos);
+		ul_keys.touch.x = touch_pos.px;
+		ul_keys.touch.y = touch_pos.py;
 	}
 
 	//Ne pas prendre le delta au moment du clic, il serait trop grand	
