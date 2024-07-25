@@ -440,7 +440,7 @@ ulDrawImage(img);                   //Will be drawn at (10,20)
 	For this reason, you should not mix usage of ulDrawImage and ulDrawImageXY for a single image, else you may encounter vicious problems like
 	objects mysteriously disappearing: in the example above, you could expect the second ulDrawImage to draw at (0,0) like the first one, but it will draw at (10,20) instead.
 */
-extern inline void ulDrawImageXY(UL_IMAGE *img, s16 x, s16 y)			{
+static inline void ulDrawImageXY(UL_IMAGE *img, s16 x, s16 y)			{
    img->x = x;
    img->y = y;
 	ulDrawImage(img);
@@ -748,7 +748,7 @@ You can also use the libnds macro lcdSwap if you simply want to swap the LCDs.
 
 Note: By default, µLibrary controls the top screen.
 */
-extern inline void ulSetMainLcd(int position)			{
+static inline void ulSetMainLcd(int position)			{
    if (position == 0)
    	REG_POWERCNT &= ~POWER_SWAP_LCDS;
    else
@@ -756,7 +756,7 @@ extern inline void ulSetMainLcd(int position)			{
 }
 
 /** Returns 1 if µLibrary is currently drawing to the top screen, 0 if it is on the touchpad. */
-extern inline int ulGetMainLcd()			{
+static inline int ulGetMainLcd()			{
 	return REG_POWERCNT & POWER_SWAP_LCDS;
 }
 

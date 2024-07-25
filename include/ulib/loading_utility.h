@@ -19,7 +19,7 @@ extern "C" {
 extern int ul_loadUtilActiveSource;
 
 /** Retrieves the active source for this utility. */
-extern inline int ulGetLoadUtilitySource()		{
+static inline int ulGetLoadUtilitySource()		{
    if (ul_loadUtilActiveSource >= 0)
    	return ul_loadUtilActiveSource;
    else
@@ -28,7 +28,7 @@ extern inline int ulGetLoadUtilitySource()		{
 
 /** Defines the default source for files open via this utility. Note that by default, the last initialized source is used, so if you do nothing it will be
 	memory, if you initialize libFat or GBFS it will be this one. */
-extern inline int ulSetLoadUtilitySource(int source)			{
+static inline int ulSetLoadUtilitySource(int source)			{
 	int currentSource = ulGetLoadUtilitySource();   
 	ul_loadUtilActiveSource = source;
 	return currentSource;

@@ -133,7 +133,7 @@ int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY, int emp
 /** glTexParameter replacement. */
 void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, uint8 mode, uint32 param);
 /** glGetTexParameter replacement. */
-extern inline int ulGetTexParameter()			{
+static inline int ulGetTexParameter()			{
    return ulTextureParams[ulTextureActive];
 }
 /** glGenTextures replacement. */
@@ -156,7 +156,7 @@ void ulBindTextureToGl(int target, int name);
 #endif
 
 /** */
-extern inline void ulSetTexAlphaMask(int enable)			{
+static inline void ulSetTexAlphaMask(int enable)			{
    if (enable)
 	   ulTextureParams[ulTextureActive] |= GL_TEXTURE_COLOR0_TRANSPARENT;
 	else
@@ -196,17 +196,17 @@ int ulGetTexPalTotalMemory();
 
 	When the vertex memory is full, it will no more be possible to draw anything with µLibrary, so this is something very useful to watch!
 */
-extern inline int ulGetVertexAvailMemory()			{
+static inline int ulGetVertexAvailMemory()			{
    return 6144 - GFX_VERTEX_RAM_USAGE;
 }
 
 /** Returns the number of vertex already stored since the render has started.  */
-extern inline int ulGetVertexUsedMemory()			{
+static inline int ulGetVertexUsedMemory()			{
    return GFX_VERTEX_RAM_USAGE;
 }
 
 /** Returns the total number of vertices possible in the vertex memory. */
-extern inline int ulGetVertexTotalMemory()			{
+static inline int ulGetVertexTotalMemory()			{
    return 6144;
 }
 

@@ -111,7 +111,7 @@ void *memset(void *dest, int chr, size_t n);
 //Debug avec PALib
 extern int ul_isConsoleInited;
 
-extern inline void ulDebugText(char *text)		{
+static inline void ulDebugText(char *text)		{
    if (!ul_isConsoleInited)
 	   consoleDemoInit();
 	ul_isConsoleInited = 1;
@@ -140,7 +140,7 @@ ulShowSplashScreen(1);
 ulShowSplashScreen(2);
 	\endcode
 */
-extern inline int ulShowSplashScreen(int splashType)			{
+static inline int ulShowSplashScreen(int splashType)			{
    if (splashType == 1)
    	return ulShowSplashScreen1();
    else if (splashType == 2)
