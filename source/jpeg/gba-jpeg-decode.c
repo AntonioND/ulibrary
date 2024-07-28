@@ -1026,7 +1026,7 @@ int JPEG_Decoder_ReadHeaders (JPEG_Decoder *decoder, const unsigned char **dataB
                 
                 while (data < end)
                 {
-                    int pair, slot, precision;
+                    int pair, slot, precision __attribute__((unused));
                     
                     pair = *data ++;
                     precision = pair >> 4;

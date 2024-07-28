@@ -55,15 +55,15 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons, UL_MSGBOX
 	#endif
 	//Le bouton pressé a été trouvé!
 	int returnButton = -1;
-		
+
 	while (returnButton == -1)			{
 		ulReadKeys(0);
 
-	   ulStartDrawing2D();
-	   
-	   if (fnRender)
-	   	fnRender();
-	   
+		ulStartDrawing2D();
+
+		if (fnRender)
+			fnRender();
+
 		//Le tour
 		ulDrawRect(x0, y0, x1, y1, RGB15(0, 0, 0));
 		//Le dégradé du titre

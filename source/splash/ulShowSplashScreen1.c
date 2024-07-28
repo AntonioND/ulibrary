@@ -1,5 +1,3 @@
-#include <nds/registers_alt.h>
-
 #include "ulib.h"
 
 const int ul_circle_mask_size = 1380;
@@ -392,7 +390,7 @@ void ul_splash1_drawFade()			{
 	}
 
 	//ul_splash1_fade the second screen at the same time...
-	SUB_BLEND_Y = ul_splash1_fade;
+	REG_BLDY_SUB = ul_splash1_fade;
 }
 
 int ul_splash1_fadeTerminated()			{
@@ -414,21 +412,21 @@ void ul_splash1_fillSecondScreen()			{
    
    //Activate the second screen
 	videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE);
-	SUB_BG2_CR = BG_BMP16_256x256;
-	SUB_BG2_XDX = 256;
-	SUB_BG2_XDY = 0;
-	SUB_BG2_YDX = 0;
-	SUB_BG2_YDY = 256;
-	SUB_BG2_CY = 0;
-	SUB_BG2_CX = 20;
+	REG_BG2CNT_SUB = BG_BMP16_256x256;
+	REG_BG2PA_SUB = 256;
+	REG_BG2PB_SUB = 0;
+	REG_BG2PC_SUB = 0;
+	REG_BG2PD_SUB = 256;
+	REG_BG2Y_SUB = 0;
+	REG_BG2X_SUB = 20;
 	
 	//Initially black
-	SUB_BLEND_CR = BLEND_FADE_BLACK | BLEND_SRC_BG2;
-	SUB_BLEND_Y = 0x1f;
+	REG_BLDY_SUB = BLEND_FADE_BLACK | BLEND_SRC_BG2;
+	REG_BLDY_SUB = 0x1f;
 
 	//Hide the 3D screen as well
-	BLEND_CR = BLEND_FADE_BLACK | BLEND_SRC_BG0;
-	BLEND_Y = 0x1f;
+	REG_BLDCNT = BLEND_FADE_BLACK | BLEND_SRC_BG0;
+	REG_BLDY = 0x1f;
 
 	lcdSwap();
 	vramSetBankC(VRAM_C_LCD);
@@ -456,8 +454,8 @@ void ul_splash1_fillSecondScreen()			{
 	vramSetBankC(VRAM_C_SUB_BG);
 
 	//Show 3D again
-	BLEND_CR = 0;
-	BLEND_Y = 0;
+	REG_BLDCNT = 0;
+	REG_BLDY = 0;
 	
 	//Console (second screen) is no more valid after that...
 	ul_isConsoleInited = 0;
@@ -487,35 +485,35 @@ int ulShowSplashScreen1()
 	int xLogoFix, yLogoFix;
 	int zoom = FIX(64);
 	int zoomSpeed = FIX(5);
-	
+
 	//Pour la première partie
-   imgLogoMask = ulLoadImageFileGIF((const char*)ul_logo_msk, (int)ul_logo_msk_size, UL_IN_RAM, UL_PF_5551);
-   imgLogoSub = ulLoadImageFileGIF((const char*)ul_logo_base, (int)ul_logo_base_size, UL_IN_RAM, UL_PF_PAL5_A3);
-   
-   if (!imgLogoMask || !imgLogoSub)
-   	goto cleanup;
-	
+	imgLogoMask = ulLoadImageFileGIF((const char*)ul_logo_msk, (int)ul_logo_msk_size, UL_IN_RAM, UL_PF_5551);
+	imgLogoSub = ulLoadImageFileGIF((const char*)ul_logo_base, (int)ul_logo_base_size, UL_IN_RAM, UL_PF_PAL5_A3);
+
+	if (!imgLogoMask || !imgLogoSub)
+		goto cleanup;
+
 	ul_splash1_applyMask(imgLogoSub, imgLogoMask);
 	//Fin première partie
-	
-	//Pour la deuxième partie
-   imgLogo = ulLoadImageFileGIF((const char*)ul_logo, (int)ul_logo_size, UL_IN_RAM, UL_PF_PAL8);
-   imgCircle = ulLoadImageFileGIF((const char*)ul_circle_mask, (int)ul_circle_mask_size, UL_IN_RAM, UL_PF_5551);
 
-   if (!imgLogo || !imgCircle)
-   	goto cleanup;
+	//Pour la deuxième partie
+	imgLogo = ulLoadImageFileGIF((const char*)ul_logo, (int)ul_logo_size, UL_IN_RAM, UL_PF_PAL8);
+	imgCircle = ulLoadImageFileGIF((const char*)ul_circle_mask, (int)ul_circle_mask_size, UL_IN_RAM, UL_PF_5551);
+
+	if (!imgLogo || !imgCircle)
+		goto cleanup;
 
 	xLogoFix = (SCREEN_WIDTH - imgLogo->sizeX) / 2;
 	yLogoFix = (SCREEN_HEIGHT - imgLogo->sizeY) / 2;
-	
+
 	//Create an image using the mask data
 	imgFrame = ul_splash1_createMaskedImage(imgLogoMask, xLogoFix, yLogoFix);
-	imgCircle = ul_splash1_createCircle(imgCircle);	
+	imgCircle = ul_splash1_createCircle(imgCircle);
 	//Fin deuxième partie
-		
-   if (!imgFrame || !imgCircle)
-   	goto cleanup;
-   	
+
+	if (!imgFrame || !imgCircle)
+		goto cleanup;
+
 	//Copie les images en mémoire vidéo une fois pour toute
 	ulRealizeImage(imgLogoMask);
 	ulRealizeImage(imgLogoSub);

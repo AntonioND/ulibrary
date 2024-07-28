@@ -1,5 +1,3 @@
-#include <nds/registers_alt.h>
-
 #include "ulib.h"
 
 s32 ul_currentDepth;
@@ -74,39 +72,36 @@ void ulInitDualScreenMode()		{
 	// Init the Sub screen (test if eli can set this up correctly)
 	// Set the Sub screen for 15 bit 2D
 	videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_2D_BMP_256);
-	SUB_BG2_CR = BG_BMP16_256x256;
-	SUB_BG2_XDX = 256;
-	SUB_BG2_XDY = 0;
-	SUB_BG2_YDX = 0;
-	SUB_BG2_YDY = 256;
-	SUB_BG2_CY = 0;
-	SUB_BG2_CX = 0;
-	
+	REG_BG2CNT_SUB = BG_BMP16_256x256;
+	REG_BG2PA_SUB = 256;
+	REG_BG2PB_SUB = 0;
+	REG_BG2PC_SUB = 0;
+	REG_BG2PD_SUB = 256;
+	REG_BG2Y_SUB = 0;
+	REG_BG2X_SUB = 0;
+
 	vramSetBankC(VRAM_C_SUB_BG);
 	vramSetBankD(VRAM_D_SUB_SPRITE);
-	
+
 	ul_frameNumber = 0;
 	ul_dualScreenMode = 1;
 
 	int i, x, y;
 
+	memset(ulDualScreenSprites, 0, sizeof(ulDualScreenSprites));
+
 	for (i = 0; i < 128; i++)
-	{
-	   ulDualScreenSprites[i].attribute[0] = ATTR0_DISABLED;
-	   ulDualScreenSprites[i].attribute[1] = 0;
-	   ulDualScreenSprites[i].attribute[2] = 0;
-	   ulDualScreenSprites[i].attribute[3] = 0;
-   }
+		ulDualScreenSprites[i].attribute[0] = ATTR0_DISABLED;
 
 	i = 0;
-   for (y = 0; y < 3; y++)
-   for (x = 0; x < 4; x++)
-   {
-	   ulDualScreenSprites[i].attribute[0] = ATTR0_BMP | ATTR0_SQUARE | (64 * y);
-	   ulDualScreenSprites[i].attribute[1] = ATTR1_SIZE_64 | (64 * x);
-	   ulDualScreenSprites[i].attribute[2] = ATTR2_ALPHA(1) | (8 * 32 * y) | (8 * x);
-      i++;
-   }
+	for (y = 0; y < 3; y++)
+	for (x = 0; x < 4; x++)
+	{
+		ulDualScreenSprites[i].attribute[0] = ATTR0_BMP | ATTR0_SQUARE | (64 * y);
+		ulDualScreenSprites[i].attribute[1] = ATTR1_SIZE_64 | (64 * x);
+		ulDualScreenSprites[i].attribute[2] = ATTR2_ALPHA(1) | (8 * 32 * y) | (8 * x);
+		i++;
+	}
 }
 
 void ulStopDualScreenMode()		{
@@ -424,16 +419,16 @@ void ulSetTexture(UL_IMAGE *img)		{
 //   	return;
 
 //	ul_lastTexture = img;
-	
-   if (!img)		{
-      GFX_TEX_FORMAT = 0;
-      return;
-   }
 
-   //On s'assure que l'image est bien en mémoire vidéo
-   if (img->imgState != UL_STATE_VRAM)
-   	ulRealizeImage(img);
-   
+	if (!img)		{
+		GFX_TEX_FORMAT = 0;
+		return;
+	}
+
+	//On s'assure que l'image est bien en mémoire vidéo
+	if (img->imgState != UL_STATE_VRAM)
+		ulRealizeImage(img);
+
 	//Texturé
 	if (img->textureID >= 0)			{
 		ulBindTexture(GL_TEXTURE_2D, img->textureID);

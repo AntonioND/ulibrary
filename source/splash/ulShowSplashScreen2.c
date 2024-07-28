@@ -1,5 +1,3 @@
-#include <nds/registers_alt.h>
-
 #include "ulib.h"
 
 const unsigned long ul_neoflashlogo[] =		{
@@ -1391,8 +1389,8 @@ int ulShowSplashScreen2()		{
 		}
 
 	//Ensure the second screen is black
-	SUB_BLEND_CR = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
-	SUB_BLEND_Y = 0x1f;
+	REG_BLDCNT_SUB = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
+	REG_BLDY_SUB = 0x1f;
 
 	while(fade < 31 && frameNb < 220)		{
 		ulReadKeys(0);
@@ -1462,16 +1460,16 @@ int ulShowSplashScreen2()		{
 		ulEndDrawing();
 		ulSyncFrame();
 	}
-	
+
 	ulDeleteImage(logo);
 
 	//Restore the old source
-   ulSetLoadUtilitySource(oldSource);
+	ulSetLoadUtilitySource(oldSource);
 
 	//Restore second screen
-	SUB_BLEND_CR = 0;
-	SUB_BLEND_Y = 0;
-   return 1;
+	REG_BLDCNT_SUB = 0;
+	REG_BLDY_SUB = 0;
+	return 1;
 }
 
 

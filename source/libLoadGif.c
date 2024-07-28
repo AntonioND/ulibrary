@@ -93,7 +93,7 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
 {
 	UL_IMAGE *img = NULL;
  
-	int i, j, Row, Col, Width, Height, ExtCode, Count;
+	int i, j, Row, Col, Width, Height, ExtCode, Count __attribute__((unused));
 	u16 *Palette = NULL;
 	GifRecordType RecordType;
 	GifByteType *Extension;
