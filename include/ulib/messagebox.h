@@ -19,7 +19,7 @@ extern "C" {
 /** Structure defining buttons. */
 typedef struct		{
    u16 key;									//!< Key associated with the button. Use UL_KEY_xxx from the UL_KEYPAD_BITS enumeration. If you OR several keys together, if the user presses ONE of these keys, then this button will be considered as pressed.
-   char *text;								//!< Button text
+   const char *text;						//!< Button text
 } UL_MSGBOX_BUTTON;
 
 /** Displays a message box (extended version).
