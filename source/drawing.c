@@ -122,7 +122,7 @@ void ulSetRegCapture(bool enable, uint8 srcBlend, uint8 destBlend, uint8 bank, u
    value |= (srcBlend & 0xFF) << 8; // graphics blend evb is 8..12
    value |= (destBlend & 0xFF) << 0; // ram blend EVA is bits 0..4 
    
-   REG_CAPTURE = value;
+   REG_DISPCAPCNT = value;
 }
 
 void ulEndFrame()		{

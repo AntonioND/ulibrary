@@ -16,10 +16,6 @@
 extern "C" {
 #endif
 
-#ifndef REG_CAPTURE
-	#define	REG_CAPTURE		(*(vu32*)0x04000064)
-#endif
-
 /** Defines the screen width of the Nintendo DS. Example of use:
 
 \code
