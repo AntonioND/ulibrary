@@ -7,10 +7,10 @@ extern "C" {
 #endif
 
 
-// Sprite files : 
+// Sprite files :
 #include "ropes.c"
 
-// Palette files : 
+// Palette files :
 #include "ropes.pal.c"
 
 

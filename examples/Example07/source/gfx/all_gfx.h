@@ -6,10 +6,10 @@
 #define ALL_GFX_H
 
 
-// Sprite files : 
+// Sprite files :
 extern const unsigned char ropes_Sprite[192] __attribute__ ((aligned (4))) ;  // Pal : ropes_Pal
 
-// Palette files : 
+// Palette files :
 extern const unsigned short ropes_Pal[7] __attribute__ ((aligned (4))) ;
 
 

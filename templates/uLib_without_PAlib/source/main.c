@@ -1,22 +1,21 @@
 #include <ulib/ulib.h> // Include for µLibrary
 
-int main()
-{	
-	//Initialization of µlibrary
-	ulInit(UL_INIT_ALL);
-	ulInitGfx();
-	ulInitText();
-	
-	while(1)
-	{
-	   ulReadKeys(0);
-			   
-		ulStartDrawing2D();
+int main(int argc, char *argv[])
+{
+    // Initialization of µlibrary
+    ulInit(UL_INIT_ALL);
+    ulInitGfx();
+    ulInitText();
 
-		ulEndDrawing();
-		ulSyncFrame();
-	}
+    while (1)
+    {
+        ulReadKeys(0);
 
-	return 0;
+        ulStartDrawing2D();
+
+        ulEndDrawing();
+        ulSyncFrame();
+    }
+
+    return 0;
 }
-
