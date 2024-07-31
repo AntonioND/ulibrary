@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-/// @defgroup text
+/// @defgroup text Text
 ///
 /// Text support with support for loading OldSchool Library fonts (.oft).
 ///

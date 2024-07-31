@@ -2,7 +2,7 @@
 ///
 /// @brief Main file about drawing in µLib.
 
-/// @defgroup drawing
+/// @defgroup drawing Drawing
 ///
 /// All about drawing!
 ///

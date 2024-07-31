@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-/// @defgroup keys
+/// @defgroup keys Keys
 ///
 /// Support for game keys and touchpad in µLibrary.
 ///

@@ -2,7 +2,7 @@
 ///
 /// @brief Main µLibrary file
 
-/// @defgroup main
+/// @defgroup main Main
 ///
 /// Main µLibrary section.
 ///
