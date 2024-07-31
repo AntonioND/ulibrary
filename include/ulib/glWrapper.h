@@ -80,7 +80,7 @@ extern int ul_texPalVramSize;
 extern UL_BANKS ul_texPalVramBanks;
 
 // Attention: les tailles et offsets sont multiples de 8 - attention ce n'est
-// pas une adresse réelle (il faut rajouter ul_texPalVramBase) mais utilisable
+// pas une adresse rÃ©elle (il faut rajouter ul_texPalVramBase) mais utilisable
 // pour le GPU.
 #define ulTexPalAddressToOffset(add) (((int)(add)) >> 3)
 #define ulTexPalOffsetToAddress(add) ((void*)((add) << 3))
@@ -112,7 +112,7 @@ extern UL_BANKS ul_texPalVramBanks;
 /// - You MUST provide continuous banks.
 /// - Changing the texture memory base address will invalidate any pointer to
 ///   it! You should not change it if you've got some images or textures created
-///   with µLibrary. Call it on program start or free all your textures / images
+///   with ÂµLibrary. Call it on program start or free all your textures / images
 ///   before.
 /// - You can easily augment the total memory size, but not easily reduce it.
 ///   Enough space must be free at the end of the memory heap, and even if half
@@ -241,7 +241,7 @@ int ulGetTexPalTotalMemory();
 /// a triangle 3 vertices.
 ///
 /// When the vertex memory is full, it will no longer be possible to draw
-/// anything with µLibrary, so this is something very useful to watch!
+/// anything with ÂµLibrary, so this is something very useful to watch!
 static inline int ulGetVertexAvailMemory()
 {
    return 6144 - GFX_VERTEX_RAM_USAGE;

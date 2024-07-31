@@ -1,6 +1,6 @@
 /// @file map.h
 ///
-/// @brief Support for maps in µLibrary.
+/// @brief Support for maps in ÂµLibrary.
 
 #ifndef __UL_MAP_H__
 #define __UL_MAP_H__
@@ -11,7 +11,7 @@ extern "C" {
 
 /// @defgroup maps Maps
 ///
-/// Support for maps in µLibrary.
+/// Support for maps in ÂµLibrary.
 ///
 /// @{
 
@@ -63,7 +63,7 @@ typedef struct
 ///       11: mirror V, 12-15: palette number. Compatible with GBA/NDS standard
 ///       maps.
 ///
-/// Note: The block n° 0 is ALWAYS treated as a transparent tile!  Even if
+/// Note: The block nÂ° 0 is ALWAYS treated as a transparent tile!  Even if
 /// you've put a non transparent tile in the tileset for this entry, it will not
 /// be drawn at all!
 ///

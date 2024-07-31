@@ -1,6 +1,6 @@
 /// @file VirtualFile.h
 ///
-/// @brief Virtual File support for µLibrary.
+/// @brief Virtual File support for ÂµLibrary.
 ///
 /// This API is meant to be an universal mean to manipulate every file source
 /// possible as you can define your own.
@@ -14,7 +14,7 @@ extern "C" {
 
 /// @defgroup virtualfile Virtual Files
 ///
-/// Virtual File support for µLibrary.
+/// Virtual File support for ÂµLibrary.
 ///
 /// This API is meant to be an universal mean to manipulate every file source
 /// possible as you can define your own.
@@ -127,7 +127,7 @@ typedef struct
 
 // Initializes the virtual filesystem.
 //
-// Done by default by µLibrary, so there is no need to call it by yourself.
+// Done by default by ÂµLibrary, so there is no need to call it by yourself.
 void VirtualFileInit();
 
 /// Open a new file.
@@ -254,7 +254,7 @@ extern int ul_virtualFileListNumber;
 ///     the file.
 void *ulReadEntireFileToMemory(VIRTUAL_FILE *f, int *size);
 
-// Source par défaut: mémoire
+// Source par dÃ©faut: mÃ©moire
 int vfsMemOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f);
 int vfsMemClose(VIRTUAL_FILE *f);
 int vfsMemWrite(const void *ptr, size_t size, size_t n, VIRTUAL_FILE* f);
@@ -291,7 +291,7 @@ int ulInitNitroFs();
 
 /// Read and write from memory.
 ///
-/// Automatically registered when initializing µLibrary.
+/// Automatically registered when initializing ÂµLibrary.
 extern int VF_MEMORY;
 
 /// Use libFat as a virtual file source.

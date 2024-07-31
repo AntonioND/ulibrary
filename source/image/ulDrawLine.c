@@ -19,6 +19,6 @@ void ulDrawLine(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color)
 
     GFX_END = 0;
 
-    // Incrémentation auto de la profondeur
+    // IncrÃ©mentation auto de la profondeur
     ul_currentDepth += ul_autoDepth;
 }

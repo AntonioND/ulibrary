@@ -1,5 +1,5 @@
 #include <PA9.h>       // Include for PA_Lib
-#include <ulib/ulib.h> // Include for µLib
+#include <ulib/ulib.h> // Include for ÂµLib
 
 int main(int argc, char *argv[])
 {
@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     PA_Init();
     PA_InitVBL();
 
-    // Initialization of µlibrary
+    // Initialization of Âµlibrary
     ulInit(UL_INIT_ALL);
     ulInitGfx();
     ulInitText();

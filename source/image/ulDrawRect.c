@@ -1,7 +1,7 @@
 #include "ulib.h"
 
-// Si quelqu'un arrive à faire ça en utilisant les TRIANGLE_STRIP, qu'il me
-// fasse un signe, parce que je n'y suis pas arrivé, merci :)
+// Si quelqu'un arrive Ã  faire Ã§a en utilisant les TRIANGLE_STRIP, qu'il me
+// fasse un signe, parce que je n'y suis pas arrivÃ©, merci :)
 void ulDrawRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color)
 {
     // Commence le dessin
@@ -28,6 +28,6 @@ void ulDrawRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color)
 
     GFX_END = 0;
 
-    // Incrémentation auto de la profondeur
+    // IncrÃ©mentation auto de la profondeur
     ul_currentDepth += ul_autoDepth;
 }

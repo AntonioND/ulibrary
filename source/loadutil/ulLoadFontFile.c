@@ -5,7 +5,7 @@ UL_FONT *ulLoadFontFile(const char *fileName, int fileSize)
     VIRTUAL_FILE *f;
     UL_FONT *ft = NULL;
 
-    // Si aucune source n'est sélectionnée, on prend la dernière
+    // Si aucune source n'est sÃ©lectionnÃ©e, on prend la derniÃ¨re
     if (ul_loadUtilActiveSource == -1)
         ul_loadUtilActiveSource = VirtualFileSourcesNb - 1;
 

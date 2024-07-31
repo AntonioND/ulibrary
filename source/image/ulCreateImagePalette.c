@@ -4,10 +4,10 @@ int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
 {
     int success = 1;
 
-    // Crée une palette si l'image peut en avoir une
+    // CrÃ©e une palette si l'image peut en avoir une
     if (palCount && ulImageIsPaletted(img) && img->palState == UL_STATE_NONE)
     {
-        // L'endroit où mettre la palette et l'image doivent être identiques!
+        // L'endroit oÃ¹ mettre la palette et l'image doivent Ãªtre identiques!
         if (img->imgState != UL_STATE_NONE)
             location = img->imgState;
 
@@ -30,7 +30,7 @@ int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
             // Directement en VRAM
             img->palCount = palCount;
 
-            // Aligner la taille à 2
+            // Aligner la taille Ã  2
             if (img->palCount & 1)
                 img->palCount++;
 

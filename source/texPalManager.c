@@ -2,13 +2,13 @@
 
 // PALETTE
 //
-// Les adresses (paletteID) sont à l'octet près, partant de 0 (début de la bank allouée aux TEX_PALETTE)
+// Les adresses (paletteID) sont Ã  l'octet prÃ¨s, partant de 0 (dÃ©but de la bank allouÃ©e aux TEX_PALETTE)
 
-// On commence au début de la VRAM mappée en LCD
+// On commence au dÃ©but de la VRAM mappÃ©e en LCD
 void *ul_texPalVramBase = (void*)VRAM_F;
-// 16 ko de RAM par défaut
+// 16 ko de RAM par dÃ©faut
 int ul_texPalVramSize = 16 << 10;
-// Banque A seulement par défaut
+// Banque A seulement par dÃ©faut
 UL_BANKS ul_texPalVramBanks = UL_BANK_F;
 
 #define DEFAULT_TABLE_SIZE 128
@@ -51,7 +51,7 @@ int ulTexPalAllocBlock(int blockSize, int format)
 
     align = (format == GL_RGB4) ? 8 : 16;
 
-    // La taille est toujours multiple de 8 ou 16 - arrondir au bloc supérieur
+    // La taille est toujours multiple de 8 ou 16 - arrondir au bloc supÃ©rieur
     //if (initialBlockSize & (align - 1))
     //    initialBlockSize += align - (initialBlockSize & (align - 1));
     if (blockSize & 7)
@@ -62,14 +62,14 @@ int ulTexPalAllocBlock(int blockSize, int format)
     {
         if (!isBlockFree(i))
             continue;
-        // Si le bloc n'est pas aligné, il faut un peu plus d'espace
+        // Si le bloc n'est pas alignÃ©, il faut un peu plus d'espace
         if ((getBlockOffset(i) & 1) && align == 16)
         {
             // Bloc suffisant?
             if (getBlockSize(i) >= blockSize + 1)
             {
-                // Le bloc précédent sera aggrandi de façon à ce que le nouveau
-                // débute à la position alignée
+                // Le bloc prÃ©cÃ©dent sera aggrandi de faÃ§on Ã  ce que le nouveau
+                // dÃ©bute Ã  la position alignÃ©e
                 if (i > 0)
                 {
                     setBlockSize(i - 1, getBlockSize(i - 1) + 1);
@@ -91,7 +91,7 @@ int ulTexPalAllocBlock(int blockSize, int format)
     if (i >= ulTexPalBlocksNb)
         return -1;
 
-    // Pile la mémoire qu'il faut? - supprimé pour la même raison que
+    // Pile la mÃ©moire qu'il faut? - supprimÃ© pour la mÃªme raison que
     // ulTexVramAllocBlock()
     if (getBlockSize(i) == blockSize && i != ulTexPalBlocksNb - 1)
     {
@@ -103,30 +103,30 @@ int ulTexPalAllocBlock(int blockSize, int format)
         // On va ajouter un nouveau bloc
         ulTexPalBlocksNb++;
 
-        // Plus de mémoire pour le tableau? On l'aggrandit
+        // Plus de mÃ©moire pour le tableau? On l'aggrandit
         if (ulTexPalBlocksNb >= ulTexPalBlocksMax)
         {
             UL_TEXPALBLOCK *oldBlock = ulTexPalBlocks;
             ulTexPalBlocksMax += DEFAULT_TABLE_SIZE;
             ulTexPalBlocks = (UL_TEXPALBLOCK *)realloc(ulTexPalBlocks, ulTexPalBlocksMax);
 
-            // Vérification que la mémoire a bien pu être allouée
+            // VÃ©rification que la mÃ©moire a bien pu Ãªtre allouÃ©e
             if (!ulTexPalBlocks)
             {
                 ulTexPalBlocks = oldBlock;
                 ulTexPalBlocksMax -= DEFAULT_TABLE_SIZE;
-                // Pas assez de mémoire
+                // Pas assez de mÃ©moire
                 return -1;
             }
         }
 
-        // Décalage pour insérer notre nouvel élément
+        // DÃ©calage pour insÃ©rer notre nouvel Ã©lÃ©ment
         memmove(ulTexPalBlocks + i + 1, ulTexPalBlocks + i,
                 sizeof(UL_TEXPALBLOCK) * (ulTexPalBlocksNb - i - 1));
 
         // Remplissons notre nouveau bloc
         setBlockSize(i, blockSize);
-        // Il a l'adresse du bloc qui était là avant
+        // Il a l'adresse du bloc qui Ã©tait lÃ  avant
         setBlockOffset(i, getBlockOffset(i + 1));
         // Il n'est pas libre
         setBlockFree(i, 0);
@@ -159,7 +159,7 @@ int ulTexPalFreeBlock(int blockOffset)
     // Le bloc est maintenant libre ^^
     setBlockFree(i, 1);
 
-    // Bon maintenant reste à "assembler" les blocs libres adjacents
+    // Bon maintenant reste Ã  "assembler" les blocs libres adjacents
     do
     {
         updateNeeded = 0;
@@ -178,11 +178,11 @@ int ulTexPalFreeBlock(int blockOffset)
                 setBlockOffset(j, newAdd);
                 setBlockSize(j, newSize);
 
-                // Le bloc entre deux est supprimé
+                // Le bloc entre deux est supprimÃ©
                 ulTexPalBlocksNb--;
 
-                // ATT: On devra refaire un tour pour vérifier si de nouveaux
-                // blocs n'ont pas été créés
+                // ATT: On devra refaire un tour pour vÃ©rifier si de nouveaux
+                // blocs n'ont pas Ã©tÃ© crÃ©Ã©s
                 updateNeeded = 1;
             }
         }
@@ -198,7 +198,7 @@ void uluTexUnloadPal(u32 addr)
     ulTexPalFreeBlock(addr);
 }
 
-// Alignement supérieur (16, 32 => 32 / 64, 32 => 64)
+// Alignement supÃ©rieur (16, 32 => 32 / 64, 32 => 64)
 #define alignVal(val, to) \
         (((val) & ((to) - 1)) ? ((val) & ~((to) - 1)) + (to) : (val))
 
@@ -214,14 +214,14 @@ void ulTexLoadPal(u16* pal, u16 count, u32 addr)
 
 int uluTexLoadPal(u16* pal, u16 count, uint8 format)
 {
-    // Ca c'est la taille totale de la mémoire
+    // Ca c'est la taille totale de la mÃ©moire
     int memSize;
     int addr;
 
-    // Détermine la taille de la palette en octets
+    // DÃ©termine la taille de la palette en octets
     memSize = alignVal(count << 1, 1 << 3);
 
-    // Dans les formats autres que GL_RGB4, on doit aligner à 16 octets au lieu de 8
+    // Dans les formats autres que GL_RGB4, on doit aligner Ã  16 octets au lieu de 8
     addr = (int)ulTexPalOffsetToAddress(ulTexPalAllocBlock(memSize, format));
 
     if (addr >= 0 && pal)
@@ -240,15 +240,15 @@ int ulSetTexPalVramParameters(int activeBanks, void *baseAddr, int totalSize)
     int blockNum = ulTexPalBlocksNb - 1;
     int sizeDiff;
 
-    // La taille est toujours multiple de 8 - arrondir au bloc supérieur
+    // La taille est toujours multiple de 8 - arrondir au bloc supÃ©rieur
     if (totalSize & 7)
         totalSize += 8;
     totalSize >>= 3;
 
-    // Différence de taille (négatif pour réduction, positif pour aggrandissement)
+    // DiffÃ©rence de taille (nÃ©gatif pour rÃ©duction, positif pour aggrandissement)
     sizeDiff = totalSize - curVramSize;
 
-    // Le dernier bloc est TOUJOURS libre, même s'il reste 0 octet. Cf
+    // Le dernier bloc est TOUJOURS libre, mÃªme s'il reste 0 octet. Cf
     // ulTexPalAllocBlock().
     if (isBlockFree(blockNum) && getBlockSize(blockNum) + sizeDiff >= 0)
     {

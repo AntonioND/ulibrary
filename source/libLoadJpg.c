@@ -23,7 +23,7 @@ UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, int location, int pixelFormat)
         width = decoder.frame.width;
         height = decoder.frame.height;
 
-        // Crée l'image dans laquelle on mettra notre bitmap
+        // CrÃ©e l'image dans laquelle on mettra notre bitmap
         img = ulCreateImage(width, height, UL_IN_RAM, pixelFormat, 0);
 
         if (img)

@@ -1,4 +1,4 @@
-# µLibrary
+# ÂµLibrary
 
 ## 1. Introduction
 
@@ -29,8 +29,8 @@ isn't a working up-to-date port of PAlib to BlocksDS.
 
 ## 4. About
 
-Programmed by Florian Brönnimann, aka Brunni: http://brunni.dev-fr.org
+Programmed by Florian BrÃ¶nnimann, aka Brunni: http://brunni.dev-fr.org
 
 Official forum: http://www.playeradvance.org/forum/forumdisplay.php?f=103
 
-Port to BlocksDS by Antonio Niño Díaz, aka AntonioND.
+Port to BlocksDS by Antonio NiÃ±o DÃ­az, aka AntonioND.

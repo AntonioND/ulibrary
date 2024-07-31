@@ -3,7 +3,7 @@
 // Par blocs de 4 ko
 #define BLOCK_SIZE (4 << 10)
 
-// Lit un fichier entier vers la mémoire
+// Lit un fichier entier vers la mÃ©moire
 void *ulReadEntireFileToMemory(VIRTUAL_FILE *f, int *fileSize)
 {
     void *block = NULL;
@@ -18,7 +18,7 @@ void *ulReadEntireFileToMemory(VIRTUAL_FILE *f, int *fileSize)
         else
             block = malloc(size);
 
-        // L'allocation a échoué?
+        // L'allocation a Ã©chouÃ©?
         if (!block)
             return NULL;
 

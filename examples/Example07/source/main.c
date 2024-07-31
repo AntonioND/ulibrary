@@ -1,26 +1,26 @@
 // Example 07
 //
-// Sample that demonstrates the use of 無ib and PALib together.
+// Sample that demonstrates the use of 繕Lib and PALib together.
 //
 // I've taken the 16cSpriteAnim sample for this, and I've just changed the way
 // things are loaded:
 //
 // - NONE of the PALib functions shall touch to the main screen (0)! The main
-//   screen is allocated to 無ibrary and PALib will CRASH if it tries to do
+//   screen is allocated to 繕Library and PALib will CRASH if it tries to do
 //   anything with it. I've replaced every function call screen argument from 0
 //   to 1 (sub-screen).
 
 #include <PA9.h>         // Include for PA_Lib
 #include "gfx/all_gfx.h"
 #include "gfx/all_gfx.c"
-#include <ulib/ulib.h>   // Include for 無ibrary
+#include <ulib/ulib.h>   // Include for 繕Library
 
 int main(int argc, char ** argv)
 {
     PA_Init();    // Initializes PA_Lib
     PA_InitVBL(); // Initializes a standard VBL
 
-    // Init our 無ibrary stuff there
+    // Init our 繕Library stuff there
     ulInit(UL_INIT_LIBONLY);
     ulInitGfx();
     ulInitText();
@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
     // Infinite loop to keep the program running
     while (1)
     {
-        // We can mix PALib and 無ib code.
+        // We can mix PALib and 繕Lib code.
         const char *testString = "It works!";
         int posX, posY;
         ulStartDrawing2D();
@@ -80,7 +80,7 @@ int main(int argc, char ** argv)
             frames = 0; // Reset frame counter
         }
 
-        // Our drawing with 無ib is terminated!
+        // Our drawing with 繕Lib is terminated!
         ulEndDrawing();
         // Always call ulEndFrame if we don't use ulSyncFrame but PA_WaitForVBL
         ulEndFrame();

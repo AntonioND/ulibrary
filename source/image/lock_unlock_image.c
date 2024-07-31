@@ -1,7 +1,7 @@
 #include "ulib.h"
 
-// Permet d'accéder à la texture d'une image
-// ATTENTION: PAS SÛR POUR LA PALETTE
+// Permet d'accÃ©der Ã  la texture d'une image
+// ATTENTION: PAS SÃ›R POUR LA PALETTE
 void *ulLockImage(UL_IMAGE *img, UL_LOCK_REASON lockReason)
 {
     void *result = NULL;

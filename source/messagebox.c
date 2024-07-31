@@ -21,9 +21,9 @@ void _drawButton(int x0, int y0, int x1, int y1, const char *text, int highlight
 
 #define UL_MSGBOX_TOUCHPAD_SUPPORT
 
-// Message box, version étendue
-// Note: les >> 1 représentent / 2, malheureusement comme j'ai été obligé
-// d'utiliser des nombres signés.
+// Message box, version Ã©tendue
+// Note: les >> 1 reprÃ©sentent / 2, malheureusement comme j'ai Ã©tÃ© obligÃ©
+// d'utiliser des nombres signÃ©s.
 int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
                    UL_MSGBOX_BUTTON *buttons, void (*fnRender)(), u32 reserved)
 {
@@ -41,33 +41,33 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
     const u32 buttonSpace = 4, buttonHeight = ulMax(ul_curFont->charHeight + 4, 14);
 
     textWidth = ulGetStringWidth(title);
-    // Par défaut, on utilise une largeur de 140, qui sera éventuellement
-    // augmentéee par la taille du titre.
+    // Par dÃ©faut, on utilise une largeur de 140, qui sera Ã©ventuellement
+    // augmentÃ©ee par la taille du titre.
     width = ulMax(140, textWidth + 4);
 
-    // Trouvons le bouton qui possède le texte le plus long
+    // Trouvons le bouton qui possÃ¨de le texte le plus long
     for (i = 0; i < nbButtons; i++)
        buttonMaxWidth = ulMax(buttonMaxWidth, ulGetStringWidth(buttons[i].text) + 5);
 
     totalButtonsWidth = (buttonSpace + buttonMaxWidth) * nbButtons;
-    // S'assure que la fenêtre sera assez grande pour contenir tous les boutons
+    // S'assure que la fenÃªtre sera assez grande pour contenir tous les boutons
     width = ulMax(totalButtonsWidth + 4, width);
 
-    // Calculons la hauteur de la boîte avec cette largeur
+    // Calculons la hauteur de la boÃ®te avec cette largeur
     textHeight = ulGetTextBoxHeight(width - 4, 150, text, 0);
     height = titleHeight + 4 + textHeight + 4 + buttonHeight + 4;
 
-    // Calcule les positions de la fenêtre
+    // Calcule les positions de la fenÃªtre
     x0 = (SCREEN_WIDTH - width) >> 1;
     x1 = (SCREEN_WIDTH + width) >> 1;
     y0 = (SCREEN_HEIGHT - height) >> 1;
     y1 = (SCREEN_HEIGHT + height) >> 1;
 
-    // Variables pour la gestion de la fenêtre
+    // Variables pour la gestion de la fenÃªtre
 #ifdef UL_MSGBOX_TOUCHPAD_SUPPORT
     int titleMoving = 0, buttonSelected = -1, buttonActive = -1;
 #endif
-    // Le bouton pressé a été trouvé!
+    // Le bouton pressÃ© a Ã©tÃ© trouvÃ©!
     int returnButton = -1;
 
     while (returnButton == -1)
@@ -81,13 +81,13 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
 
         // Le tour
         ulDrawRect(x0, y0, x1, y1, RGB15(0, 0, 0));
-        // Le dégradé du titre
+        // Le dÃ©gradÃ© du titre
         ulDrawGradientRect(x0 + 1, y0 + 1, x1 - 1, y0 + titleHeight, title1,
                            title2, title1, title2);
-        // Le dégradé du centre (texte)
+        // Le dÃ©gradÃ© du centre (texte)
         ulDrawGradientRect(x0 + 1, y0 + titleHeight, x1 - 1, y1 - 1, backColor0,
                            backColor1, backColor1, backColor2);
-        // La ligne séparatrice du titre
+        // La ligne sÃ©paratrice du titre
         ulDrawLine(x0, y0 + titleHeight, x1, y0 + titleHeight, RGB15(0, 0, 0));
 
         // Dessine le titre
@@ -99,17 +99,17 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
         ulDrawTextBox(x0 + 2, y0 + titleHeight + 4, x1 - 2,
                       y0 + titleHeight + 4 + textHeight, text, 0);
 
-        // Les boutons à présent
+        // Les boutons Ã  prÃ©sent
         s32 buttonX = (x0 + x1 - totalButtonsWidth) >> 1;
         s32 buttonY = y0 + titleHeight + 4 + textHeight + 4;
         s32 x = buttonX + (buttonSpace >> 1);
         for (i = 0; i < nbButtons; i++)
         {
-            // Highlight du bouton s'il est sélectionné et que le curseur est
+            // Highlight du bouton s'il est sÃ©lectionnÃ© et que le curseur est
             // encore dessus
             int highlight = (buttonSelected == buttonActive && buttonSelected == i);
 
-            // Test si la touche associée au bouton est pressée
+            // Test si la touche associÃ©e au bouton est pressÃ©e
             if (ul_keys.pressed.value & buttons[i].key)
             {
                 returnButton = i;
@@ -143,7 +143,7 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
                 x += buttonMaxWidth + buttonSpace;
             }
 
-            // Déplacement de la fenêtre
+            // DÃ©placement de la fenÃªtre
             if (titleMoving)
             {
                 x0 += ul_keys.touch.deltaX;
@@ -154,7 +154,7 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
 
             if (ul_keys.touch.click)
             {
-                // Aucun bouton? Alors on déplacera toute la boîte
+                // Aucun bouton? Alors on dÃ©placera toute la boÃ®te
                 if (buttonActive == -1)
                 {
                     if (ul_keys.touch.x >= x0 && ul_keys.touch.y >= y0
@@ -167,7 +167,7 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
                     buttonSelected = buttonActive;
             }
 
-            // Stylet relâché
+            // Stylet relÃ¢chÃ©
             if (ul_keys.touch.released)
             {
                 // Ne bouge plus le titre
@@ -175,7 +175,7 @@ int ulMessageBoxEx(const char *text, const char *title, int nbButtons,
                 // On a choisi un bouton :)
                 if (buttonSelected >= 0 && buttonActive == buttonSelected)
                     returnButton = buttonSelected;
-                // Plus de bouton sélectionné
+                // Plus de bouton sÃ©lectionnÃ©
                 buttonSelected = -1;
             }
         }

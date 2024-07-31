@@ -2,13 +2,13 @@
 
 // TODO: Calculer la taille totale de la VRAM textures en fonction de l'allocation des banques
 
-// On commence au début de la VRAM mappée en LCD
+// On commence au dÃ©but de la VRAM mappÃ©e en LCD
 void *ul_texVramBase = (void*)0x06800000;
 
-// 128 ko par défaut
+// 128 ko par dÃ©faut
 int ul_texVramSize = 128 << 10;
 
-// Banque A seulement par défaut
+// Banque A seulement par dÃ©faut
 UL_BANKS ul_texVramBanks = UL_BANK_A;
 
 u8 ul_optimizeTextureSize = 1;
@@ -52,7 +52,7 @@ void ulTexVramInit()
     // Premier bloc: libre, taille totale de la VRAM, adresse 0
     setBlockOffset(0, 0);
 
-    // La taille en blocs doit être divisée par 16 puisqu'on n'utilise pas des
+    // La taille en blocs doit Ãªtre divisÃ©e par 16 puisqu'on n'utilise pas des
     // octets sinon il serait impossible de coder toute la VRAM sur 16 bits
     setBlockSize(0, ul_texVramSize >> 4);
     setBlockFree(0, 1);
@@ -62,11 +62,11 @@ int ulTexVramAllocBlock(int blockSize)
 {
     int i;
 
-    // Le bloc ne peut pas être de taille nulle ou négative
+    // Le bloc ne peut pas Ãªtre de taille nulle ou nÃ©gative
     if (blockSize <= 0)
         return -1;
 
-    // La taille est toujours multiple de 16 - arrondir au bloc supérieur
+    // La taille est toujours multiple de 16 - arrondir au bloc supÃ©rieur
     if (blockSize & 15)
         blockSize += 16;
     blockSize >>= 4;
@@ -82,8 +82,8 @@ int ulTexVramAllocBlock(int blockSize)
     if (i >= ulTexRamBlocksNb)
         return -1;
 
-    // Pile la mémoire qu'il faut? - pas géré, il faut toujours que le dernier
-    // bloc soit marqué comme libre (même s'il reste 0 octet) pour
+    // Pile la mÃ©moire qu'il faut? - pas gÃ©rÃ©, il faut toujours que le dernier
+    // bloc soit marquÃ© comme libre (mÃªme s'il reste 0 octet) pour
     // ulSetTexVramParameters()
     if (getBlockSize(i) == blockSize && i != ulTexRamBlocksNb - 1)
     {
@@ -95,30 +95,30 @@ int ulTexVramAllocBlock(int blockSize)
         // On va ajouter un nouveau bloc
         ulTexRamBlocksNb++;
 
-        // Plus de mémoire pour le tableau? On l'aggrandit
+        // Plus de mÃ©moire pour le tableau? On l'aggrandit
         if (ulTexRamBlocksNb >= ulTexRamBlocksMax)
         {
             UL_TEXRAMBLOCK *oldBlock = ulTexRamBlocks;
             ulTexRamBlocksMax += DEFAULT_TABLE_SIZE;
             ulTexRamBlocks = (UL_TEXRAMBLOCK*)realloc(ulTexRamBlocks, ulTexRamBlocksMax);
 
-            // Vérification que la mémoire a bien pu être allouée
+            // VÃ©rification que la mÃ©moire a bien pu Ãªtre allouÃ©e
             if (!ulTexRamBlocks)
             {
                 ulTexRamBlocks = oldBlock;
                 ulTexRamBlocksMax -= DEFAULT_TABLE_SIZE;
-                // Pas assez de mémoire
+                // Pas assez de mÃ©moire
                 return -1;
             }
         }
 
-        // Décalage pour insérer notre nouvel élément
+        // DÃ©calage pour insÃ©rer notre nouvel Ã©lÃ©ment
         memmove(ulTexRamBlocks + i + 1, ulTexRamBlocks + i,
                 sizeof(UL_TEXRAMBLOCK) * (ulTexRamBlocksNb - i - 1));
 
         // Remplissons notre nouveau bloc
         setBlockSize(i, blockSize);
-        // Il a l'adresse du bloc qui était là avant
+        // Il a l'adresse du bloc qui Ã©tait lÃ  avant
         setBlockOffset(i, getBlockOffset(i + 1));
         // Il n'est pas libre
         setBlockFree(i, 0);
@@ -151,7 +151,7 @@ int ulTexVramFreeBlock(int blockOffset)
     // Le bloc est maintenant libre ^^
     setBlockFree(i, 1);
 
-    // Bon maintenant reste à "assembler" les blocs libres adjacents
+    // Bon maintenant reste Ã  "assembler" les blocs libres adjacents
     do
     {
         updateNeeded = 0;
@@ -168,10 +168,10 @@ int ulTexVramFreeBlock(int blockOffset)
                         sizeof(UL_TEXRAMBLOCK) * (ulTexRamBlocksNb - j - 1));
                 setBlockOffset(j, newAdd);
                 setBlockSize(j, newSize);
-                // Le bloc entre deux est supprimé
+                // Le bloc entre deux est supprimÃ©
                 ulTexRamBlocksNb--;
-                // ATT: On devra refaire un tour pour vérifier si de nouveaux
-                // blocs n'ont pas été créés
+                // ATT: On devra refaire un tour pour vÃ©rifier si de nouveaux
+                // blocs n'ont pas Ã©tÃ© crÃ©Ã©s
                 updateNeeded = 1;
             }
         }
@@ -181,10 +181,10 @@ int ulTexVramFreeBlock(int blockOffset)
     return 1;
 }
 
-// Inspirée de la fonction de libnds
+// InspirÃ©e de la fonction de libnds
 //
 // Attention: sizeX et sizeY sont les VRAIES tailles (en pixel)! Elles seront
-// alignées aux prochaines puissances de deux!
+// alignÃ©es aux prochaines puissances de deux!
 int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
                  int empty2, int param, uint8* texture)
 {
@@ -197,8 +197,8 @@ int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
 
     sizeX = 1 << ulGetPowerOf2Count(sizeX);
 
-    // L'optimisation pour les tailles de palettes permet de réduire l'espace
-    // vertical alloué (pas d'alignement à une puissance de deux)
+    // L'optimisation pour les tailles de palettes permet de rÃ©duire l'espace
+    // vertical allouÃ© (pas d'alignement Ã  une puissance de deux)
     if (!ul_optimizeTextureSize)
         sizeY = 1 << ulGetPowerOf2Count(sizeY);
 
@@ -220,7 +220,7 @@ int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
         u16 * src = (u16*)texture;
         u16 * dest = (u16*)addr;
 
-        // Valeur de la texture: utilisé pour GFX_TEX_FORMAT
+        // Valeur de la texture: utilisÃ© pour GFX_TEX_FORMAT
         ulTexParameter(ulGetPowerOf2Count(sizeX) - 3, ulGetPowerOf2Count(sizeY) - 3,
                        addr, GL_RGBA, param);
 
@@ -289,29 +289,29 @@ int ulGetNextAvailableTexture()
             ulTextureNb++;
         }
 
-        // Pas de texture disponible, on recommence à zéro
+        // Pas de texture disponible, on recommence Ã  zÃ©ro
         if (ulTextureNb >= ulTextureMax)
         {
             iterate++;
 
-            // On a déjà fait une fois un tour complet + un tour partiel mais on
-            // n'a rien trouvé => plus de mémoire
+            // On a dÃ©jÃ  fait une fois un tour complet + un tour partiel mais on
+            // n'a rien trouvÃ© => plus de mÃ©moire
             if (iterate == 2)
             {
                 int *oldPtr = ulTextureParams;
-                // On rajoute un peu de mémoire
+                // On rajoute un peu de mÃ©moire
                 ulTextureParams =
                     (int *)realloc(ulTextureParams,
                                    sizeof(ulTextureParams[0]) * (ulTextureMax + UL_MAX_TEXTURES));
 
-                // L'allocation a foiré => Plus de mémoire
+                // L'allocation a foirÃ© => Plus de mÃ©moire
                 if (!ulTextureParams)
                 {
                     ulTextureParams = oldPtr;
                     break;
                 }
 
-                // Remplit les prochaines éléments du tableau pour les marquer
+                // Remplit les prochaines Ã©lÃ©ments du tableau pour les marquer
                 // comme "libres"
                 memset(ulTextureParams + ulTextureMax, 0xff,
                        sizeof(ulTextureParams[0]) * UL_MAX_TEXTURES);
@@ -323,19 +323,19 @@ int ulGetNextAvailableTexture()
         }
         else
         {
-            // On a trouvé notre texture =)
+            // On a trouvÃ© notre texture =)
             break;
         }
     }
 
     if (iterate >= 3)
     {
-        // Rien à faire: (vraiment) plus de mémoire
+        // Rien Ã  faire: (vraiment) plus de mÃ©moire
         return -1;
     }
     else
     {
-        // La prochaine fois, on ne prendra plus la même (post incrémentation)
+        // La prochaine fois, on ne prendra plus la mÃªme (post incrÃ©mentation)
         return ulTextureNb++;
     }
 }
@@ -349,7 +349,7 @@ int ulGenTextures(int n, int *names)
         if (newTexture >= 0)
         {
             names[index] = newTexture;
-            // Pour éviter de le considérer comme pris
+            // Pour Ã©viter de le considÃ©rer comme pris
             ulTextureParams[newTexture] = 0;
         }
         else
@@ -365,7 +365,7 @@ void ulFreeTextures(int n, int *names)
 {
     for (int index = 0; index < n; index++)
     {
-        // Pas libre => à libérer
+        // Pas libre => Ã  libÃ©rer
         if (ulTextureParams[names[index]] != TEXTURE_FREE)
             ulTexVramFreeBlock(getTextureOffset(names[index]));
 
@@ -373,7 +373,7 @@ void ulFreeTextures(int n, int *names)
     }
 }
 
-// Paramétrage d'une texture
+// ParamÃ©trage d'une texture
 void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, uint8 mode, uint32 param)
 {
     ulTextureParams[ulTextureActive] = param | (sizeX << 20) | (sizeY << 23) |
@@ -391,7 +391,7 @@ void ulBindTexture(int target, int name)
 }
 
 #if 0
-// Permet d'utiliser une texture de UL avec la librairie VideoGL intégrée à libnds
+// Permet d'utiliser une texture de UL avec la librairie VideoGL intÃ©grÃ©e Ã  libnds
 void ulBindTextureToGl(int target, int name)
 {
     glGlob->textures[glGlob->activeTexture] = ulTextureParams[name];
@@ -406,15 +406,15 @@ int ulSetTexVramParameters(int activeBanks, void *baseAddr, int totalSize)
     int blockNum = ulTexRamBlocksNb - 1;
     int sizeDiff;
 
-    // La taille est toujours multiple de 16 - arrondir au bloc supérieur
+    // La taille est toujours multiple de 16 - arrondir au bloc supÃ©rieur
     if (totalSize & 15)
         totalSize += 16;
     totalSize >>= 4;
 
-    // Différence de taille (négatif pour réduction, positif pour aggrandissement)
+    // DiffÃ©rence de taille (nÃ©gatif pour rÃ©duction, positif pour aggrandissement)
     sizeDiff = totalSize - curVramSize;
 
-    // Le dernier bloc est TOUJOURS libre, même s'il reste 0 octet. Cf la
+    // Le dernier bloc est TOUJOURS libre, mÃªme s'il reste 0 octet. Cf la
     // bidouille dans ulTexVramAlloc
     if (isBlockFree(blockNum) && getBlockSize(blockNum) + sizeDiff >= 0)
     {

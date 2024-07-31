@@ -1,6 +1,6 @@
 /// @file loading_utility.h
 ///
-/// @brief Utility functions to load files more easily in µLibrary.
+/// @brief Utility functions to load files more easily in ÂµLibrary.
 
 #ifndef __UL_LOADINGUTILITY_H__
 #define __UL_LOADINGUTILITY_H__
@@ -11,7 +11,7 @@ extern "C" {
 
 /// @defgroup loadutil Loading utility
 ///
-/// Utility functions to load files more easily in µLibrary.
+/// Utility functions to load files more easily in ÂµLibrary.
 ///
 /// @{
 

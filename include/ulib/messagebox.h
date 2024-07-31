@@ -11,7 +11,7 @@ extern "C" {
 
 /// @defgroup messagebox Message boxes
 ///
-/// Basic message box support for µLibrary.
+/// Basic message box support for ÂµLibrary.
 ///
 /// @{
 

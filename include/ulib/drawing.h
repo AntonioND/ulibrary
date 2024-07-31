@@ -1,6 +1,6 @@
 /// @file drawing.h
 ///
-/// @brief Main file about drawing in µLib.
+/// @brief Main file about drawing in ÂµLib.
 
 /// @defgroup drawing
 ///
@@ -66,7 +66,7 @@ typedef unsigned short UL_COLOR;
 typedef struct
 {
     // Public
-    s16 x, y;               // Coordonnées
+    s16 x, y;               // CoordonnÃ©es
 
     // Utiliser ulSetDepth
     //s16 z;                // Profondeur de l'objet
@@ -76,7 +76,7 @@ typedef struct
     s16 offsetX0, offsetY0, offsetX1, offsetY1;
     s16 tint1, tint2, tint3, tint4;
 
-    // Protégé
+    // ProtÃ©gÃ©
     u16 sizeX, sizeY;
     u16 sysSizeX, sysSizeY; // System size (power of 2 boundary)
     u8 format;              // Voir UL_IMAGE_FORMATS
@@ -121,7 +121,7 @@ void ulInitGfx();
 ///
 /// \~french
 ///
-/// @brief Initialisation du mode double écran
+/// @brief Initialisation du mode double Ã©cran
 void ulInitDualScreenMode();
 
 /// Stops the dual screen mode.
@@ -138,7 +138,7 @@ void ulStopDualScreenMode();
 ///
 /// \~french
 ///
-/// @brief Début de dessin, configuration 2D.
+/// @brief DÃ©but de dessin, configuration 2D.
 ///
 /// L'appeler une fois par frame.
 void ulStartDrawing2D();
@@ -152,7 +152,7 @@ void ulStartDrawing2D();
 ///
 /// \~french
 ///
-/// @brief Fin du dessin, à n'appeler qu'en fin de frame.
+/// @brief Fin du dessin, Ã  n'appeler qu'en fin de frame.
 void ulEndDrawing();
 
 /// \~english
@@ -192,7 +192,7 @@ void ulEndFrame();
 ///
 /// \~french
 ///
-/// @brief Définit la couleur transparente d'arrière plan de l'image.
+/// @brief DÃ©finit la couleur transparente d'arriÃ¨re plan de l'image.
 #define ulSetTransparentColor(color) (ul_colorKeyEnabled = 1, ul_colorKeyValue = color)
 
 /// \~english
@@ -203,7 +203,7 @@ void ulEndFrame();
 /// a color key.
 #define ulDisableTransparentColor()  (ul_colorKeyEnabled = 0)
 
-// Définit la couleur du fond, à tester. N'a pas l'air de marcher super bien...
+// DÃ©finit la couleur du fond, Ã  tester. N'a pas l'air de marcher super bien...
 void ulSetScreenBackgroundColor(UL_COLOR color);
 
 /// @defgroup clipping Clipping / Windowing
@@ -226,9 +226,9 @@ void ulSetScreenBackgroundColor(UL_COLOR color);
 ///
 /// \~french
 ///
-/// @brief Définit une fenêtre.
+/// @brief DÃ©finit une fenÃªtre.
 ///
-/// Tout ce qui sera dessiné sera redirigé à cet endroit. Ne fonctionne pas
+/// Tout ce qui sera dessinÃ© sera redirigÃ© Ã  cet endroit. Ne fonctionne pas
 /// bien.
 void ulSetScreenWindow(int x0, int y0, int x1, int y1);
 
@@ -243,9 +243,9 @@ void ulSetScreenWindow(int x0, int y0, int x1, int y1);
 ///
 /// \~french
 ///
-/// @brief Définit la zone de clipping.
+/// @brief DÃ©finit la zone de clipping.
 ///
-/// Tout ce qui est dessiné en dehors ne sera pas affiché. Ne fonctionne pas
+/// Tout ce qui est dessinÃ© en dehors ne sera pas affichÃ©. Ne fonctionne pas
 /// bien.
 void ulSetScreenClipping(int x0, int y0, int x1, int y1);
 
@@ -255,7 +255,7 @@ void ulSetScreenClipping(int x0, int y0, int x1, int y1);
 ///
 /// \~french
 ///
-/// @brief Réinitialise la zone de clipping, incluant la fenêtre.
+/// @brief RÃ©initialise la zone de clipping, incluant la fenÃªtre.
 void ulResetScreenClipping();
 
 /// @}
@@ -384,7 +384,7 @@ void ulDrawGradientRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color1,
 
 /// @defgroup images Images
 ///
-/// @brief Image support in µLibrary.
+/// @brief Image support in ÂµLibrary.
 ///
 /// @{
 
@@ -409,9 +409,9 @@ enum UL_IMAGE_FORMATS
 enum UL_IMAGE_STATES
 {
     UL_STATE_NONE = 0,  ///< N'existe pas encore
-    UL_STATE_RAM,       ///< L'image est quelque part en mémoire, ne pas s'en occuper
-    UL_STATE_RAM_BLOCK, ///< L'image utilise un bloc, à libérer (free) une fois que l'image est copiée en VRAM
-    UL_STATE_VRAM,      ///< L'image a été copiée en VRAM et n'est plus accessible
+    UL_STATE_RAM,       ///< L'image est quelque part en mÃ©moire, ne pas s'en occuper
+    UL_STATE_RAM_BLOCK, ///< L'image utilise un bloc, Ã  libÃ©rer (free) une fois que l'image est copiÃ©e en VRAM
+    UL_STATE_VRAM,      ///< L'image a Ã©tÃ© copiÃ©e en VRAM et n'est plus accessible
 };
 
 /// Reason for locking an image (whether you want to access its palette,
@@ -826,9 +826,9 @@ extern u8 ul_firstPaletteColorOpaque;
 ///
 /// \~french
 ///
-/// Incrémente automatiquement la priorité de façon à ce que les objets dessinés
-/// en dernier soient les premiers affichés. 1 = actif, le dernier objet affiché
-/// est devant, 0 = inactif, le dernier affiché est derrière. Ne pas mettre
+/// IncrÃ©mente automatiquement la prioritÃ© de faÃ§on Ã  ce que les objets dessinÃ©s
+/// en dernier soient les premiers affichÃ©s. 1 = actif, le dernier objet affichÃ©
+/// est devant, 0 = inactif, le dernier affichÃ© est derriÃ¨re. Ne pas mettre
 /// d'autre valeur!
 #define ulSetAutoDepth(enable) (ul_autoDepth = enable)
 
@@ -1002,7 +1002,7 @@ void ulSetTexture(UL_IMAGE *img);
 /// ```
 void ulSetAlpha(UL_SPECIAL_EFFECT effect, int coeff, int polygroup);
 
-/// Set the main LCD, the one which is currently controlled by µLibrary.
+/// Set the main LCD, the one which is currently controlled by ÂµLibrary.
 ///
 /// @param position
 ///     - 0 = touchpad
@@ -1011,7 +1011,7 @@ void ulSetAlpha(UL_SPECIAL_EFFECT effect, int coeff, int polygroup);
 /// You can also use the libnds macro lcdSwap if you simply want to swap the
 /// LCDs.
 ///
-/// Note: By default, µLibrary controls the top screen.
+/// Note: By default, ÂµLibrary controls the top screen.
 static inline void ulSetMainLcd(int position)
 {
     if (position == 0)
@@ -1020,7 +1020,7 @@ static inline void ulSetMainLcd(int position)
         REG_POWERCNT |= POWER_SWAP_LCDS;
 }
 
-/// Returns 1 if µLibrary is currently drawing to the top screen, 0 if it is on
+/// Returns 1 if ÂµLibrary is currently drawing to the top screen, 0 if it is on
 /// the touchpad.
 static inline int ulGetMainLcd()
 {

@@ -5,10 +5,10 @@ void ulDrawImage(UL_IMAGE *img)
 {
     ulSetTexture(img);
 
-    // Gère la rotation
+    // GÃ¨re la rotation
     if (img->angle || img->centerX || img->centerY)
     {
-        // Méthode #1
+        // MÃ©thode #1
         //
         // Utilisation des matrices, il faudrait tester pour voir si c'est plus
         // rapide.
@@ -49,9 +49,9 @@ void ulDrawImage(UL_IMAGE *img)
 
         glPopMatrix(1);
 
-        // Méthode #2
+        // MÃ©thode #2
         //
-        // Utilisation de sin/cos, ancienne méthode
+        // Utilisation de sin/cos, ancienne mÃ©thode
 
 /*
         int cX, cY, tmpX, tmpY, x, y;
@@ -104,7 +104,7 @@ void ulDrawImage(UL_IMAGE *img)
         // Commence le dessin
         GFX_BEGIN = GL_QUADS;
 
-            // ATTENTION: PEUT ÊTRE ENLEVER LES & 0xffff qui ne servent pas vraiment à grand chose...
+            // ATTENTION: PEUT ÃŠTRE ENLEVER LES & 0xffff qui ne servent pas vraiment Ã  grand chose...
 
             // 1. Haut-gauche
             GFX_COLOR = img->tint1;
@@ -125,7 +125,7 @@ void ulDrawImage(UL_IMAGE *img)
         GFX_END = 0;
     }
 
-    // Incrémentation auto de la profondeur
+    // IncrÃ©mentation auto de la profondeur
     ul_currentDepth += ul_autoDepth;
     return;
 }

@@ -1,6 +1,6 @@
 #include "ulib.h"
 
-// Retourne la valeur d'un pixel sur une image - lent - PAS TESTÉ
+// Retourne la valeur d'un pixel sur une image - lent - PAS TESTÃ‰
 int ulGetImagePixel(UL_IMAGE *img, int x, int y)
 {
     void *pPixel = ulGetImageLineAddr(img, y);

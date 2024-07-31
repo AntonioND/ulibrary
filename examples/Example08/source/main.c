@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
         if (dblClkAnimCnt)
         {
             int value = dblClkAnimCnt;
-            // Dans l'autre sens => la moitiÈ de l'anim a dÈj‡ passÈ
+            // Dans l'autre sens => la moiti√© de l'anim a d√©j√† pass√©
             if (dblClkAnimSens < 0)
                 value = 512 - dblClkAnimCnt;
             else

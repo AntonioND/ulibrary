@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     int i;
     int totalTime = 1; // To avoid a divide by zero the first time
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

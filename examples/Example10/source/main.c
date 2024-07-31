@@ -12,7 +12,7 @@ int play()
    UL_IMAGE *img;
    int angle = 0;
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

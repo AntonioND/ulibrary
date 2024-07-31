@@ -513,7 +513,7 @@ int ulShowSplashScreen1()
     int zoom = FIX(64);
     int zoomSpeed = FIX(5);
 
-    // Pour la première partie
+    // Pour la premiÃ¨re partie
     imgLogoMask = ulLoadImageFileGIF((const char*)ul_logo_msk,
                                      (int)ul_logo_msk_size, UL_IN_RAM, UL_PF_5551);
     imgLogoSub = ulLoadImageFileGIF((const char*)ul_logo_base,
@@ -523,9 +523,9 @@ int ulShowSplashScreen1()
         goto cleanup;
 
     ul_splash1_applyMask(imgLogoSub, imgLogoMask);
-    // Fin première partie
+    // Fin premiÃ¨re partie
 
-    // Pour la deuxième partie
+    // Pour la deuxiÃ¨me partie
     imgLogo = ulLoadImageFileGIF((const char*)ul_logo, (int)ul_logo_size,
                                  UL_IN_RAM, UL_PF_PAL8);
     imgCircle = ulLoadImageFileGIF((const char*)ul_circle_mask,
@@ -540,12 +540,12 @@ int ulShowSplashScreen1()
     // Create an image using the mask data
     imgFrame = ul_splash1_createMaskedImage(imgLogoMask, xLogoFix, yLogoFix);
     imgCircle = ul_splash1_createCircle(imgCircle);
-    // Fin deuxième partie
+    // Fin deuxiÃ¨me partie
 
     if (!imgFrame || !imgCircle)
         goto cleanup;
 
-    // Copie les images en mémoire vidéo une fois pour toute
+    // Copie les images en mÃ©moire vidÃ©o une fois pour toute
     ulRealizeImage(imgLogoMask);
     ulRealizeImage(imgLogoSub);
     ulRealizeImage(imgLogo);
@@ -622,16 +622,16 @@ int ulShowSplashScreen1()
         ulSetImageTile(imgLogo, 60, 0, imgLogo->sizeX, imgLogo->sizeY);
         ulDrawImageXY(imgLogo, x + 60, y);
 
-        // Puis la lumière par dessus
+        // Puis la lumiÃ¨re par dessus
         ulDrawImageXY(imgCircle, lightX, lightY);
         // Et aussi sur le powered
         ulDrawImageXY(imgCircle, lightX - 20, lightY - 33);
 
-        // Puis le µ (pas caché par la lumière)
+        // Puis le Âµ (pas cachÃ© par la lumiÃ¨re)
         ulSetImageTile(imgLogo, 0, 0, 60, imgLogo->sizeY);
         ulDrawImageXY(imgLogo, x, y);
 
-        // Pour que la DS veuille bien blender la frame et le cercle de lumière
+        // Pour que la DS veuille bien blender la frame et le cercle de lumiÃ¨re
         ulSetAlpha(UL_FX_ALPHA, 31, 1);
         ulDrawImage(imgFrame);
 

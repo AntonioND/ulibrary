@@ -16,7 +16,7 @@ SpriteEntry ulDualScreenSprites[128];
 
 //Taille des formats de pixel
 const u8 ul_pixelSizes[] = {
-    0,  //Non utilisé
+    0,  //Non utilisÃ©
     8,  //UL_PF_PAL5_A3
     2,  //UL_PF_PAL2
     4,  //UL_PF_PAL4
@@ -29,7 +29,7 @@ const u8 ul_pixelSizes[] = {
 
 //Taille des palettes (2^n)
 const u8 ul_paletteSizes[] = {
-    0, //Non utilisé
+    0, //Non utilisÃ©
     5, //UL_PF_PAL5_A3: 32 couleurs
     2, //UL_PF_PAL2: 4 couleurs
     4, //UL_PF_PAL4: 16 couleurs
@@ -40,7 +40,7 @@ const u8 ul_paletteSizes[] = {
     0, //UL_PF_5550
 };
 
-//Nombre de pixels par octet en fonction du format (seuls 1, 2, 4 et 8 supportés)
+//Nombre de pixels par octet en fonction du format (seuls 1, 2, 4 et 8 supportÃ©s)
 const u8 ul_pixelsPerByte[] = {0, 8, 4, 0, 2, 0, 0, 0, 1};
 
 void ulInitGfx()
@@ -62,7 +62,7 @@ void ulInitGfx()
 
     glInit();
 
-    //Il faudra de toute façon la mettre à jour...
+    //Il faudra de toute faÃ§on la mettre Ã  jour...
 //    ul_lastTexture = (UL_IMAGE*)-1;
 }
 
@@ -132,7 +132,7 @@ void ulSetRegCapture(bool enable, uint8 srcBlend, uint8 destBlend, uint8 bank,
 
 void ulEndFrame()
 {
-    //Si le clipping a changé, on doit obligatoirement le restaurer avant la fin
+    //Si le clipping a changÃ©, on doit obligatoirement le restaurer avant la fin
     if (ul_screenClippingChanged)
         ulResetScreenClipping();
 
@@ -303,7 +303,7 @@ void ulRotateScreenView(int angle)
     MATRIX_MULT3x3 = inttof32(1);
 }
 
-// Coeff: 0 - 31 (opacité)
+// Coeff: 0 - 31 (opacitÃ©)
 // Effect:
 void ulSetAlpha(UL_SPECIAL_EFFECT effect, int coeff, int polygroup)
 {
@@ -319,7 +319,7 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
     UL_IMAGE *img;
     int textureID, success = 1;
 
-    //Création de l'image
+    //CrÃ©ation de l'image
     img = malloc(sizeof(UL_IMAGE));
     if (img)
     {
@@ -340,7 +340,7 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
         else if (ul_initTexturesToZero & UL_TEXINITZERO_RAM)
             img->sysSizeY = 1 << ulGetPowerOf2Count(height);
 
-        // Alloue la mémoire
+        // Alloue la mÃ©moire
         if (location == UL_IN_RAM)
         {
             int size = (ul_pixelSizes[format] * img->sysSizeX * img->sysSizeY) >> 3;
@@ -358,18 +358,18 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
            if (ul_firstPaletteColorOpaque == 2)
                texGen &= ~GL_TEXTURE_COLOR0_TRANSPARENT;
 
-           //On crée l'image directement en VRAM
+           //On crÃ©e l'image directement en VRAM
             ulGenTextures(1, &textureID);
             ulBindTexture(0, textureID);
             if (ulTexImage2D(0, 0, img->format, img->sizeX, img->sizeY, 0, texGen, NULL))
             {
-                //Libère si on n'en a plus besoin
+                //LibÃ¨re si on n'en a plus besoin
                 if (img->imgState == UL_STATE_RAM_BLOCK)
                 {
                     free(img->texture);
                     img->texture = NULL;
                 }
-                //Système
+                //SystÃ¨me
                 img->textureID = textureID;
                 img->imgState = UL_STATE_VRAM;
             }
@@ -382,10 +382,10 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
         if (success)
             success = ulCreateImagePalette(img, location, palCount);
 
-        //Initialise les propriétés de l'image
+        //Initialise les propriÃ©tÃ©s de l'image
         ulResetImageProperties(img);
 
-        //Il y a eu un problème?
+        //Il y a eu un problÃ¨me?
         if (!success)
         {
            ulDeleteImage(img);
@@ -405,7 +405,7 @@ int ulRealizeImage(UL_IMAGE *img)
        if (ul_firstPaletteColorOpaque == 2)
            texGen &= ~GL_TEXTURE_COLOR0_TRANSPARENT;
 
-        // Si une texture existe déjà, on la supprime
+        // Si une texture existe dÃ©jÃ , on la supprime
         if (img->textureID != -1)
         {
             int texID = img->textureID;
@@ -415,28 +415,28 @@ int ulRealizeImage(UL_IMAGE *img)
         ulBindTexture(0, textureID);
         if (ulTexImage2D(0, 0, img->format, img->sizeX, img->sizeY, 0, texGen, (u8*)img->texture))
         {
-            // Libère si on n'en a plus besoin
+            // LibÃ¨re si on n'en a plus besoin
             if (img->imgState == UL_STATE_RAM_BLOCK)
                 free(img->texture);
 
             img->texture = NULL;
-            // Système
+            // SystÃ¨me
             img->textureID = textureID;
             img->imgState = UL_STATE_VRAM;
             success = 1;
         }
     }
 
-    // Ne continue que si le premier a réussi
+    // Ne continue que si le premier a rÃ©ussi
     if (success)
     {
         if (img->palette /*&& img->paletteID == -1*/ && img->palState != UL_STATE_VRAM)
         {
-            // Si la palette existe déjà, on la supprime
+            // Si la palette existe dÃ©jÃ , on la supprime
             if (img->paletteID != -1)
                 uluTexUnloadPal(img->paletteID);
 
-            // Aligner la taille à 2
+            // Aligner la taille Ã  2
             if (img->palCount & 1)
                 img->palCount++;
 
@@ -444,7 +444,7 @@ int ulRealizeImage(UL_IMAGE *img)
             if (img->paletteID >= 0)
             {
                 img->palState = UL_STATE_VRAM;
-                // Libère si on n'en a plus besoin
+                // LibÃ¨re si on n'en a plus besoin
                 if (img->palState == UL_STATE_RAM_BLOCK)
                     free(img->palette);
 
@@ -469,11 +469,11 @@ void ulSetTexture(UL_IMAGE *img)
         return;
     }
 
-    // On s'assure que l'image est bien en mémoire vidéo
+    // On s'assure que l'image est bien en mÃ©moire vidÃ©o
     if (img->imgState != UL_STATE_VRAM)
         ulRealizeImage(img);
 
-    // Texturé
+    // TexturÃ©
     if (img->textureID >= 0)
     {
         ulBindTexture(GL_TEXTURE_2D, img->textureID);

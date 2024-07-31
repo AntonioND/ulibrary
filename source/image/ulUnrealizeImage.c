@@ -37,7 +37,7 @@ void *ulReadPaletteToMemory(int paletteID, int palCount)
     return block;
 }
 
-// Copie une image en RAM pour qu'on puisse la modifier - ne doit pas être lockée
+// Copie une image en RAM pour qu'on puisse la modifier - ne doit pas Ãªtre lockÃ©e
 int ulUnrealizeImage(UL_IMAGE *img)
 {
     int success = 1;

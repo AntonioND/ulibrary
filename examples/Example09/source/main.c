@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     PA_InitSound();     // Sound Init, for the mod player...
     PA_PlayMod(music);  // Play a mod file
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

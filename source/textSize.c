@@ -5,7 +5,7 @@ int ulGetStringWidth(const char *str)
     unsigned char c;
     u32 x = 0;
 
-    // Parcourt tous les caractères
+    // Parcourt tous les caractÃ¨res
     while(*str)
     {
         c = *(unsigned char*)str++;
@@ -53,7 +53,7 @@ newline:
                 text++;
             continue;
         }
-        // Trop bas -> terminé
+        // Trop bas -> terminÃ©
         if (y + ul_curFont->charHeight > maxHeight && maxHeight > 0)
             break;
         if (newLine)

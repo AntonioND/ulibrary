@@ -23,15 +23,15 @@ UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal, int newLocation,
     img = ulCreateImage(width, height, newLocation, newFormat, palSize);
     if (img)
     {
-        // D'abord: tout à zéro
+        // D'abord: tout Ã  zÃ©ro
         memset(img->texture, 0, (ul_pixelSizes[img->format] * img->sysSizeX * img->sysSizeY) >> 3);
         palette = (u16*)img->palette;
 
-        // Première couleur: transparente
+        // PremiÃ¨re couleur: transparente
         palette[0] = 0;
         palCount = 1;
 
-        // On parcourt toute l'image pour créer les index de la palette
+        // On parcourt toute l'image pour crÃ©er les index de la palette
         for (j = 0; j < height; j++)
         {
             for (i = 0; i < width; i++)
@@ -45,7 +45,7 @@ UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal, int newLocation,
                     continue;
                 }
 
-                // Regarde si la couleur existe déjà et l'ajoute sinon
+                // Regarde si la couleur existe dÃ©jÃ  et l'ajoute sinon
                 int colorNb = ulFindColorInPalette(img->palette, palCount, pixel);
                 if (colorNb < 0)
                 {
@@ -57,7 +57,7 @@ UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal, int newLocation,
                     else
                     {
                         // Pas assez de couleurs, on pourrait essayer
-                        // d'approcher au max mais le résultat serait assez
+                        // d'approcher au max mais le rÃ©sultat serait assez
                         // mauvais parce que seules les couleurs des premiers
                         // pixels seraient disponibles.
                         colorNb = 0;

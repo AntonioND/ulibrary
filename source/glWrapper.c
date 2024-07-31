@@ -1,6 +1,6 @@
 #include "ulib.h"
 
-// Note: la bank A sera toujours à 0x06800000, la bank B sera toujours à
+// Note: la bank A sera toujours Ã  0x06800000, la bank B sera toujours Ã 
 // 0x06820000, etc.
 void ulChangeVramAllocation(int banks, UL_BANK_TYPE type)
 {
@@ -19,7 +19,7 @@ void ulChangeVramAllocation(int banks, UL_BANK_TYPE type)
                     *addr = VRAM_ENABLE;
                     break;
 
-                // Texture: il faut gérer l'incrémentation des slots
+                // Texture: il faut gÃ©rer l'incrÃ©mentation des slots
                 case UL_BANK_TYPE_TEXTURE:
                     *addr = VRAM_ENABLE | VRAM_A_TEXTURE | VRAM_OFFSET(i);
                     textureSlot++;

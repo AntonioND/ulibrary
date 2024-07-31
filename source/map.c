@@ -4,7 +4,7 @@
 //
 // A tester: support des palettes multiples!
 
-// tileX, tileY, img->sizeX doivent être des puissances de deux!
+// tileX, tileY, img->sizeX doivent Ãªtre des puissances de deux!
 void ulDrawMap(UL_MAP *m)
 {
     s16 x, y, v, ttX = 0, i, sX, sY, tX = 0, tY = 0, mX, mY, dX, bY, dsX, dsY, flags;
@@ -29,7 +29,7 @@ void ulDrawMap(UL_MAP *m)
 
     dsX = m->drawSizeX, dsY = m->drawSizeY;
 
-    // Trouve les puissances de deux optimisées
+    // Trouve les puissances de deux optimisÃ©es
     for (i = 3; i <= 9; i++)
     {
         if (ttX == 0 && m->img->sysSizeX <= 1 << i)
@@ -43,11 +43,11 @@ void ulDrawMap(UL_MAP *m)
     sX = m->scrollX & ((1 << tX) - 1);
     sY = m->scrollY & ((1 << tY) - 1);
 
-    // Hum... un modulo par map à la limite ça va
+    // Hum... un modulo par map Ã  la limite Ã§a va
     dX = (m->scrollX >> tX) % m->mapSizeX;
     mY = (m->scrollY >> tY) % m->mapSizeY;
 
-    // Pour parer au modulo négatif
+    // Pour parer au modulo nÃ©gatif
     if (dX < 0)
         dX += m->mapSizeX;
     if (mY < 0)
@@ -73,7 +73,7 @@ void ulDrawMap(UL_MAP *m)
                 {
                     v = map[bY + mX];
 
-                    //La première tile est toujours transparente!
+                    //La premiÃ¨re tile est toujours transparente!
                     if (v)
                     {
                         //In fact these numbers are signed, but they have to be wrapped as unsigned when negative
@@ -118,7 +118,7 @@ void ulDrawMap(UL_MAP *m)
                     flags = v & ~0x3ff;
                     v &= 0x3ff;
 
-                    // La première tile est toujours transparente!
+                    // La premiÃ¨re tile est toujours transparente!
                     if (v)
                     {
                         s16 u0, v0, x0, y0, u1, v1;
@@ -147,7 +147,7 @@ void ulDrawMap(UL_MAP *m)
                             v1 = exchg;
                         }
 
-                        // NON-TESTÉ! Support des palettes multiples
+                        // NON-TESTÃ‰! Support des palettes multiples
                         if (bHasPalette)
                         {
                             GFX_PAL_FORMAT =

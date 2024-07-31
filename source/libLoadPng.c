@@ -5,7 +5,7 @@
 #include <zlib.h>
 #include <zconf.h>
 
-//Lecture / écriture des PNG
+//Lecture / Ã©criture des PNG
 void ulPngReadFn(png_structp png_ptr, png_bytep data, png_size_t length)
 {
     VIRTUAL_FILE *f = (VIRTUAL_FILE*)png_get_io_ptr(png_ptr);
@@ -28,14 +28,14 @@ void* ulPngStandardGetMemory(u32* width, u32* height, u32 flags, png_info* pi)
 }
 */
 
-// Calcule le carré de la valeur fournie en paramètre
+// Calcule le carrÃ© de la valeur fournie en paramÃ¨tre
 static int square(int value)
 {
     return value * value;
 }
 
 // fnGetMemory(width, height, flags, png_info). Peut modifier width et height
-// aux valeurs adaptées (genre 250 => 256).
+// aux valeurs adaptÃ©es (genre 250 => 256).
 UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 {
     const size_t nSigSize=8;
@@ -103,8 +103,8 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
     if (!num_palette && ul_pixelWidth[pixelFormat] <= 8)
         dynamicPaletteRequired = 1;
 
-    // Gestion de la couleur transparente - Retiré, devrait être fonctionnel
-    // mais pas testé, on utilisera le color key
+    // Gestion de la couleur transparente - RetirÃ©, devrait Ãªtre fonctionnel
+    // mais pas testÃ©, on utilisera le color key
 /*
     if (pPngInfo->num_trans > 0)
     {
@@ -126,8 +126,8 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
     }
 */
 
-    // Crée l'image dans laquelle on mettra notre bitmap
-    // On charge toujours en RAM d'abord car l'accès à la VRAM n'est pas permis
+    // CrÃ©e l'image dans laquelle on mettra notre bitmap
+    // On charge toujours en RAM d'abord car l'accÃ¨s Ã  la VRAM n'est pas permis
     // en 8 bits
     img = ulCreateImage(width, height, UL_IN_RAM, pixelFormat, 0);
     if (img)
@@ -139,15 +139,15 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
             // couleur transparente
             if (!dynamicPaletteRequired)
             {
-                // Faire attention de ne pas créer trop de couleurs, mais en
-                // réserver une pour le décalage si jamais aucune couleur
-                // transparente n'a été trouvée
+                // Faire attention de ne pas crÃ©er trop de couleurs, mais en
+                // rÃ©server une pour le dÃ©calage si jamais aucune couleur
+                // transparente n'a Ã©tÃ© trouvÃ©e
                 ulCreateImagePalette(img, UL_IN_RAM, ulMin(num_palette + 1,
                                      1 << ul_paletteSizes[pixelFormat]));
             }
             else
             {
-                // Palette dynamique, on crée le max possible de couleurs; on verra plus tard
+                // Palette dynamique, on crÃ©e le max possible de couleurs; on verra plus tard
                 ulCreateImagePalette(img, UL_IN_RAM, 1 << ul_paletteSizes[pixelFormat]);
             }
 
@@ -170,15 +170,15 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                     }
                 }
 
-                // Toujours pas trouvé de couleur transparente??? - on décale
-                // tout d'un alors pour que la couleur 0 ne soit pas utilisée
+                // Toujours pas trouvÃ© de couleur transparente??? - on dÃ©cale
+                // tout d'un alors pour que la couleur 0 ne soit pas utilisÃ©e
                 if (transparentColor == -1 && !ul_firstPaletteColorOpaque)
                 {
                     transparentColor = num_palette;
                     ((u16*)img->palette)[0] = 0;
                     for (i = 0; i < num_palette; i++)
                     {
-                        // Vérifie qu'on ne déborde pas
+                        // VÃ©rifie qu'on ne dÃ©borde pas
                         if (i + 1 < img->palCount)
                         {
                             ((u16*)img->palette)[i + 1] = RGB15(palette[i].red >> 3,
@@ -191,7 +191,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                 else
                 {
                     // Tenons compte de la couleur transparente (il faut la
-                    // mettre en première position pour qu'elle soit
+                    // mettre en premiÃ¨re position pour qu'elle soit
                     // transparente)
                     i = num_palette;
                     j = num_palette;
@@ -205,7 +205,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                         }
                         else
                         {
-                            // Cette couleur est affichée (0x8000 = alpha à 1)
+                            // Cette couleur est affichÃ©e (0x8000 = alpha Ã  1)
                             ((u16*)img->palette)[--j] = RGB15(palette[i].red >> 3,
                                                               palette[i].green >> 3,
                                                               palette[i].blue >> 3) | 1 << 15;
@@ -274,7 +274,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                         break;
                 }
 
-                // Il y a eu un swap entre la couleur transparente et la couleur zéro
+                // Il y a eu un swap entre la couleur transparente et la couleur zÃ©ro
                 if (pixel_value == transparentColor)
                     pixel_value = 0;
                 else if (pixel_value < transparentColor)
@@ -301,7 +301,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                     u16 *pal = (u16 *)img->palette;
                     int firstColor = 0;
 
-                    // Si la première couleur est transparente, on ne peut pas
+                    // Si la premiÃ¨re couleur est transparente, on ne peut pas
                     // l'utiliser
                     if (ul_firstPaletteColorOpaque && dynamicColorsUsed == 0)
                         firstColor = dynamicColorsUsed = 1;
@@ -318,7 +318,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                         for ( i = firstColor; i < dynamicColorsUsed && pal[i] != color; i++);
                     }
 
-                    // Trouvé?
+                    // TrouvÃ©?
                     if (i < dynamicColorsUsed)
                     {
                         pixel_value = i;
@@ -328,7 +328,7 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                         // Reste-t-il des couleurs libres?
                         if (dynamicColorsUsed < img->palCount)
                         {
-                            // Ajoute la couleur à la palette
+                            // Ajoute la couleur Ã  la palette
                             pal[dynamicColorsUsed] = color;
                             // Et l'utilise comme couleur pour le pixel courante
                             pixel_value = dynamicColorsUsed;
@@ -336,20 +336,20 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                         }
                         else
                         {
-                            // Aïe! Plus de place... on va essayer de trouver
+                            // AÃ¯e! Plus de place... on va essayer de trouver
                             // une couleur proche
                             int minDistance = 0;
                             for (i = 0; i < dynamicColorsUsed; i++)
                             {
                                 // Calcule la distance entre les couleurs dans
-                                // le cube colorimétrique
+                                // le cube colorimÃ©trique
                                 int distance =
                                     square(r - ulGetColorRed(pal[i])) +
                                     square(g - ulGetColorGreen(pal[i])) +
                                     square(b - ulGetColorBlue(pal[i]));
 
                                 // Est-ce celle qui convient le mieux pour
-                                // l'instant? (la première fois c'est forcément
+                                // l'instant? (la premiÃ¨re fois c'est forcÃ©ment
                                 // le cas)
                                 if (distance < minDistance || i == 0)
                                 {

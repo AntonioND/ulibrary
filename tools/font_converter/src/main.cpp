@@ -47,7 +47,7 @@ void DetermineLargeurCar(unsigned char *tailles, int c, int taille)			{
 			if (val != 0xffffff && val != 0xffff00)			//Pas blanc?
 				break;
 		}
-		if (y<taille*(c+1))				//Trouvé?
+		if (y<taille*(c+1))				//TrouvÃ©?
 			maxX = x+1;
 	}
 	tailles[c] = maxX;
@@ -127,8 +127,8 @@ void DisplayUsage()		{
 typedef struct		{
 	char strVersion[12];			// "OSLFont v01"
 	unsigned char pixelFormat;		// 1 = 1 bit
-	unsigned char variableWidth;	// Si oui les 256 premiers octets de data spécifient la largeur.
-	int charWidth, charHeight;		// Tailles moyennes des caractères
+	unsigned char variableWidth;	// Si oui les 256 premiers octets de data spÃ©cifient la largeur.
+	int charWidth, charHeight;		// Tailles moyennes des caractÃ¨res
 	int lineWidth;					// Nombre d'octets par ligne
 	unsigned char addedSpace;		// Space added between the characters on the texture (allows to make characters graphically bigger than what indicated by charWidths)
 	unsigned short paletteCount;	// Default palette - stored after character data, 4 bytes per palette entry (RGBA, with A being not obligatorily taken in account)
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])		{
 
 	memset(tailles_car, 0, sizeof(tailles_car));
 
-	//Crée une fonte
+	//CrÃ©e une fonte
 	if (!strcmp(action, "-convert"))		{
 		char *fonte = argv[2];
 		int taille;
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])		{
 		taille = atoi(argv[3]);
 		//On va dessiner le charset sur xHdcImage
 		xHdcImage=CreateCompatibleDC(GetDC(NULL));
-		xSourceWidth = 64;						//Max 64 pixels de large, à modifier éventuellement
+		xSourceWidth = 64;						//Max 64 pixels de large, Ã  modifier Ã©ventuellement
 		xSourceHeight = taille * 256;
 		xCreateDIB(xHdcImage, 64, taille * 256, 32, &xBIH, &xHBitmap, (void**)&xBits);
 		//Remplit de blanc
@@ -178,19 +178,19 @@ int main(int argc, char *argv[])		{
 		rect.bottom = taille*256;
 		FillRect(xHdcImage, &rect, hbr);
 
-		//Paramètre le texte
+		//ParamÃ¨tre le texte
 		xSetTextFont(xHdcImage, fonte, taille);
 		xSetTextAttributes(xHdcImage, XTA_NORMAL);
 		SetBkColor(xHdcImage, RGB(255,255,255));
 		SetTextColor(xHdcImage, RGB(0,0,0));
-		//Calcule les tailles des caractères
+		//Calcule les tailles des caractÃ¨res
 		for (i=0;i<256;i++)			{
 			ABC charWidth;
 			int currentCharWidth;
 			sprintf(str, "%c", i);
 			TextOut(xHdcImage, 0, i*taille, str, strlen(str));
 			GetCharABCWidths(xHdcImage, i, i, &charWidth);
-			//Si le caractère est plus grand que ça, il y a eu une erreur.
+			//Si le caractÃ¨re est plus grand que Ã§a, il y a eu une erreur.
 			if (charWidth.abcA < 0x1000000)			{
 				tailles_car[i] = charWidth.abcA + charWidth.abcB + charWidth.abcC;
 			}
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])		{
 			}
 //			DetermineLargeurCar(tailles_car, i, taille);
 		}
-		//Petite modif pour le caractère nul
+		//Petite modif pour le caractÃ¨re nul
 		tailles_car[0] = tailles_car[' '];
 		//Ecrit les tailles
 		fTailles = fopen(argv[5], "w");
@@ -233,7 +233,7 @@ int main(int argc, char *argv[])		{
 			DisplayUsage();
 			return 0;
 		}
-		//Remplit l'en-tête
+		//Remplit l'en-tÃªte
 		DecodeFichierDimensions(argv[3], tailles_car, &charWidth, &charHeight, &isVariable,
 			&colorCount, colors, &textColorCount, textColors, &bitPlanes, &addedSpace);
 		if (bitPlanes < 1 || bitPlanes > 4)			{
@@ -251,7 +251,7 @@ int main(int argc, char *argv[])		{
 
 		memset(&ft, 0, sizeof(ft));
 		strcpy(ft.strVersion, "OSLFont v01");
-		//Espace ajouté à la droite des caractères (permet de définir des caractères dont l'image est large que ceux-ci)
+		//Espace ajoutÃ© Ã  la droite des caractÃ¨res (permet de dÃ©finir des caractÃ¨res dont l'image est large que ceux-ci)
 		ft.addedSpace = addedSpace;
 		ft.pixelFormat = bitPlanes;
 		ft.variableWidth = isVariable;
@@ -267,14 +267,14 @@ int main(int argc, char *argv[])		{
 		else if (bitPlanes == 4)
 			decal = 1;
 
-		//Aligner la largeur à l'octet près (en fonction du bitplane) - Pas sûr de ce code, à tester!
+		//Aligner la largeur Ã  l'octet prÃ¨s (en fonction du bitplane) - Pas sÃ»r de ce code, Ã  tester!
 		int val = 1 << decal;
 		if (w & (val - 1))
 			w = (w & ~ (val - 1)) + val;
 
 		ft.lineWidth = w >> decal;
 
-		//Utilise les couleurs par défaut pour le texte si rien n'a été spécifié - sauf pour le 1 bit
+		//Utilise les couleurs par dÃ©faut pour le texte si rien n'a Ã©tÃ© spÃ©cifiÃ© - sauf pour le 1 bit
 		if (textColorCount == -1 && colorCount > 0 && bitPlanes != 1)		{
 //			memcpy(textColors, colors, colorCount);
 			//On va utiliser des niveaux de gris
@@ -313,14 +313,14 @@ int main(int argc, char *argv[])		{
 		memset(ft.reserved, 0, sizeof(ft.reserved));
 		//Ecrit le fichier
 		f = fopen(argv[4], "wb");
-		//Charge la bitmap des caractères
+		//Charge la bitmap des caractÃ¨res
 		if (f && xLoadBitmap(argv[2], &xSourceBitmap, &xSourceWidth, &xSourceHeight))		{
-			//Ecrit l'en-tête
+			//Ecrit l'en-tÃªte
 			fwrite(&ft, sizeof(OSL_FONT_FORMAT_HEADER), 1, f);
-			//Si c'est une fonte variable, on écrit les 256 tailles de caractère
+			//Si c'est une fonte variable, on Ã©crit les 256 tailles de caractÃ¨re
 			if (isVariable)
 				fwrite(tailles_car, sizeof(tailles_car), 1, f);
-			//Maintenant on peut écrire le charset...
+			//Maintenant on peut Ã©crire le charset...
 			for (i=0;i<256;i++)		{
 				for (y=charHeight*i;y<charHeight*(i+1);y++)			{
 					for (xx=0;xx<w;)		{
@@ -343,14 +343,14 @@ int main(int argc, char *argv[])		{
 				}
 			}
 
-			//Maintenant il reste à écrire la palette
+			//Maintenant il reste Ã  Ã©crire la palette
 			if (textColorCount > 0)		{
 				//Make sure alpha is currently set to the maximum
 //				for (i=0;i<textColorCount;i++)
 //					textColors[i] |= 0xff000000;
 				fwrite(textColors, sizeof(textColors[0]), textColorCount, f);
 			}
-			//Terminé :)
+			//TerminÃ© :)
 			fclose(f);
 		}
 	}

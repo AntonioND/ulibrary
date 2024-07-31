@@ -1,6 +1,6 @@
 /// @file keys.h
 ///
-/// @brief Support for game keys and touchpad in µLibrary.
+/// @brief Support for game keys and touchpad in ÂµLibrary.
 
 #ifndef __UL_KEYS_H__
 #define __UL_KEYS_H__
@@ -11,7 +11,7 @@ extern "C" {
 
 /// @defgroup keys
 ///
-/// Support for game keys and touchpad in µLibrary.
+/// Support for game keys and touchpad in ÂµLibrary.
 ///
 /// @{
 
@@ -32,7 +32,7 @@ typedef union
         int L:1;          ///< L shoulder key
         int X:1;          ///< X key
         int Y:1;          ///< Y key
-        // Touch: le stylet est appuyé, lid: état du couvercle
+        // Touch: le stylet est appuyÃ©, lid: Ã©tat du couvercle
         int touch:1;      ///< Stylus is down
         int lid:1;        ///< Lid is closed
         int reserved:2;   ///< Not used
@@ -148,7 +148,7 @@ enum UL_KEYPAD_BITS
 /// @param flags
 ///     Let it to 0 for now.
 ///
-/// If you want to use the µLibrary keypad system, you need to call this
+/// If you want to use the ÂµLibrary keypad system, you need to call this
 /// function once per frame (else autorepeat and double-click feature won't
 /// work). That is, 60 times per second.
 ///

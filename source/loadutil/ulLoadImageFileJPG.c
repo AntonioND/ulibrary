@@ -5,7 +5,7 @@ UL_IMAGE *ulLoadImageFileJPG(const char *fileName, int fileSize, int location, i
     VIRTUAL_FILE *f;
     UL_IMAGE *img = NULL;
 
-    // Si aucune source n'est sélectionnée, on prend la dernière
+    // Si aucune source n'est sÃ©lectionnÃ©e, on prend la derniÃ¨re
     if (ul_loadUtilActiveSource == -1)
         ul_loadUtilActiveSource = VirtualFileSourcesNb - 1;
 

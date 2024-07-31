@@ -5,11 +5,11 @@
 //#define ul_keys (*ul_defaultKeys)
 
 UL_CONTROLLER ul_keys = {
-    {{0}}, // Touches par défaut
+    {{0}}, // Touches par dÃ©faut
     {{0}},
     {{0}},
 
-    0, 0, // Pas d'autorepeat par défaut
+    0, 0, // Pas d'autorepeat par dÃ©faut
 
     // L'autorepeat concernera ces touches
     UL_KEY_UP | UL_KEY_DOWN | UL_KEY_LEFT | UL_KEY_RIGHT | UL_KEY_L | UL_KEY_R,
@@ -30,9 +30,9 @@ void ulReadKeys(int flags)
     unsigned short buttons = keysHeld();
     signed short lastX, lastY;
 
-    if (ul_keys.autoRepeatInterval > 0) // Auto repeat activé?
+    if (ul_keys.autoRepeatInterval > 0) // Auto repeat activÃ©?
     {
-        // Si ça change -> compteur à zéro
+        // Si Ã§a change -> compteur Ã  zÃ©ro
         if (ul_keys.held.value != buttons)
         {
             ul_keys._autoRepeatCounter=0;
@@ -42,7 +42,7 @@ void ulReadKeys(int flags)
             ul_keys._autoRepeatCounter++;
             if (ul_keys._autoRepeatCounter >= ul_keys.autoRepeatInit)
             {
-                // AutoRepeat déclenché -> déclenchement toutes les autoRepeatInterval coups
+                // AutoRepeat dÃ©clenchÃ© -> dÃ©clenchement toutes les autoRepeatInterval coups
                 if ((ul_keys._autoRepeatCounter - ul_keys.autoRepeatInit) % ul_keys.autoRepeatInterval == 0)
                     ul_keys.held.value &= ~ul_keys.autoRepeatMask;
             }
@@ -85,7 +85,7 @@ void ulReadKeys(int flags)
         if (ul_keys.touch._clickTime > 0)
         {
             ul_keys.touch.doubleClick = 1;
-            // Rajout pour éviter de faire trop de double clics à la fois
+            // Rajout pour Ã©viter de faire trop de double clics Ã  la fois
             ul_keys.touch._clickTime = 0;
         }
         else

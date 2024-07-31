@@ -1,8 +1,8 @@
-#include <ulib/ulib.h> // Include for µLibrary
+#include <ulib/ulib.h> // Include for ÂµLibrary
 
 int main(int argc, char *argv[])
 {
-    // Initialization of µlibrary
+    // Initialization of Âµlibrary
     ulInit(UL_INIT_ALL);
     ulInitGfx();
     ulInitText();

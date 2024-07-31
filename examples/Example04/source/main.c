@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     // Image of our tileset
     UL_IMAGE *imgMountains;
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

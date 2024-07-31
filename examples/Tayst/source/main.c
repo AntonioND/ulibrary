@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     UL_IMAGE *imgTails;
     int i;
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

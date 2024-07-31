@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     // The frame numbers that will be used for animations
     const int animPositions[] = { 0, 1, 2, 1 };
 
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

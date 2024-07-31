@@ -3,14 +3,14 @@
 
 // Note: la palette temporaire ici est 16 bits parce qu'on est sur DS mais ce
 // serait facile de l'adapter au 32 bits, regarder GAMMA et le remplissage de
-// cette palette (nommée Palette dans ulLoadImageGif) Le swap de palette par
-// rapport à la couleur transparente n'est utile que sur DS où seule la première
-// couleur d'une palette est (et doit être) transparente!  Sur DS, à cause du
-// fait que le mode paletté requiert que la première couleur soit transparente,
-// tous les gifs auront leur première couleur comme transparente! Par contre en
+// cette palette (nommÃ©e Palette dans ulLoadImageGif) Le swap de palette par
+// rapport Ã  la couleur transparente n'est utile que sur DS oÃ¹ seule la premiÃ¨re
+// couleur d'une palette est (et doit Ãªtre) transparente!  Sur DS, Ã  cause du
+// fait que le mode palettÃ© requiert que la premiÃ¨re couleur soit transparente,
+// tous les gifs auront leur premiÃ¨re couleur comme transparente! Par contre en
 // mode 16 bits (5551) le fonctionnement est normal.
 
-u16 *temppalette; // Utilisé pour stocker la palette des gifs...
+u16 *temppalette; // UtilisÃ© pour stocker la palette des gifs...
 
 const short InterlacedOffset[] = { 0, 4, 2, 1 }; // The way Interlaced image should.
 const short InterlacedJumps[] = { 8, 8, 4, 2 };  // be read - offsets and jumps...
@@ -152,7 +152,7 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                 //Col = GifFile->Image.Left;
 
                 // Je n'en tiens pas compte car il faudrait aggrandir l'image,
-                // c'est peut être utile pour les gifs animés remarque
+                // c'est peut Ãªtre utile pour les gifs animÃ©s remarque
                 Row = Col = 0;
                 Width = GifFile->Image.Width;
                 Height = GifFile->Image.Height;
@@ -160,11 +160,11 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                 // Update Color map
                 ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap: GifFile->SColorMap);
 
-                // Crée l'image dans laquelle on mettra nos données.
+                // CrÃ©e l'image dans laquelle on mettra nos donnÃ©es.
 
-                // Faire attention de ne pas créer trop de couleurs, mais en
-                // réserver une pour le décalage si jamais aucune couleur
-                // transparente n'a été trouvée
+                // Faire attention de ne pas crÃ©er trop de couleurs, mais en
+                // rÃ©server une pour le dÃ©calage si jamais aucune couleur
+                // transparente n'a Ã©tÃ© trouvÃ©e
                 img = ulCreateImage(Width, Height, UL_IN_RAM, pixelFormat,
                                     ulMin(ColorMap->ColorCount + 1,
                                     1 << ul_paletteSizes[pixelFormat]));
@@ -178,8 +178,8 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                     ColorMap->ColorCount = ulMin(ColorMap->ColorCount, img->palCount);
                 }
 
-                // Pas de couleur transparente trouvée mais une palette dispo =>
-                // utilise la couleur par défaut (color key)
+                // Pas de couleur transparente trouvÃ©e mais une palette dispo =>
+                // utilise la couleur par dÃ©faut (color key)
                 if (img->palette && transparentColor == -1 && ul_colorKeyEnabled)
                 {
                     for (i = 0; i < ColorMap->ColorCount; i++)
@@ -195,14 +195,14 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                     }
                 }
 
-                // Bon ben ici si on a toujours rien trouvé, la première couleur
-                // sera transparente sur DS en mode paletté, aucune sinon, on
-                // doit donc faire en sorte que la première couleur NE SOIT PAS
-                // utilisée.
+                // Bon ben ici si on a toujours rien trouvÃ©, la premiÃ¨re couleur
+                // sera transparente sur DS en mode palettÃ©, aucune sinon, on
+                // doit donc faire en sorte que la premiÃ¨re couleur NE SOIT PAS
+                // utilisÃ©e.
                 //
-                // Cela devrait être suffisant: cette couleur n'existe pas, le
-                // moteur cherchera à l'utiliser et incrémentera tout d'un cran
-                // pour que ça fonctionne ^^
+                // Cela devrait Ãªtre suffisant: cette couleur n'existe pas, le
+                // moteur cherchera Ã  l'utiliser et incrÃ©mentera tout d'un cran
+                // pour que Ã§a fonctionne ^^
                 if (img->palette && transparentColor == -1 && !ul_firstPaletteColorOpaque)
                 {
                     transparentColor = ColorMap->ColorCount;
@@ -210,7 +210,7 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                     for (i = 0; i < ColorMap->ColorCount; i++)
                     {
                         GifColorType* pColor = &ColorMap->Colors[i];
-                        // Vérifie qu'on ne déborde pas
+                        // VÃ©rifie qu'on ne dÃ©borde pas
                         if (i + 1 < img->palCount)
                         {
                             Palette[i + 1] = RGB15(GAMMA(pColor->Red),
@@ -234,7 +234,7 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                         }
                         else
                         {
-                            // Cette couleur est affichée (0x8000 = alpha à 1)
+                            // Cette couleur est affichÃ©e (0x8000 = alpha Ã  1)
                             Palette[--j] = RGB15(GAMMA(pColor->Red),
                                                  GAMMA(pColor->Green),
                                                  GAMMA(pColor->Blue)) | 0x8000;
@@ -311,7 +311,7 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
     } while (RecordType != TERMINATE_RECORD_TYPE);
 
     if (ul_pixelSizes[pixelFormat] > 8 && temppalette)
-        free(temppalette); // Libère la mémoire allouée pour la palette fixe
+        free(temppalette); // LibÃ¨re la mÃ©moire allouÃ©e pour la palette fixe
 
     if (location == UL_IN_VRAM)
     {
@@ -336,7 +336,7 @@ failed:
 //Par blocs de 16 ko
 #define BLOCK_SIZE (16 << 10)
 
-//Lit un fichier entier vers la mémoire
+//Lit un fichier entier vers la mÃ©moire
 void *ulReadEntireFileToMemory(VIRTUAL_FILE *f)
 {
     void *block = NULL;
@@ -351,7 +351,7 @@ void *ulReadEntireFileToMemory(VIRTUAL_FILE *f)
         else
            block = malloc(size);
 
-        // L'allocation a échoué?
+        // L'allocation a Ã©chouÃ©?
         if (!block)
             return NULL;
 
@@ -382,7 +382,7 @@ UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, int flags, int pixelFormat)
         width = decoder.frame.width;
         height = decoder.frame.height;
 
-        // Crée l'image dans laquelle on mettra notre bitmap
+        // CrÃ©e l'image dans laquelle on mettra notre bitmap
         img = ulCreateImage(width, height, pixelFormat, 0);
 
         if (img)

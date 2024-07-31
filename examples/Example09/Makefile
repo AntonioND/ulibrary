@@ -5,8 +5,8 @@ ADD_LIBS +=
 PATH 		:= $(DEVKITARM)/bin:$(PATH)
 
 ARM7BIN		:= -7 $(PAPATH)/lib/arm7/arm7.bin
-TEXT1 		:= µLib Demo
-TEXT2 		:= using µLib
+TEXT1 		:= ÂµLib Demo
+TEXT2 		:= using ÂµLib
 TEXT3 		:= ulib.dev-fr.org
 ICON 		:= -b $(CURDIR)/../logo.bmp
 LOGO		:= -o $(CURDIR)/../logo_wifi.bmp

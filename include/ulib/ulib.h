@@ -1,10 +1,10 @@
 /// @file ulib.h
 ///
-/// @brief Main µLibrary file
+/// @brief Main ÂµLibrary file
 
 /// @defgroup main
 ///
-/// Main µLibrary section.
+/// Main ÂµLibrary section.
 ///
 /// @{
 
@@ -26,7 +26,7 @@ extern "C" {
 
 /// @defgroup main_base Base
 ///
-/// Basic things about µLibrary.
+/// Basic things about ÂµLibrary.
 ///
 /// @{
 
@@ -43,11 +43,11 @@ typedef enum UL_INIT_FLAGS
 /// Initialization of the library.
 ///
 /// @param flags
-///     - Pass UL_INIT_ALL by default. µLibrary will initialize everything for
+///     - Pass UL_INIT_ALL by default. ÂµLibrary will initialize everything for
 ///       you so that you can get started very easily.
 ///     - Pass UL_INIT_LIBONLY if you want to initialize the strict minimum to
-///       get µLibrary running. Do that if you know what you are doing, or if
-///       you initialize µLibrary after PA_Lib.
+///       get ÂµLibrary running. Do that if you know what you are doing, or if
+///       you initialize ÂµLibrary after PA_Lib.
 void ulInit(UL_INIT_FLAGS flags);
 
 /// @}
@@ -58,12 +58,12 @@ void ulInit(UL_INIT_FLAGS flags);
 ///
 /// @{
 
-// Trigonométrie
+// TrigonomÃ©trie
 extern s16 ul_cos[512], ul_sin[512];
 
-/// PI is 256 in µLibrary.
+/// PI is 256 in ÂµLibrary.
 ///
-/// One entire circle (2 PI) is 512 and not 360°. This was done like this
+/// One entire circle (2 PI) is 512 and not 360Â°. This was done like this
 /// because of speed.
 #define UL_PI 256
 
@@ -151,7 +151,7 @@ int ulShowSplashScreen2();
 /// Shows a splash screen.
 ///
 /// @param splashType
-///     - 1: official µLibrary splash v 1.0
+///     - 1: official ÂµLibrary splash v 1.0
 ///     - 2: Neoflash competition splash
 /// @return
 ///     0 if an error occured (not enough memory, etc.), 1 else.

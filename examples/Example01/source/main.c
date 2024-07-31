@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    // Initialize µLibrary
+    // Initialize ÂµLibrary
     ulInit(UL_INIT_ALL);
     // Initialize the graphical part
     ulInitGfx();

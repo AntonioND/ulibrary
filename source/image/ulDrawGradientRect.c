@@ -1,6 +1,6 @@
 #include "ulib.h"
 
-// Dessine un rectangle dégradé à quatre coins
+// Dessine un rectangle dÃ©gradÃ© Ã  quatre coins
 void ulDrawGradientRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color1,
                         UL_COLOR color2, UL_COLOR color3, UL_COLOR color4)
 {
@@ -31,6 +31,6 @@ void ulDrawGradientRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color1,
 
     GFX_END = 0;
 
-    // Incrémentation auto de la profondeur
+    // IncrÃ©mentation auto de la profondeur
     ul_currentDepth += ul_autoDepth;
 }

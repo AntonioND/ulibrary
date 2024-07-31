@@ -265,14 +265,14 @@ const unsigned char ul_lcdFont_data[] = {
 
 UL_FONTINFO ul_lcdFontInfo =
 {
-    (void*)ul_lcdFont_data, // Fonte par défaut LCD
+    (void*)ul_lcdFont_data, // Fonte par dÃ©faut LCD
     1,                      // 1 bit par pixel
     NULL,                   // Proportionnelle
     6, 8, 1,                // 6x8 (1 octet par ligne)
 };
 
 // bitplanes: format (bits par pixel) de la fonte, imagePlanes: format de la
-// texture à remplir (puissance de deux)
+// texture Ã  remplir (puissance de deux)
 void ulDrawChar1BitToImage(UL_IMAGE *img, int x0, int y0, int w, int h,
                            int width, int bitPlanes, int imagePlanes,
                            const unsigned char *font)
@@ -327,7 +327,7 @@ UL_FONT *ulCreateFont(UL_FONTINFO *fi)
 
     if (fi->charWidths)
     {
-        // Réutilise les tailles fournies
+        // RÃ©utilise les tailles fournies
         for (i = 0; i < 256; i++)
             f->charWidths[i] = fi->charWidths[i];
         //f->charWidths = fi->charWidths;
@@ -335,13 +335,13 @@ UL_FONT *ulCreateFont(UL_FONTINFO *fi)
     }
     else
     {
-        // Remplit la table avec les mêmes tailles
+        // Remplit la table avec les mÃªmes tailles
         for (i = 0; i < 256; i++)
             f->charWidths[i] = fi->charWidth;
         f->isCharWidthConstant = 1;
     }
 
-    // Position des caractères (pour les fontes non proportionnelles)
+    // Position des caractÃ¨res (pour les fontes non proportionnelles)
     f->charPositions = (u16*)malloc(256 * sizeof(short));
     if (!f->charPositions)
     {
@@ -391,22 +391,22 @@ UL_FONT *ulCreateFont(UL_FONTINFO *fi)
 //    {
          memset(f->img->texture, 0, (f->img->sysSizeX * f->img->sysSizeY * ul_pixelWidth[f->img->format]) >> 3);
 
-        // Couleurs par défaut - la première est transparente
+        // Couleurs par dÃ©faut - la premiÃ¨re est transparente
         ((UL_COLOR*)f->img->palette)[0] = RGB15(0,0,0);
         ((UL_COLOR*)f->img->palette)[1] = RGB15(31,31,31);
 
-        // Couleurs additionnelles (stockées dans le fichier)
+        // Couleurs additionnelles (stockÃ©es dans le fichier)
         int palCount = ulMin(f->img->palCount, fi->paletteCount);
         for (i = 0; i < palCount; i++)
         {
             unsigned long color = fi->paletteData[i];
-            //Conversion de 24-bit à 15-bit
+            //Conversion de 24-bit Ã  15-bit
             ((UL_COLOR*)f->img->palette)[i] = RGB15((color & 0xff) >> 3,
                                                     ((color >> 8) & 0xff) >> 3,
                                                     ((color >> 16) & 0xff) >> 3);
         }
 
-        // Dessine les caractères sur le buffer
+        // Dessine les caractÃ¨res sur le buffer
         for (i = 0; i < 256; i++)
         {
             ulDrawChar1BitToImage(f->img, UL_TEXT_CHARPOSXY(f, i),
@@ -420,7 +420,7 @@ UL_FONT *ulCreateFont(UL_FONTINFO *fi)
 //    }
 //    ulUnlockImage(f->img, UL_LOCK_ALL);
 
-    // On va pouvoir utiliser l'image - retiré, sera mise en VRAM par défaut au
+    // On va pouvoir utiliser l'image - retirÃ©, sera mise en VRAM par dÃ©faut au
     // premier affichage
     ulRealizeImage(f->img);
     return f;
@@ -435,10 +435,10 @@ UL_FONT *ulLoadFont(VIRTUAL_FILE *f)
     unsigned char tcTaillesCar[256], *tcCaracteres;
     unsigned long *paletteData = NULL;
 
-    // Lit l'en-tête de la fonte
+    // Lit l'en-tÃªte de la fonte
     VirtualFileRead(&fh, sizeof(fh), 1, f);
 
-    // Vérifie l'en-tête
+    // VÃ©rifie l'en-tÃªte
     if (!strcmp(fh.strVersion, "OSLFont v01"))
     {
         fi.pixelFormat = fh.pixelFormat;
@@ -457,7 +457,7 @@ UL_FONT *ulLoadFont(VIRTUAL_FILE *f)
         fi.charHeight = fh.charHeight;
         fi.lineWidth = fh.lineWidth;
         fi.addedSpace = fh.addedSpace;
-        // Lit les données des caractères
+        // Lit les donnÃ©es des caractÃ¨res
         tcCaracteres = (u8*)malloc(fh.lineWidth*fi.charHeight*256);
         if (tcCaracteres)
         {
@@ -466,13 +466,13 @@ UL_FONT *ulLoadFont(VIRTUAL_FILE *f)
                 fi.fontdata = tcCaracteres;
                 // If it has not been loaded properly, we will have 0 colors
                 fi.paletteCount = 0;
-                // Est-ce qu'il reste encore des couleurs à charger?
+                // Est-ce qu'il reste encore des couleurs Ã  charger?
                 if (fh.paletteCount > 0)
                 {
                     paletteData = malloc(fh.paletteCount * sizeof(unsigned long));
                     if (paletteData)
                     {
-                        // Lit les entrées de palette
+                        // Lit les entrÃ©es de palette
                         if (VirtualFileRead(paletteData,
                                             fh.paletteCount * sizeof(unsigned long), 1, f) > 0)
                         {
@@ -513,14 +513,14 @@ void ulDrawTile(int u, int v, int x, int y, int sizeX, int sizeY)
 
     GFX_END = 0;
 
-    // Pas d'incrémentation auto de la profondeur: les polys sont tous au même
-    // niveau avec ce système
+    // Pas d'incrÃ©mentation auto de la profondeur: les polys sont tous au mÃªme
+    // niveau avec ce systÃ¨me
     return;
 }
 
-// Ne fonctionne pas, parce que les caractères sont des rectangles extraits de
-// la texture de la police en cours, et même si les positions des caractères
-// sont toujours alignées à l'écran, elles ne le sont pas forcément sur la
+// Ne fonctionne pas, parce que les caractÃ¨res sont des rectangles extraits de
+// la texture de la police en cours, et mÃªme si les positions des caractÃ¨res
+// sont toujours alignÃ©es Ã  l'Ã©cran, elles ne le sont pas forcÃ©ment sur la
 // texture.
 /*
 int ul_multiCharIndex;
@@ -586,7 +586,7 @@ void ulDrawChar(int x, int y, unsigned char c)
     ulSetTexture(ul_curFont->img);
     GFX_COLOR = ul_curTextColor;
 
-    // Dessine le caractère
+    // Dessine le caractÃ¨re
     ulDrawTile(UL_TEXT_CHARPOSXY(ul_curFont, c), x, y,
                ul_curFont->charWidths[c] + ul_curFont->addedSpace,
                ul_curFont->charHeight);
@@ -602,7 +602,7 @@ void ulDrawString(int x, int y, const char *str)
     ulSetTexture(ul_curFont->img);
     GFX_COLOR = ul_curTextColor;
 
-    // Parcourt tous les caractères
+    // Parcourt tous les caractÃ¨res
     while(*str)
     {
         c = *(unsigned char*)str++;
@@ -650,7 +650,7 @@ newline:
             // Prochaine ligne
             x = x0;
             y += ul_curFont->charHeight;
-            // Trop bas -> terminé
+            // Trop bas -> terminÃ©
             if (y + ul_curFont->charHeight > y1)
                 break;
             // Retour -> saute
@@ -676,7 +676,7 @@ void ulSetTextColor(UL_COLOR color)
 
 void ulInitText()
 {
-    // Charge et utilise la fonte système
+    // Charge et utilise la fonte systÃ¨me
     if (!ul_lcdFont)
         ul_lcdFont = ulCreateFont(&ul_lcdFontInfo);
     ulSetFont(ul_lcdFont);

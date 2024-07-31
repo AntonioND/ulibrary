@@ -2,7 +2,7 @@
 //Converti avec GBA Graphics par Brunni
 //Map ("","Map.til.c",0,ffffffff)
 //Taille: 16*16 * 32*12
-//Mémoire: 768 octets
+//MÃ©moire: 768 octets
 
 const unsigned short mountains_map[12][32] = {
     {0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,

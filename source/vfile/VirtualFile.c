@@ -46,12 +46,12 @@ int VirtualFileClose(VIRTUAL_FILE *f)
     return result;
 }
 
-// SOURCE 1 par défaut: Mémoire
+// SOURCE 1 par dÃ©faut: MÃ©moire
 
 int vfsMemOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f)
 {
-    // Tous les modes sont supportés mais pas très bien pour l'instant, ne vous
-    // amusez pas à écrire et lire en même temps
+    // Tous les modes sont supportÃ©s mais pas trÃ¨s bien pour l'instant, ne vous
+    // amusez pas Ã  Ã©crire et lire en mÃªme temps
     //if (mode != VF_O_READ || mode != VK_O_WRITE)
     //    return 0;
 
@@ -66,7 +66,7 @@ int vfsMemOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f)
         }
     }
 
-    // Initialisation du bloc mémoire
+    // Initialisation du bloc mÃ©moire
     f->offset = 0;
     f->ioPtr = param1;
     f->maxSize = param2;
@@ -83,7 +83,7 @@ int vfsMemWrite(const void *ptr, size_t size, size_t n, VIRTUAL_FILE* f)
     int realSize = size * n, writeSize = 0;
     if (f->ioPtr)
     {
-        // Débordement?
+        // DÃ©bordement?
         writeSize = ulMin(realSize, f->maxSize - f->offset);
         memcpy((char*)f->ioPtr + f->offset, ptr, writeSize);
         f->offset += realSize;
@@ -97,7 +97,7 @@ int vfsMemRead(void *ptr, size_t size, size_t n, VIRTUAL_FILE* f)
 
     if (f->ioPtr)
     {
-        // min => pour éviter les débordements
+        // min => pour Ã©viter les dÃ©bordements
         readSize = ulMin(realSize, f->maxSize - f->offset);
         memcpy(ptr, (char*)f->ioPtr + f->offset, readSize);
         f->offset += realSize;
@@ -108,7 +108,7 @@ int vfsMemRead(void *ptr, size_t size, size_t n, VIRTUAL_FILE* f)
 int vfsMemGetc(VIRTUAL_FILE *f)
 {
     unsigned char car;
-    // Pour la sécurité, quand même un cas à part pour les fichiers
+    // Pour la sÃ©curitÃ©, quand mÃªme un cas Ã  part pour les fichiers
     if (VirtualFileRead(&car, sizeof(car), 1, f) < 1)
         return -1;
     else
@@ -148,7 +148,7 @@ char *vfsMemGets(char *str, int maxLen, VIRTUAL_FILE *f)
                     char temp[1];
                     int tempSize;
                     tempSize = VirtualFileRead(temp, 1, 1, f);
-                    // Prochain caractère est un \n?
+                    // Prochain caractÃ¨re est un \n?
                     if (!(tempSize > 0 && temp[0] == '\n'))
                     {
                         // Sinon on annule
@@ -169,8 +169,8 @@ char *vfsMemGets(char *str, int maxLen, VIRTUAL_FILE *f)
             {
                 str[i] = 0;
 
-                // ATTENTION: MODIFIE DE -blockSize + i à -blockSize + i + 1, à
-                // vérifier!!!
+                // ATTENTION: MODIFIE DE -blockSize + i Ã  -blockSize + i + 1, Ã 
+                // vÃ©rifier!!!
                 VirtualFileSeek(f, -blockSize + i + 1, SEEK_CUR);
 
                 // Retourne le pointeur
@@ -222,7 +222,7 @@ VIRTUAL_FILE_SOURCE vfsMemory =
     vfsMemEof,
 };
 
-// Définit la liste de fichiers pour les sources basées sur la mémoire
+// DÃ©finit la liste de fichiers pour les sources basÃ©es sur la mÃ©moire
 void ulSetVirtualFilenameList(UL_VIRTUALFILENAME *vfl, int numberOfEntries)
 {
     ul_virtualFileList = vfl;
@@ -253,7 +253,7 @@ void VirtualFileInit()
 {
     if (VF_MEMORY < 0)
     {
-        // On enregistre les sources par défaut
+        // On enregistre les sources par dÃ©faut
         VF_MEMORY = VirtualFileRegisterSource(&vfsMemory);
     }
 }

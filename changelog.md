@@ -1,6 +1,6 @@
 ## Version 1.12 - 31.07.2024
 
-- `µLibrary` has been ported to BlocksDS, allowing programs that use it to be
+- `ÂµLibrary` has been ported to BlocksDS, allowing programs that use it to be
   built with modern tools.
 
 - `ulBindTextureToGl()` has been removed, as it required access to internal
@@ -55,7 +55,7 @@
   avoid this situation because it's an extremely simple but weak method for
   reducing the colors of an image.
 
-## Version 1.00 bêta 4 - 14.07.07
+## Version 1.00 bÃªta 4 - 14.07.07
 
 - Works with, and requires the last `libnds` version!.
 
