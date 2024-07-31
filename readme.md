@@ -17,20 +17,20 @@ make install
 
 ## 3. Examples
 
-Once you have installed the library, go to the folder of any example and run:
+Once you have installed the library, go to the folder of any example or template
+and run:
 
 ```bash
 make
 ```
 
+Note that the examples and templates that use PAlib won't work because there
+isn't a working up-to-date port of PAlib to BlocksDS.
+
 ## 4. About
 
-- Programmed by Florian Brönnimann, aka Brunni
-- Current version: 1.11
-- Released: 23.08.2008
-
-Please check: http://brunni.dev-fr.org for updates!
+Programmed by Florian Brönnimann, aka Brunni: http://brunni.dev-fr.org
 
 Official forum: http://www.playeradvance.org/forum/forumdisplay.php?f=103
 
-Port to BlocksDS by Antonio Niño Díaz aka AntonioND.
+Port to BlocksDS by Antonio Niño Díaz, aka AntonioND.
