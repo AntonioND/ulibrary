@@ -118,9 +118,12 @@ DEPS		:= $(OBJS:.o=.d)
 # Targets
 # -------
 
-.PHONY: all clean install
+.PHONY: all clean docs install
 
 all: $(ARCHIVE)
+
+docs:
+	doxygen Doxyfile
 
 $(ARCHIVE): $(OBJS)
 	@echo "  AR      $@"
