@@ -3,3 +3,4 @@ lib/
 *.nds
 *.sav
 documentation/html
+warn.log

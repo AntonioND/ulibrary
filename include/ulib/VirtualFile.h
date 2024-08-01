@@ -305,15 +305,20 @@ extern int VF_MEMORY;
 /// you would just have to do:
 /// ```
 /// int myID;
-/// [...]
+///
+/// // ...
+///
 /// #if defined(USE_NITROFS)
 /// myID = ulInitNitroFs();
 /// #elif defined(USE_LIBFAT)
 /// myID = ulInitLibFat();
 /// #endif
-/// [...]
+///
+/// // ...
+///
 /// VIRTUAL_FILE *f = VirtualFileOpen("/test.txt", 0, myID, VF_O_READ);
-/// [...]
+///
+/// // ...
 /// ```
 ///
 /// It could even be a choice proposed to the user at startup.

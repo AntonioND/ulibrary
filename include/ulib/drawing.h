@@ -22,6 +22,7 @@ extern "C" {
 /// // Fade the whole screen with a semi transparent (16) black rectangle
 /// ulSetAlpha(UL_FX_ALPHA, 16, 1);
 /// ulDrawFillRect(0, 0, UL_SCREEN_WIDTH, UL_SCREEN_HEIGHT, RGB15(0, 0, 0));
+///
 /// // Restore default alpha
 /// ulSetAlpha(UL_FX_DEFAULT, 0, 0);
 /// ```
@@ -990,13 +991,17 @@ void ulSetTexture(UL_IMAGE *img);
 /// // Default (opaque) objects always have 0 as an ID. Any other value may
 /// // cause garbage on real DS.
 /// ulSetAlpha(UL_FX_DEFAULT, 0, 0);
+///
 /// // Draw a blue sky background
 /// ulDrawFillRect(0, 0, 256, 192, RGB15(0, 16, 31));
+///
 /// // Set alpha to 1/2, set ID to 1 so that actual objects will be blended with
 /// // the background (ID = 0)
 /// ulSetAlpha(UL_FX_ALPHA, 16, 1);
+///
 /// // Draw a semi transparent image
 /// ulDrawImage(anImage);
+///
 /// // Restore to default (opaque)
 /// ulSetAlpha(UL_FX_DEFAULT, 0, 0);
 /// ```
