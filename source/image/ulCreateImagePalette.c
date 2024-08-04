@@ -4,10 +4,10 @@ int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
 {
     int success = 1;
 
-    // Crée une palette si l'image peut en avoir une
+    // Create a palette if the image can have one
     if (palCount && ulImageIsPaletted(img) && img->palState == UL_STATE_NONE)
     {
-        // L'endroit où mettre la palette et l'image doivent être identiques!
+        // The place where you put the palette and the image must be the same!
         if (img->imgState != UL_STATE_NONE)
             location = img->imgState;
 
