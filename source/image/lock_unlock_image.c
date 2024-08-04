@@ -9,7 +9,7 @@ void *ulLockImage(UL_IMAGE *img, UL_LOCK_REASON lockReason)
     {
         if (img->imgState == UL_STATE_VRAM)
         {
-            //On locke la VRAM
+            // Locke la VRAM
             ulChangeVramAllocation(ul_texVramBanks, UL_BANK_TYPE_LCD);
             img->texture = ulGetTextureAddress(img->textureID);
         }
@@ -41,7 +41,7 @@ void ulUnlockImage(UL_IMAGE *img, UL_LOCK_REASON lockReason)
     {
         ulChangeVramAllocation(ul_texPalVramBanks, UL_BANK_TYPE_TEXPAL);
 
-        //Not accessable anymore
+        // Not accessable anymore
         if (img->palState == UL_STATE_VRAM)
             img->palette = NULL;
     }
