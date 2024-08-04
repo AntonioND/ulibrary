@@ -26,7 +26,8 @@ UL_CONTROLLER ul_keys = {
 
 void ulReadKeys(int flags)
 {
-    unsigned short buttons = keysCurrent();
+    scanKeys();
+    unsigned short buttons = keysHeld();
     signed short lastX, lastY;
 
     if (ul_keys.autoRepeatInterval > 0) // Auto repeat activé?
