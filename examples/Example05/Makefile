@@ -12,8 +12,8 @@ ARM_NONE_EABI_PATH	?= $(WONDERFUL_TOOLCHAIN)/toolchain/gcc-arm-none-eabi/bin/
 # ===========
 
 NAME		:= $(shell basename $(CURDIR))
-GAME_TITLE	:= µLIb Demo
-GAME_SUBTITLE	:= using µLIb
+GAME_TITLE	:= µLib Demo
+GAME_SUBTITLE	:= using µLib
 GAME_AUTHOR	:= ulib.dev-fr.org
 GAME_ICON	:= $(BLOCKSDS)/sys/icon.bmp
 
