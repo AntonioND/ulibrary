@@ -6,13 +6,30 @@
 #include <zconf.h>
 
 //Lecture / écriture des PNG
-void ulPngReadFn(png_structp png_ptr, png_bytep data, png_size_t length)
+static void ulPngReadFn(png_structp png_ptr, png_bytep data, png_size_t length)
 {
     VIRTUAL_FILE *f = (VIRTUAL_FILE*)png_get_io_ptr(png_ptr);
     VirtualFileRead(data, length, 1, f);
 }
 
-void ulPngFlushFn(png_structp png_ptr)            {
+// Other instances of this function may exist elsewhere!
+static bool isColorTransparent32(u8 r, u8 g, u8 b, u8 a)
+{
+    if (ul_colorKeyEnabled == 32)
+    {
+        u32 color = RGBA32(r, g, b, a);
+        if (color == ul_colorKeyValue32 ||
+            ((ul_colorKeyValue32 & 0xff000000) == 0 && (color & 0xff000000) == 0))
+            return true;
+    }
+    else if (ul_colorKeyEnabled == 16)
+    {
+        if ((r >> 3) == (ul_colorKeyValue & 0x1f) &&
+            (g >> 3) == ((ul_colorKeyValue >> 5) & 0x1f) &&
+            (b >> 3) == ((ul_colorKeyValue >> 10) & 0x1f))
+            return true;
+    }
+    return false;
 }
 
 /*
@@ -162,8 +179,9 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                 {
                     for (i = 0; i < num_palette; i++)
                     {
-                        if (RGB15(palette[i].red >> 3, palette[i].green >> 3,
-                                  palette[i].blue >> 3) == ul_colorKeyValue)
+                        if (isColorTransparent32(palette[i].red,
+                                                 palette[i].green,
+                                                 palette[i].blue, 0xff))
                         {
                             transparentColor = i;
                         }
@@ -280,13 +298,8 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
                 else if (pixel_value < transparentColor)
                     pixel_value++;
 
-                if (ul_colorKeyEnabled &&
-                    (r >> 3) == (ul_colorKeyValue & 0x1f) &&
-                    (g >> 3) == ((ul_colorKeyValue>>5) & 0x1f) &&
-                    (b >> 3) == ((ul_colorKeyValue>>10) & 0x1f))
-                {
+                if (isColorTransparent32(r, g, b, a))
                     a = 0;
-                }
 
 /*
                 // Check avec la couleur transparente
@@ -303,8 +316,10 @@ UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
 
                     // Si la première couleur est transparente, on ne peut pas
                     // l'utiliser
-                    if (ul_firstPaletteColorOpaque && dynamicColorsUsed == 0)
-                        firstColor = dynamicColorsUsed = 1;
+                    //if (ul_firstPaletteColorOpaque && dynamicColorsUsed == 0)
+                    //    firstColor = dynamicColorsUsed = 1;
+                    if (!ul_firstPaletteColorOpaque)
+                        firstColor = 1;
 
                     if (a == 0 && !ul_firstPaletteColorOpaque)
                     {

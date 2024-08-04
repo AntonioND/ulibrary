@@ -1,4 +1,4 @@
-## Version 1.12 - 31.07.2024
+## Version 1.13 - 05.08.2024
 
 - `µLibrary` has been ported to BlocksDS, allowing programs that use it to be
   built with modern tools.
@@ -13,9 +13,14 @@
 - `PAlib` examples are broken until there is a new version of `PAlib` that
   works with `BlocksDS`.
 
-- `basic.arm7` has been removed, as it is no longer needed.
-
 - The `Doxygen` documentation has been fixed and updated.
+
+## Version 1.12 - 17.03.2009
+
+- This release is only to keep working with the newest devkitpro & libnds
+  releases. A lot of things have changed and some important things must have
+  been rewritten This was the occasion of creating better makefiles, update
+  samples, changing the logo and do other minor changes.
 
 ## Version 1.11 - 23.08.2008
 

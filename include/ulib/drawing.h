@@ -39,6 +39,16 @@ extern "C" {
 /// more easily portable (e.g. on PSP where colors are 32 bits).
 typedef unsigned short UL_COLOR;
 
+/// Creates a 32-bit color
+///
+/// Not supported by DS, only for compatibility with PC.
+#define RGBA32(r, v, b, a) ((r) | ((v) << 8) | ((b) << 16) | ((a) << 24))
+
+/// Creates a 32-bit color without alpha.
+///
+/// Not supported by DS, only for compatibility with PC.
+#define RGB32(r, v, b) RGBA32(r, v, b, 0xff)
+
 /// Retrieves the red component value of the specified color.
 ///
 /// Example:
@@ -188,13 +198,20 @@ void ulEndFrame();
 ///
 /// Any pixel matching this color will be set as transparent upon loading. This
 /// does not have any effect ouside of loading images, and doesn't work for JPG
-/// format.  Also, this will not affect GIF files which do have a transparent
+/// format. Also, this will not affect GIF files which do have a transparent
 /// color. The said transparent color will be used instead.
+///
+/// The color is usually a NDS 15-bit color, but it may also be a 32-bit color
+/// like on PC (if bits 31 .. 16 are not zero).
+///
+/// But note that if it is, the alpha bits (31 .. 24) should not be 0. To define
+/// a fully transparent color, use RGBA32(255, 255, 255, 0). This special color
+/// is recognized by the system, else it may be confused with a 15-bit color.
 ///
 /// \~french
 ///
 /// @brief Définit la couleur transparente d'arrière plan de l'image.
-#define ulSetTransparentColor(color) (ul_colorKeyEnabled = 1, ul_colorKeyValue = color)
+void ulSetTransparentColor(unsigned long color);
 
 /// \~english
 ///
@@ -392,6 +409,7 @@ void ulDrawGradientRect(s16 x0, s16 y0, s16 x1, s16 y1, UL_COLOR color1,
 // Valeur de la color key (PNG de type RGB)
 extern u8 ul_colorKeyEnabled;
 extern UL_COLOR ul_colorKeyValue;
+extern unsigned long ul_colorKeyValue32;
 
 /// Available image pixel formats
 enum UL_IMAGE_FORMATS
@@ -907,6 +925,20 @@ extern u8 ul_firstPaletteColorOpaque;
         GFX_VERTEX16 = ul_currentDepth; \
     })
 
+/// Issue a 3D vertex command with texture.
+///
+/// @param u, v
+///     Texture coordinates
+/// @param x, y, z
+///     Vertex coordinates
+///
+/// Same remarks as ulVertexUVXY apply.
+#define ulVertexUVXYZ(u, v, x, y, z) ({ \
+        GFX_TEX_COORD = ((u16)(v)) << 20 | ((u16)(u)) << 4; \
+        GFX_VERTEX16 = (((u16)(y)) << 16) | ((u16)(x)); \
+        GFX_VERTEX16 = (u16)(z); \
+    })
+
 /// Issues a 2D vertex command.
 ///
 /// @param x, y
@@ -945,6 +977,18 @@ extern u8 ul_firstPaletteColorOpaque;
 #define ulVertexXY(x, y) ({ \
         GFX_VERTEX16 = (((u16)(y)) << 16) | ((u16)(x)); \
         GFX_VERTEX16 = ul_currentDepth; \
+    })
+
+/// Issues a 3D vertex command.
+///
+/// @param x, y, z
+///     Vertex coordinates
+///
+/// Same remarks as for ulVertexUVXYZ, except that there is no texture here. You
+/// should disable texturing when doing that!
+#define ulVertexXYZ(x, y, z) ({ \
+        GFX_VERTEX16 = (((u16)(y)) << 16) | ((u16)(x)); \
+        GFX_VERTEX16 = (u16)(z); \
     })
 
 /// Set the next vertex color.

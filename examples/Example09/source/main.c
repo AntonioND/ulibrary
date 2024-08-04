@@ -4,17 +4,21 @@
 
 #include <ulib/ulib.h>
 #include <PA9.h>
-#include "james.h"
-#include "bear.h"
-#include "music.h"
+#include "james_gif.h"
+#include "bear_gif.h"
+#include "music_mod.h"
 
 // Our image contains 3 frames, one next to the other vertically, and 32 pixel wide.
 #define FRAME_HEIGHT 32
 
+// Helper that may be useful for defining several files
+#define RAM_FILE_ENTRY(name, symbol) \
+    {name, (void *)symbol, (int)symbol##_size, &VF_MEMORY}
+
 // Files stored in RAM.
 UL_VIRTUALFILENAME ram_names[] = {
-    {"james.gif", (void*)james, (int)james_size, &VF_MEMORY},
-    {"bear.gif", (void*)bear, (int)bear_size, &VF_MEMORY},
+    RAM_FILE_ENTRY("james.gif", james_gif),
+    RAM_FILE_ENTRY("bear.gif", bear_gif),
 };
 
 int main(int argc, char *argv[])
@@ -26,10 +30,10 @@ int main(int argc, char *argv[])
     const int animPositions[] = { 0, 1, 2, 1 };
     int i, j, fade = 0x1f;
 
-    PA_Init();          // PA Init...
-    PA_InitVBL();       // VBL Init...
-    PA_InitSound();     // Sound Init, for the mod player...
-    PA_PlayMod(music);  // Play a mod file
+    PA_Init();             // PA Init...
+    PA_InitVBL();          // VBL Init...
+    PA_InitSound();        // Sound Init, for the mod player...
+    PA_PlayMod(music_mod); // Play a mod file
 
     // Initialize µLibrary
     ulInit(UL_INIT_ALL);

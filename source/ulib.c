@@ -31,6 +31,11 @@ void ulInit(UL_INIT_FLAGS flags)
     VirtualFileInit();
 }
 
+void ulTerminate()
+{
+
+}
+
 int ulGetPowerOf2Count(int value)
 {
     int i;

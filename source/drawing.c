@@ -4,6 +4,7 @@ s32 ul_currentDepth;
 u8 ul_autoDepth;
 u8 ul_colorKeyEnabled;
 UL_COLOR ul_colorKeyValue;
+unsigned long ul_colorKeyValue32;
 u8 ul_frameNumber, ul_dualScreenMode;
 const int ul_pixelWidth[] = {0, 8, 2, 4, 8, 0, 8, 16, 16};
 u8 ul_screenClippingChanged = 0;
@@ -49,18 +50,17 @@ void ulInitGfx()
     videoSetMode(MODE_0_3D);
     vramSetBankA(VRAM_A_TEXTURE);
 
-    glViewport(0,0,255,191);
+    glInit();
+    glViewport(0, 0, 255, 191);
 
-//    glClearColor(0,0,0);
+//    glClearColor(0, 0, 0);
     BG_PALETTE[0] = RGB15(0, 0, 0);
 
-//    GFX_CLEAR_COLOR = RGB15(31, 31, 31) | (15<<16);
+//    GFX_CLEAR_COLOR = RGB15(31, 31, 31) | (15 << 16);
     glClearDepth(0x7FFF);
 
     ul_autoDepth = 1;
     ul_dualScreenMode = 0;
-
-    glInit();
 
     //Il faudra de toute façon la mettre à jour...
 //    ul_lastTexture = (UL_IMAGE*)-1;
@@ -327,6 +327,7 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
         img->format = format;
         img->textureID = -1;
         img->paletteID = -1;
+        img->location = location;
 
         img->sizeX = width;
         img->sizeY = height;
@@ -531,4 +532,22 @@ void ulDeleteImage(UL_IMAGE *img)
 void ulSetScreenBackgroundColor(UL_COLOR color)
 {
     GFX_CLEAR_COLOR = color;
+}
+
+void ulSetTransparentColor(unsigned long color)
+{
+    if (color & 0xffff0000)
+    {
+        ul_colorKeyEnabled = 32;
+        ul_colorKeyValue32 = color;
+        // For compatibility
+        ul_colorKeyValue = RGB15((color & 0xff) >> 3,
+                                 (color & 0xff00) >> 11,
+                                 (color & 0xff0000) >> 19);
+    }
+    else
+    {
+        ul_colorKeyEnabled = 16;
+        ul_colorKeyValue = color;
+    }
 }

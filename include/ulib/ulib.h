@@ -50,6 +50,9 @@ typedef enum UL_INIT_FLAGS
 ///       you initialize µLibrary after PA_Lib.
 void ulInit(UL_INIT_FLAGS flags);
 
+/// De-initialisation of µLibrary.
+void ulTerminate();
+
 /// @}
 
 /// @defgroup main_maths Maths

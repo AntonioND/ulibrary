@@ -15,9 +15,13 @@ void drawShadowedText(int x, int y, int color, const char *text);
         drawShadowedText(x, y, color, __str); \
     })
 
+// Helper that may be useful for defining several files.
+#define RAM_FILE_ENTRY(name, symbol) \
+    { name, (void *)symbol, (int)symbol##_size, &VF_MEMORY }
+
 // Files stored in RAM.
 UL_VIRTUALFILENAME ram_names[] = {
-    {"roll.png", (void *)roll_png, (int)roll_png_size, &VF_MEMORY},
+    RAM_FILE_ENTRY("roll.png", roll_png),
 };
 
 int main(int argc, char *argv[])

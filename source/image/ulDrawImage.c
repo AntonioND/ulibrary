@@ -104,8 +104,6 @@ void ulDrawImage(UL_IMAGE *img)
         // Commence le dessin
         GFX_BEGIN = GL_QUADS;
 
-            // ATTENTION: PEUT ÊTRE ENLEVER LES & 0xffff qui ne servent pas vraiment à grand chose...
-
             // 1. Haut-gauche
             GFX_COLOR = img->tint1;
             ulVertexUVXY(img->offsetX0, img->offsetY0, img->x, img->y);

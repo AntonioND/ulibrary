@@ -155,14 +155,17 @@ int ulSetTexPalVramParameters(int activeBanks, void *baseAddr, int totalSize);
 ///
 /// 2) The texture parameter can be NULL to create a texture with uninitialized
 ///    data.
+///
+/// Warning: Those OpenGL-like functions are likely to break in a future version
+/// of µLibrary!!!
 int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
                  int empty2, int param, uint8* texture);
 
-/// glTexParameter() replacement.
+/// glTexParameter() replacement. Do not use.
 void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, uint8 mode,
                     uint32 param);
 
-/// glGetTexParameter() replacement.
+/// glGetTexParameter() replacement. Do not use.
 static inline int ulGetTexParameter()
 {
    return ulTextureParams[ulTextureActive];
@@ -193,12 +196,33 @@ void uluTexUnloadPal(u32 addr);
 void ulBindTextureToGl(int target, int name);
 #endif
 
-static inline void ulSetTexAlphaMask(int enable)
+/// Arguments accepted by ulSetTextureWrap().
+enum UL_TEXWRAP_PARAMS {
+    UL_TEXWRAP_S = 1 << 16,
+    UL_TEXWRAP_T = 1 << 17,
+    UL_TEXFLIP_S = 1 << 18,
+    UL_TEXFLIP_T = 1 << 19,
+};
+
+/// Sets the wrap & flip state of a texture named by its ID.
+///
+/// @param textureName
+///     The texture name (image->textureID, will probably break in the future)
+/// @param value
+///     One or more of the flags defined in UL_TEXWRAP_PARAMS.
+static inline void ulSetTextureWrap(int textureName, int value)
+{
+    ulTextureParams[textureName] &= ~(0xf << 16);
+    ulTextureParams[textureName] |= value;
+}
+
+/// Enables or disable the the color 0 of every palette being transparent.
+static inline void ulSetTexAlphaMask(int textureName, bool enable)
 {
     if (enable)
-        ulTextureParams[ulTextureActive] |= GL_TEXTURE_COLOR0_TRANSPARENT;
+        ulTextureParams[textureName] |= GL_TEXTURE_COLOR0_TRANSPARENT;
     else
-        ulTextureParams[ulTextureActive] &= ~GL_TEXTURE_COLOR0_TRANSPARENT;
+        ulTextureParams[textureName] &= ~GL_TEXTURE_COLOR0_TRANSPARENT;
 }
 
 /// Changes the current state of one or several VRAM banks.

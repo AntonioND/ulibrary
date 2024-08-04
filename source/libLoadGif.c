@@ -1,6 +1,25 @@
 #include "ulib.h"
 #include "gif/gif_lib.h"
 
+// Other instances of this function may exist elsewhere!
+static bool isColorTransparent32(u8 r, u8 g, u8 b)
+{
+    if (ul_colorKeyEnabled == 32)
+    {
+        u32 color = RGBA32(r, g, b, 0);
+        if (color == (ul_colorKeyValue32 & 0xffffff))
+            return true;
+    }
+    else if (ul_colorKeyEnabled == 16)
+    {
+        if ((r >> 3) == (ul_colorKeyValue & 0x1f) &&
+            (g >> 3) == ((ul_colorKeyValue >> 5) & 0x1f) &&
+            (b >> 3) == ((ul_colorKeyValue >> 10) & 0x1f))
+            return true;
+    }
+    return false;
+}
+
 // Note: la palette temporaire ici est 16 bits parce qu'on est sur DS mais ce
 // serait facile de l'adapter au 32 bits, regarder GAMMA et le remplissage de
 // cette palette (nommée Palette dans ulLoadImageGif) Le swap de palette par
@@ -14,8 +33,6 @@ u16 *temppalette; // Utilisé pour stocker la palette des gifs...
 
 const short InterlacedOffset[] = { 0, 4, 2, 1 }; // The way Interlaced image should.
 const short InterlacedJumps[] = { 8, 8, 4, 2 };  // be read - offsets and jumps...
-
-int m;
 
 GifPixelType LineBuf[2048]; // Buffer temporaire
 
@@ -185,9 +202,8 @@ UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
                     for (i = 0; i < ColorMap->ColorCount; i++)
                     {
                         GifColorType* pColor = &ColorMap->Colors[i];
-                        if ((pColor->Red >> 3) == (ul_colorKeyValue & 0x1f) &&
-                            (pColor->Green >> 3) == ((ul_colorKeyValue>>5) & 0x1f) &&
-                            (pColor->Blue >> 3) == ((ul_colorKeyValue>>10) & 0x1f))
+
+                        if (isColorTransparent32(pColor->Red, pColor->Green, pColor->Blue))
                         {
                             transparentColor = i;
                             break;
