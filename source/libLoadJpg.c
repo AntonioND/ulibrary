@@ -2,7 +2,8 @@
 #include "jpeg/gba-jpeg.h"
 #include "jpeg/gba-jpeg-decode.h"
 
-UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, int location, int pixelFormat)
+UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat)
 {
     UL_IMAGE *img = NULL;
     const unsigned char *input, *input_free;

@@ -48,8 +48,8 @@ int fnGifReadFunc(GifFileType* GifFile, GifByteType* buf, int count)
     return count;
 }
 
-void fnCopyLine(void *dst, void *src, int count, int pixelFormat,
-                int transparentColor)
+static void fnCopyLine(void *dst, void *src, int count,
+                       UL_IMAGE_FORMATS pixelFormat, int transparentColor)
 {
     int x;
     u8 *p_dest1 = (u8 *)dst;
@@ -101,7 +101,7 @@ void fnCopyLine(void *dst, void *src, int count, int pixelFormat,
 }
 
 int DGifGetLineByte(GifFileType *GifFile, GifPixelType *Line, int LineLen,
-                    int pixelFormat, int transparentColor)
+                    UL_IMAGE_FORMATS pixelFormat, int transparentColor)
 {
     // Nouvelle ligne
     int result = DGifGetLine(GifFile, LineBuf, LineLen);
@@ -123,7 +123,8 @@ int DGifGetLineByte(GifFileType *GifFile, GifPixelType *Line, int LineLen,
 // Gerer les 16 bits!!
 //
 // ulCreateImage()
-UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat)
+UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat)
 {
     UL_IMAGE *img = NULL;
 

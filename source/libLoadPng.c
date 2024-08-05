@@ -53,7 +53,8 @@ static int square(int value)
 
 // fnGetMemory(width, height, flags, png_info). Peut modifier width et height
 // aux valeurs adaptées (genre 250 => 256).
-UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat)
+UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat)
 {
     const size_t nSigSize=8;
     int transparentColor = -1;

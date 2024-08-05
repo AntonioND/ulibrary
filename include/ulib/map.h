@@ -15,6 +15,12 @@ extern "C" {
 ///
 /// @{
 
+/// Map formats
+typedef enum UL_MAP_FORMATS {
+    UL_MF_U16 = 0, ///< 16 bits per entry
+    UL_MF_U16_GBA, ///< 16 bits per entry, 10 for tile, 2 for mirror, 4 for palette
+} UL_MAP_FORMATS;
+
 /// Map type.
 ///
 /// Once created, you can change the map contents to make it scroll for example.
@@ -35,7 +41,7 @@ typedef struct
     // Map dimensions (do not access)
     s16 mapSizeX, mapSizeY;
     // Map format (do not access)
-    int format;
+    UL_MAP_FORMATS format;
 } UL_MAP;
 
 /// Creates a new map.
@@ -75,7 +81,7 @@ typedef struct
 /// Note: The tileset's tint1 member is used to tint the ENTIRE map, no gradient
 /// is made!
 UL_MAP *ulCreateMap(UL_IMAGE *img, void *map_data, int tileX, int tileY,
-                    int mapSizeX, int mapSizeY, int map_format);
+                    int mapSizeX, int mapSizeY, UL_MAP_FORMATS map_format);
 
 /// Deletes a map.
 ///
@@ -95,12 +101,6 @@ void ulDeleteMap(UL_MAP *map);
 /// and use if possible null map entries (transparent), which are simply
 /// skipped.
 void ulDrawMap(UL_MAP *m);
-
-/// Map formats
-enum UL_MAP_FORMATS {
-    UL_MF_U16 = 0, ///< 16 bits per entry
-    UL_MF_U16_GBA, ///< 16 bits per entry, 10 for tile, 2 for mirror, 4 for palette
-};
 
 /// @}
 

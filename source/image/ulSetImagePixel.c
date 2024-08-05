@@ -26,6 +26,10 @@ void ulSetImagePixel(UL_IMAGE *img, int x, int y, int pixelValue)
         case UL_PF_PAL2:
             ((u8*)pPixel)[x >> 2] &= ~(3 << ((x & 3) << 1));
             ((u8*)pPixel)[x >> 2] |= (pixelValue & 3) << ((x & 3) << 1);
-           break;
+            break;
+
+        default:
+        case UL_PF_COMPRESSED:
+            break;
     }
 }

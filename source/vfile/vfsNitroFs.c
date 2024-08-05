@@ -7,7 +7,7 @@ int VF_NITRO = -1;
 
 #define _file_ ((FILE*)f->ioPtr)
 
-int vfsNitroOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f)
+int vfsNitroOpen(void *param1, int param2, int type, VF_OPEN_MODES mode, VIRTUAL_FILE* f)
 {
     const char *stdMode = "rb";
 

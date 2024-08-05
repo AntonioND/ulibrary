@@ -7,7 +7,7 @@ int VF_FILE = -1;
 
 #define _file_ ((FILE*)f->ioPtr)
 
-int vfsFatOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f)
+int vfsFatOpen(void *param1, int param2, int type, VF_OPEN_MODES mode, VIRTUAL_FILE* f)
 {
     const char *stdMode = "rb";
     if (mode == VF_O_WRITE)

@@ -14,7 +14,7 @@ UL_BANKS ul_texVramBanks = UL_BANK_A;
 u8 ul_optimizeTextureSize = 1;
 
 // By default, initialize every texture to zero
-u8 ul_initTexturesToZero = UL_TEXINITZERO_ALL;
+UL_TEXINITZERO_TYPE ul_initTexturesToZero = UL_TEXINITZERO_ALL;
 
 #define DEFAULT_TABLE_SIZE 1024
 
@@ -185,8 +185,8 @@ int ulTexVramFreeBlock(int blockOffset)
 //
 // Attention: sizeX et sizeY sont les VRAIES tailles (en pixel)! Elles seront
 // alignées aux prochaines puissances de deux!
-int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
-                 int empty2, int param, uint8* texture)
+int ulTexImage2D(int target, int empty1, UL_IMAGE_FORMATS type,
+                 int sizeX, int sizeY, int empty2, int param, uint8* texture)
 {
     uint32 size = 0;
     int32 texId;
@@ -214,15 +214,15 @@ int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
     // unlock texture memory
     ulChangeVramAllocation(ul_texVramBanks, UL_BANK_TYPE_LCD);
 
-    if (type == GL_RGB)
+    if (type == UL_PF_5550)
     {
-        // We do GL_RGB as GL_RGBA, but we set each alpha bit to 1 during the copy
+        // We do UL_PF_5550 as UL_PF_5551, but we set each alpha bit to 1 during the copy
         u16 * src = (u16*)texture;
         u16 * dest = (u16*)addr;
 
         // Valeur de la texture: utilisé pour GFX_TEX_FORMAT
         ulTexParameter(ulGetPowerOf2Count(sizeX) - 3, ulGetPowerOf2Count(sizeY) - 3,
-                       addr, GL_RGBA, param);
+                       addr, UL_PF_5551, param);
 
         if (texture)
         {
@@ -374,7 +374,7 @@ void ulFreeTextures(int n, int *names)
 }
 
 // Paramétrage d'une texture
-void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, uint8 mode, uint32 param)
+void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, UL_IMAGE_FORMATS mode, uint32 param)
 {
     ulTextureParams[ulTextureActive] = param | (sizeX << 20) | (sizeY << 23) |
                                        (((uint32)addr >> 3) & 0xFFFF) | (mode << 26);

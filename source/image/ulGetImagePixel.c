@@ -21,6 +21,10 @@ int ulGetImagePixel(UL_IMAGE *img, int x, int y)
 
         case UL_PF_PAL2:
             return ((u8*)pPixel)[x >> 2] & (3 << ((x & 3) << 1));
+
+        default:
+        case UL_PF_COMPRESSED:
+            return -1;
     }
 
     return -1;

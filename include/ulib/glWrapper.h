@@ -53,15 +53,14 @@ extern UL_BANKS ul_texVramBanks;
 /// Allows to optimize the image sizes to use less memory. Enabled by default.
 extern u8 ul_optimizeTextureSize;
 
-/// Fills textures with zeroes when creating them. See UL_TEXINITZERO for more
-/// information.
-extern u8 ul_initTexturesToZero;
-
-typedef enum UL_TEXINITZERO_TYPE        {
-    UL_TEXINITZERO_RAM = 1,  ///! Textures created in memory (RAM) will be filled first
-    UL_TEXINITZERO_VRAM = 2, ///! Textures created in texture memory (VRAM) will be filled first
-    UL_TEXINITZERO_ALL = 3   ///! Every textures will be filled with zeroes
+typedef enum UL_TEXINITZERO_TYPE {
+    UL_TEXINITZERO_RAM = 1,  ///< Textures created in memory (RAM) will be filled first
+    UL_TEXINITZERO_VRAM = 2, ///< Textures created in texture memory (VRAM) will be filled first
+    UL_TEXINITZERO_ALL = 3   ///< Every textures will be filled with zeroes
 } UL_TEXINITZERO_TYPE;
+
+/// Fills textures with zeroes when creating them.
+extern UL_TEXINITZERO_TYPE ul_initTexturesToZero;
 
 // Attention: les tailles et offsets sont multiples de 16
 #define ulTexVramAddressToOffset(add) (((int)(add) - (int)ul_texVramBase) >> 4)
@@ -158,12 +157,12 @@ int ulSetTexPalVramParameters(int activeBanks, void *baseAddr, int totalSize);
 ///
 /// Warning: Those OpenGL-like functions are likely to break in a future version
 /// of µLibrary!!!
-int ulTexImage2D(int target, int empty1, int type, int sizeX, int sizeY,
-                 int empty2, int param, uint8* texture);
+int ulTexImage2D(int target, int empty1, UL_IMAGE_FORMATS type,
+                 int sizeX, int sizeY, int empty2, int param, uint8* texture);
 
 /// glTexParameter() replacement. Do not use.
-void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr, uint8 mode,
-                    uint32 param);
+void ulTexParameter(uint8 sizeX, uint8 sizeY, uint32* addr,
+                    UL_IMAGE_FORMATS mode, uint32 param);
 
 /// glGetTexParameter() replacement. Do not use.
 static inline int ulGetTexParameter()
@@ -197,12 +196,12 @@ void ulBindTextureToGl(int target, int name);
 #endif
 
 /// Arguments accepted by ulSetTextureWrap().
-enum UL_TEXWRAP_PARAMS {
+typedef enum UL_TEXWRAP_PARAMS {
     UL_TEXWRAP_S = 1 << 16,
     UL_TEXWRAP_T = 1 << 17,
     UL_TEXFLIP_S = 1 << 18,
     UL_TEXFLIP_T = 1 << 19,
-};
+} UL_TEXWRAP_PARAMS;
 
 /// Sets the wrap & flip state of a texture named by its ID.
 ///
@@ -210,7 +209,7 @@ enum UL_TEXWRAP_PARAMS {
 ///     The texture name (image->textureID, will probably break in the future)
 /// @param value
 ///     One or more of the flags defined in UL_TEXWRAP_PARAMS.
-static inline void ulSetTextureWrap(int textureName, int value)
+static inline void ulSetTextureWrap(int textureName, UL_TEXWRAP_PARAMS value)
 {
     ulTextureParams[textureName] &= ~(0xf << 16);
     ulTextureParams[textureName] |= value;

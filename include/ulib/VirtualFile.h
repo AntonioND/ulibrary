@@ -40,11 +40,11 @@ typedef struct
 /// WRITE, in this case they'll fail when an attempt to open a file in one of
 /// these modes is made. The resulting file returned by VirtualFileOpen will be
 /// NULL.
-enum VF_OPEN_MODES {
+typedef enum VF_OPEN_MODES {
     VF_O_READ,      ///< Read only
     VF_O_READWRITE, ///< Read & Write
     VF_O_WRITE      ///< Write only
-};
+} VF_OPEN_MODES;
 
 /// Structure of a Virtual File Source.
 typedef struct
@@ -53,7 +53,7 @@ typedef struct
     ///
     /// Return 1 if anything went well, or 0 to throw an error (the opening will
     /// be cancelled and NULL will be returned to the user).
-    int (*fOpen)(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f);
+    int (*fOpen)(void *param1, int param2, int type, VF_OPEN_MODES mode, VIRTUAL_FILE* f);
 
     /// Close a file.
     ///
@@ -147,7 +147,7 @@ void VirtualFileInit();
 ///     - VF_NITRO: Read from NitroFS. Requires a prior call to ulInitNitroFs().
 /// @param mode
 ///     One of VF_OPEN_MODES.
-VIRTUAL_FILE *VirtualFileOpen(void *param1, int param2, int type, int mode);
+VIRTUAL_FILE *VirtualFileOpen(void *param1, int param2, int type, VF_OPEN_MODES mode);
 
 /// Closes an open file.
 int VirtualFileClose(VIRTUAL_FILE *f);
@@ -255,7 +255,7 @@ extern int ul_virtualFileListNumber;
 void *ulReadEntireFileToMemory(VIRTUAL_FILE *f, int *size);
 
 // Source par défaut: mémoire
-int vfsMemOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f);
+int vfsMemOpen(void *param1, int param2, int type, VF_OPEN_MODES mode, VIRTUAL_FILE* f);
 int vfsMemClose(VIRTUAL_FILE *f);
 int vfsMemWrite(const void *ptr, size_t size, size_t n, VIRTUAL_FILE* f);
 int vfsMemRead(void *ptr, size_t size, size_t n, VIRTUAL_FILE* f);

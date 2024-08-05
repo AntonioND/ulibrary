@@ -94,7 +94,7 @@ typedef struct
 extern UL_CONTROLLER ul_keys;
 
 /// Bit values for the keypad buttons.
-enum UL_KEYPAD_BITS
+typedef enum UL_KEYPAD_BITS
 {
     UL_KEY_A        = 0x1,    /// Keypad A button.
     UL_KEY_B        = 0x2,    /// Keypad B button.
@@ -110,7 +110,7 @@ enum UL_KEYPAD_BITS
     UL_KEY_Y        = 0x800,  /// Keypad Y button.
     UL_KEY_TOUCH    = 0x1000, /// Touchscreen pen down.
     UL_KEY_LID      = 0x2000  /// Lid state.
-};
+} UL_KEYPAD_BITS;
 
 /// Sets the key autorepeat features (all in one).
 #define ulSetKeyAutorepeat(keys,init,interval) ( \

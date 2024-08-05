@@ -1,6 +1,6 @@
 #include "ulib.h"
 
-int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
+int ulCreateImagePalette(UL_IMAGE *img, UL_IMAGE_LOCATION location, int palCount)
 {
     int success = 1;
 

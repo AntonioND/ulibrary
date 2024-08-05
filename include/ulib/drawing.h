@@ -73,6 +73,35 @@ typedef unsigned short UL_COLOR;
 /// Retrieves the blue component value of the specified color.
 #define ulGetColorBlue(color)  (((color) >> 10) & 31)
 
+/// Available image pixel formats
+typedef enum UL_IMAGE_FORMATS
+{
+    UL_PF_PAL5_A3=1,  ///< 32-colour palette + 8-tone alpha
+    UL_PF_PAL2,       ///< 4-colour palette
+    UL_PF_PAL4,       ///< 16-colour palette
+    UL_PF_PAL8,       ///< 256-colour palette
+    UL_PF_COMPRESSED, ///< Not figured out
+    UL_PF_PAL3_A5,    ///< 8-colour palette + 32-tone alpha
+    UL_PF_5551,       ///< 16-bit RGBA
+    UL_PF_5550,       ///< 15-bit RGB - virtual format (5551 with alpha bit set to 1)
+} UL_IMAGE_FORMATS;
+
+/// Image or palette states (location in memory)
+typedef enum UL_IMAGE_STATES
+{
+    UL_STATE_NONE = 0,  ///< N'existe pas encore
+    UL_STATE_RAM,       ///< L'image est quelque part en mémoire, ne pas s'en occuper
+    UL_STATE_RAM_BLOCK, ///< L'image utilise un bloc, à libérer (free) une fois que l'image est copiée en VRAM
+    UL_STATE_VRAM,      ///< L'image a été copiée en VRAM et n'est plus accessible
+} UL_IMAGE_STATES;
+
+/// Possible locations of an image.
+typedef enum UL_IMAGE_LOCATION
+{
+    UL_IN_RAM = 0,  ///< In RAM
+    UL_IN_VRAM = 1, ///< In VRAM
+} UL_IMAGE_LOCATION;
+
 /// Image type
 typedef struct
 {
@@ -90,9 +119,9 @@ typedef struct
     // Protégé
     u16 sizeX, sizeY;
     u16 sysSizeX, sysSizeY; // System size (power of 2 boundary)
-    u8 format;              // Voir UL_IMAGE_FORMATS
-    u8 imgState, palState;  // Voir UL_IMAGE_STATES
-    u8 location;
+    UL_IMAGE_FORMATS format;
+    UL_IMAGE_STATES imgState, palState;
+    UL_IMAGE_LOCATION location;
     s16 textureID, paletteID, palCount;
     void *texture, *palette;
 } UL_IMAGE;
@@ -411,37 +440,6 @@ extern u8 ul_colorKeyEnabled;
 extern UL_COLOR ul_colorKeyValue;
 extern unsigned long ul_colorKeyValue32;
 
-/// Available image pixel formats
-enum UL_IMAGE_FORMATS
-{
-    UL_PF_PAL5_A3=1,  ///< 32-colour palette + 8-tone alpha
-    UL_PF_PAL2,       ///< 4-colour palette
-    UL_PF_PAL4,       ///< 16-colour palette
-    UL_PF_PAL8,       ///< 256-colour palette
-    UL_PF_COMPRESSED, ///< Not figured out
-    UL_PF_PAL3_A5,    ///< 8-colour palette + 32-tone alpha
-    UL_PF_5551,       ///< 16-bit RGBA
-    UL_PF_5550,       ///< 15-bit RGB - virtual format (5551 with alpha bit set to 1)
-};
-
-/// Image or palette states (location in memory)
-enum UL_IMAGE_STATES
-{
-    UL_STATE_NONE = 0,  ///< N'existe pas encore
-    UL_STATE_RAM,       ///< L'image est quelque part en mémoire, ne pas s'en occuper
-    UL_STATE_RAM_BLOCK, ///< L'image utilise un bloc, à libérer (free) une fois que l'image est copiée en VRAM
-    UL_STATE_VRAM,      ///< L'image a été copiée en VRAM et n'est plus accessible
-};
-
-/// Reason for locking an image (whether you want to access its palette,
-/// texture, etc.)
-typedef enum UL_LOCK_REASON
-{
-    UL_LOCK_NONE = 0,    ///< Do not use
-    UL_LOCK_PIXELS = 1,  ///< Access to image pixel data
-    UL_LOCK_PALETTE = 2, ///< Access to image palette data
-} UL_LOCK_REASON;
-
 // Taille des palettes (2^n)
 extern const u8 ul_paletteSizes[];
 extern const int ul_pixelWidth[];
@@ -456,15 +454,9 @@ extern const u8 ul_pixelSizes[];
 ///
 /// @{
 
-enum UL_IMAGE_LOCATION
-{
-    UL_IN_RAM = 0,
-    UL_IN_VRAM = 1,
-};
-
 /// Creates a new image and allocates memory in RAM for it
-UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
-                        int palCount);
+UL_IMAGE *ulCreateImage(int width, int height, UL_IMAGE_LOCATION location,
+                        UL_IMAGE_FORMATS format, int palCount);
 
 // Creates an image from an uncompressed texture + palette.
 // UL_IMAGE *ulCreateImageFromTexture(const void *texture, int width, int height, int location, int format, void *palette, int palcount);
@@ -492,15 +484,16 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
 /// Very important: To be used as textures, image dimensions must have a size
 /// power of two. The members sysSizeX and sysSizeY indicate the real dimension
 /// of data in memory.
-int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount);
+int ulCreateImagePalette(UL_IMAGE *img, UL_IMAGE_LOCATION location, int palCount);
 
 /// Converts a true color image (5550 or 5551) to a paletted format, creating a
 /// palette for it.
 ///
 /// A pointer to the new image is returned and the original image is left
 /// untouched.
-UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal, int newLocation,
-                                   int newFormat);
+UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal,
+                                   UL_IMAGE_LOCATION newLocation,
+                                   UL_IMAGE_FORMATS newFormat);
 
 /// Copies an image to Video RAM.
 ///
@@ -567,13 +560,15 @@ void ulDeleteImage(UL_IMAGE *img);
 /// directly, wether it contains a palette or not. The color key will be used
 /// for transparency if your pixel format is 5551, as well as the alpha channel
 /// defined in your PNG (0 - 127 = transparent, 128 - 255 = opaque).
-UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, int location, int pixelFormat);
+UL_IMAGE *ulLoadImagePNG(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat);
 
 /// Loads a JPG file.
 ///
 /// Same remark as for loading PNG. The format must be 16 bits (5550 or 5551)
 /// and there is no transparency support.
-UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, int location, int pixelFormat);
+UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat);
 
 /// Loads a GIF file.
 ///
@@ -583,7 +578,8 @@ UL_IMAGE *ulLoadImageJPG(VIRTUAL_FILE *f, int location, int pixelFormat);
 /// it searches for the color key and uses this one as transparent. If it's not
 /// found or you have not defined a color key, then it uses the first palette
 /// color as transparent.
-UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, int location, int pixelFormat);
+UL_IMAGE *ulLoadImageGIF(VIRTUAL_FILE *f, UL_IMAGE_LOCATION location,
+                         UL_IMAGE_FORMATS pixelFormat);
 
 /// @}
 
@@ -711,6 +707,15 @@ extern void ulMirrorImageV(UL_IMAGE *img, int mirrorState);
 #define ulImageSetRotCenter(img) \
         ((img)->centerX = ulAbs((img)->offsetX1 - (img)->offsetX0) >> 1, \
          (img)->centerY = ulAbs((img)->offsetY1 - (img)->offsetY0) >> 1)
+
+/// Reason for locking an image (whether you want to access its palette,
+/// texture, etc.)
+typedef enum UL_LOCK_REASON
+{
+    UL_LOCK_NONE = 0,    ///< Do not use
+    UL_LOCK_PIXELS = 1,  ///< Access to image pixel data
+    UL_LOCK_PALETTE = 2, ///< Access to image palette data
+} UL_LOCK_REASON;
 
 /// Locks an image so that you can access its contents in software.
 ///

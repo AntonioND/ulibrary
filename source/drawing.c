@@ -17,28 +17,28 @@ SpriteEntry ulDualScreenSprites[128];
 
 //Taille des formats de pixel
 const u8 ul_pixelSizes[] = {
-    0,  //Non utilisé
-    8,  //UL_PF_PAL5_A3
-    2,  //UL_PF_PAL2
-    4,  //UL_PF_PAL4
-    8,  //UL_PF_PAL8
-    0,  //UL_PF_COMPRESSED
-    8,  //UL_PF_PAL3_A5
-    16, //UL_PF_5551
-    16, //UL_PF_5550
+    0,  // Non utilisé
+    8,  // UL_PF_PAL5_A3
+    2,  // UL_PF_PAL2
+    4,  // UL_PF_PAL4
+    8,  // UL_PF_PAL8
+    0,  // UL_PF_COMPRESSED
+    8,  // UL_PF_PAL3_A5
+    16, // UL_PF_5551
+    16, // UL_PF_5550
 };
 
 //Taille des palettes (2^n)
 const u8 ul_paletteSizes[] = {
-    0, //Non utilisé
-    5, //UL_PF_PAL5_A3: 32 couleurs
-    2, //UL_PF_PAL2: 4 couleurs
-    4, //UL_PF_PAL4: 16 couleurs
-    8, //UL_PF_PAL8: 256 couleurs
-    0, //UL_PF_COMPRESSED
-    3, //UL_PF_PAL3_A5: 8 couleurs
-    0, //UL_PF_5551
-    0, //UL_PF_5550
+    0, // Non utilisé
+    5, // UL_PF_PAL5_A3: 32 couleurs
+    2, // UL_PF_PAL2: 4 couleurs
+    4, // UL_PF_PAL4: 16 couleurs
+    8, // UL_PF_PAL8: 256 couleurs
+    0, // UL_PF_COMPRESSED
+    3, // UL_PF_PAL3_A5: 8 couleurs
+    0, // UL_PF_5551
+    0, // UL_PF_5550
 };
 
 //Nombre de pixels par octet en fonction du format (seuls 1, 2, 4 et 8 supportés)
@@ -313,8 +313,8 @@ void ulSetAlpha(UL_SPECIAL_EFFECT effect, int coeff, int polygroup)
     glPolyFmt(POLY_ALPHA(coeff) | POLY_CULL_NONE | POLY_ID(polygroup));
 }
 
-UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
-                        int palCount)
+UL_IMAGE *ulCreateImage(int width, int height, UL_IMAGE_LOCATION location,
+                        UL_IMAGE_FORMATS format, int palCount)
 {
     UL_IMAGE *img;
     int textureID, success = 1;
@@ -480,8 +480,8 @@ void ulSetTexture(UL_IMAGE *img)
         ulBindTexture(GL_TEXTURE_2D, img->textureID);
 
         // Palette
-        if(img->format != GL_RGB)
-            GFX_PAL_FORMAT = ((u32)img->paletteID) >> (4 - (img->format == GL_RGB4));
+        if ((img->format != UL_PF_5551) && (img->format != UL_PF_5550))
+            GFX_PAL_FORMAT = ((u32)img->paletteID) >> (4 - (img->format == UL_PF_PAL2));
     }
     else
     {

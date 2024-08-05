@@ -22,7 +22,7 @@ int VirtualFileRegisterSource(VIRTUAL_FILE_SOURCE *vfs)
     return VirtualFileSourcesNb++;
 }
 
-VIRTUAL_FILE *VirtualFileOpen(void *param1, int param2, int type, int mode)
+VIRTUAL_FILE *VirtualFileOpen(void *param1, int param2, int type, VF_OPEN_MODES mode)
 {
     VIRTUAL_FILE *f = (VIRTUAL_FILE *)malloc(sizeof(*f));
     if (f)
@@ -48,7 +48,7 @@ int VirtualFileClose(VIRTUAL_FILE *f)
 
 // SOURCE 1 par défaut: Mémoire
 
-int vfsMemOpen(void *param1, int param2, int type, int mode, VIRTUAL_FILE* f)
+int vfsMemOpen(void *param1, int param2, int type, VF_OPEN_MODES mode, VIRTUAL_FILE* f)
 {
     // Tous les modes sont supportés mais pas très bien pour l'instant, ne vous
     // amusez pas à écrire et lire en même temps

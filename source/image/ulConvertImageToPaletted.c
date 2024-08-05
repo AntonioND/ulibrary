@@ -11,8 +11,9 @@ inline int ulFindColorInPalette(UL_COLOR *palette, int count, UL_COLOR color)
 }
 
 // Supporte 16 bits (5551, 5550) seulement!
-UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal, int newLocation,
-                                   int newFormat)
+UL_IMAGE *ulConvertImageToPaletted(UL_IMAGE *imgOriginal,
+                                   UL_IMAGE_LOCATION newLocation,
+                                   UL_IMAGE_FORMATS newFormat)
 {
     int palSize = 1 << ul_paletteSizes[newFormat];
     int width = imgOriginal->sizeX, height = imgOriginal->sizeY;

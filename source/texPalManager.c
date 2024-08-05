@@ -49,7 +49,7 @@ int ulTexPalAllocBlock(int blockSize, int format)
 {
     int i, align;
 
-    align = (format == GL_RGB4) ? 8 : 16;
+    align = (format == UL_PF_PAL2) ? 8 : 16;
 
     // La taille est toujours multiple de 8 ou 16 - arrondir au bloc supérieur
     //if (initialBlockSize & (align - 1))
@@ -221,7 +221,7 @@ int uluTexLoadPal(u16* pal, u16 count, uint8 format)
     // Détermine la taille de la palette en octets
     memSize = alignVal(count << 1, 1 << 3);
 
-    // Dans les formats autres que GL_RGB4, on doit aligner à 16 octets au lieu de 8
+    // Dans les formats autres que UL_PF_PAL2, on doit aligner à 16 octets au lieu de 8
     addr = (int)ulTexPalOffsetToAddress(ulTexPalAllocBlock(memSize, format));
 
     if (addr >= 0 && pal)
