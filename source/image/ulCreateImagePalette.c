@@ -8,10 +8,23 @@ int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
     if (palCount && ulImageIsPaletted(img) && img->palState == UL_STATE_NONE)
     {
         // The place where you put the palette and the image must be the same!
-        if (img->imgState != UL_STATE_NONE)
-            location = img->imgState;
+        switch (img->imgState)
+        {
+            case UL_STATE_NONE:
+            default:
+                break;
 
-        if (img->location == UL_IN_RAM)
+            case UL_STATE_RAM:
+            case UL_STATE_RAM_BLOCK:
+                location = UL_IN_RAM;
+                break;
+
+            case UL_STATE_VRAM:
+                location = UL_IN_VRAM;
+                break;
+        }
+
+        if (location == UL_IN_RAM)
         {
             // Chaque pixel fait 2 octets
             img->palette = malloc(2 * palCount);
@@ -25,7 +38,7 @@ int ulCreateImagePalette(UL_IMAGE *img, int location, int palCount)
                 success = 0;
             }
         }
-        else if (img->location == UL_IN_VRAM)
+        else if (location == UL_IN_VRAM)
         {
             // Directement en VRAM
             img->palCount = palCount;

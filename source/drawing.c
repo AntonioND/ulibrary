@@ -327,6 +327,7 @@ UL_IMAGE *ulCreateImage(int width, int height, int location, int format,
         img->format = format;
         img->textureID = -1;
         img->paletteID = -1;
+        img->location = location;
 
         img->sizeX = width;
         img->sizeY = height;
