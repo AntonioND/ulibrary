@@ -1,3 +1,13 @@
+## Version 1.14 - 05.08.2024
+
+- Re-introduce v1.12 fixes to the location attribute of images. There was a
+  mistake due to treating the values of one enum as the values of a different
+  enum.
+
+- The code of the library now uses enum typedefs in all places where it is
+  possible. This lets the compiler warn the developer if the entries of two
+  different enums are being mixed.
+
 ## Version 1.13 - 05.08.2024
 
 - `µLibrary` has been ported to BlocksDS, allowing programs that use it to be
