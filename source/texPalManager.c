@@ -38,7 +38,7 @@ void ulTexPalInit()
 {
     ulTexPalBlocksMax = DEFAULT_TABLE_SIZE;
     ulTexPalBlocksNb = 1;
-    ulTexPalBlocks = (UL_TEXPALBLOCK*)malloc(ulTexPalBlocksMax * sizeof(UL_TEXPALBLOCK));
+    ulTexPalBlocks = (UL_TEXPALBLOCK*)calloc(1, ulTexPalBlocksMax * sizeof(UL_TEXPALBLOCK));
     // Premier bloc: libre, taille totale de la VRAM, adresse 0
     setBlockOffset(0, 0);
     setBlockSize(0, ul_texPalVramSize >> 3);

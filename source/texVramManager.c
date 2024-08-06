@@ -47,7 +47,7 @@ void ulTexVramInit()
 {
     ulTexRamBlocksMax = DEFAULT_TABLE_SIZE;
     ulTexRamBlocksNb = 1;
-    ulTexRamBlocks = (UL_TEXRAMBLOCK*)malloc(ulTexRamBlocksMax * sizeof(UL_TEXRAMBLOCK));
+    ulTexRamBlocks = (UL_TEXRAMBLOCK*)calloc(1, ulTexRamBlocksMax * sizeof(UL_TEXRAMBLOCK));
 
     // Premier bloc: libre, taille totale de la VRAM, adresse 0
     setBlockOffset(0, 0);
