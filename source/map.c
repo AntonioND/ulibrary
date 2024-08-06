@@ -8,7 +8,7 @@
 void ulDrawMap(UL_MAP *m)
 {
     s16 x, y, v, ttX = 0, i, sX, sY, tX = 0, tY = 0, mX, mY, dX, bY, dsX, dsY, flags;
-    u16 *map = (u16*)m->map;
+    const u16 *map = m->map;
     int bHasPalette = (m->img->paletteID != -1);
     int nDecal = 4 - (m->img->format == UL_PF_PAL2);
     int palSize = ul_paletteSizes[m->img->format];
@@ -174,7 +174,7 @@ void ulDrawMap(UL_MAP *m)
     ul_currentDepth += ul_autoDepth;
 }
 
-UL_MAP *ulCreateMap(UL_IMAGE *img, void *map_data, int tileX, int tileY,
+UL_MAP *ulCreateMap(UL_IMAGE *img, const void *map_data, int tileX, int tileY,
                     int mapSizeX, int mapSizeY, UL_MAP_FORMATS map_format)
 {
     UL_MAP *m;

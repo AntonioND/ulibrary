@@ -29,7 +29,7 @@ typedef struct
     // Source image (do not access).
     UL_IMAGE *img;
     // Map data (do not access).
-    void *map;
+    const void *map;
     /// Current horizontal scrolling value in pixels.
     s16 scrollX;
     /// Current vertical scrolling value in pixels.
@@ -80,7 +80,7 @@ typedef struct
 ///
 /// Note: The tileset's tint1 member is used to tint the ENTIRE map, no gradient
 /// is made!
-UL_MAP *ulCreateMap(UL_IMAGE *img, void *map_data, int tileX, int tileY,
+UL_MAP *ulCreateMap(UL_IMAGE *img, const void *map_data, int tileX, int tileY,
                     int mapSizeX, int mapSizeY, UL_MAP_FORMATS map_format);
 
 /// Deletes a map.
