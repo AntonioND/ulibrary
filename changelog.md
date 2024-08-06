@@ -1,4 +1,4 @@
-## Version 1.14 - 05.08.2024
+## Version 1.14 - 06.08.2024
 
 - Re-introduce v1.12 fixes to the location attribute of images. There was a
   mistake due to treating the values of one enum as the values of a different
@@ -7,6 +7,8 @@
 - The code of the library now uses enum typedefs in all places where it is
   possible. This lets the compiler warn the developer if the entries of two
   different enums are being mixed.
+
+- Fix a few warnings.
 
 ## Version 1.13 - 05.08.2024
 
