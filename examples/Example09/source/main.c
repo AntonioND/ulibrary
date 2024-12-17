@@ -4,9 +4,13 @@
 
 #include <ulib/ulib.h>
 #include <PA9.h>
+#include <maxmod9.h> // Include Maxmod
 #include "james.h"
 #include "bear.h"
-#include "music.h"
+
+// Include the soundbank for Maxmod
+#include "soundbank_bin.h"
+#include "soundbank.h"
 
 // Our image contains 3 frames, one next to the other vertically, and 32 pixel wide.
 #define FRAME_HEIGHT 32
@@ -32,8 +36,13 @@ int main(int argc, char *argv[])
 
     PA_Init();         // PA Init...
     PA_InitVBL();      // VBL Init...
-    //PA_InitSound();    // Sound Init, for the mod player...
-    //PA_PlayMod(music); // Play a mod file
+
+    // Initialize Maxmod, the MOD player
+    mmInitDefaultMem((mm_addr)soundbank_bin);
+    // Load the music
+    mmLoad(MOD_MUSIC);
+    // Start it
+    mmStart(MOD_MUSIC, MM_PLAY_LOOP);
 
     // Initialize µLibrary
     ulInit(UL_INIT_ALL);
@@ -49,7 +58,9 @@ int main(int argc, char *argv[])
 
     // Show some splash screens!
     ulSetMainLcd(1);
-    ulShowSplashScreen(1);
+    // Don't show the first one because it will change the settings that PALib
+    // has configured for the sub screen.
+    //ulShowSplashScreen(1);
     ulShowSplashScreen(2);
 
     // We will use the touchpad this time

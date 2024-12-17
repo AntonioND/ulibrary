@@ -35,7 +35,7 @@ SOURCEDIRS	:= source
 INCLUDEDIRS	:=
 GFXDIRS		:=
 BINDIRS		:= data
-AUDIODIRS	:=
+AUDIODIRS	:= audio
 NITROFSDIR	:=
 
 # Defines passed to all files

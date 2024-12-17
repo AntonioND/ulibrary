@@ -25,14 +25,17 @@ int main(int argc, char ** argv)
     ulInitText();
 
     // Show some splash screens!
-    ulShowSplashScreen(1);
+
+    // Don't show the first one because it will change the settings that PALib
+    // has configured for the sub screen.
+    //ulShowSplashScreen(1);
     ulShowSplashScreen(2);
 
     // We use the top screen. The touchpad will be left to PALib.
     ulSetMainLcd(1);
 
     PA_Init16cBg(1, 2); // Initializes a 16 color bg
-    PA_LoadPal16c(PAL_BG1, ropes_Pal); // And loads its palette
+    PA_LoadPal16c(BG_PALETTE_SUB, ropes_Pal); // And loads its palette
     PA_16cErase(1); // Clear bg before start drawing
 
     u8 i = 0;      // position of our rope, from bottom
