@@ -4,9 +4,9 @@
 
 #include <ulib/ulib.h>
 #include <PA9.h>
-#include "james_gif.h"
-#include "bear_gif.h"
-#include "music_mod.h"
+#include "james.h"
+#include "bear.h"
+#include "music.h"
 
 // Our image contains 3 frames, one next to the other vertically, and 32 pixel wide.
 #define FRAME_HEIGHT 32
@@ -17,8 +17,8 @@
 
 // Files stored in RAM.
 UL_VIRTUALFILENAME ram_names[] = {
-    RAM_FILE_ENTRY("james.gif", james_gif),
-    RAM_FILE_ENTRY("bear.gif", bear_gif),
+    RAM_FILE_ENTRY("james.gif", james),
+    RAM_FILE_ENTRY("bear.gif", bear),
 };
 
 int main(int argc, char *argv[])
@@ -30,10 +30,10 @@ int main(int argc, char *argv[])
     const int animPositions[] = { 0, 1, 2, 1 };
     int i, j, fade = 0x1f;
 
-    PA_Init();             // PA Init...
-    PA_InitVBL();          // VBL Init...
-    PA_InitSound();        // Sound Init, for the mod player...
-    PA_PlayMod(music_mod); // Play a mod file
+    PA_Init();         // PA Init...
+    PA_InitVBL();      // VBL Init...
+    //PA_InitSound();    // Sound Init, for the mod player...
+    //PA_PlayMod(music); // Play a mod file
 
     // Initialize µLibrary
     ulInit(UL_INIT_ALL);
@@ -55,10 +55,10 @@ int main(int argc, char *argv[])
     // We will use the touchpad this time
     ulSetMainLcd(0);
     // Ensure the second screen is black
-    SUB_BLEND_CR = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
-    SUB_BLEND_Y = 0x1f;
-    BLEND_CR = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
-    BLEND_Y = fade;
+    REG_BLDCNT_SUB = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
+    REG_BLDY_SUB = 0x1f;
+    REG_BLDCNT = BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3;
+    REG_BLDY = fade;
 
     // Use bright pink as a transparent color
     ulSetTransparentColor(RGB15(31, 0, 31));
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 
         // Fade the screen
         fade = ulMax(fade - 1, 0);
-        BLEND_Y = fade;
+        REG_BLDY = fade;
     }
 
     return 0;

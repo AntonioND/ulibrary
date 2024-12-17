@@ -12,7 +12,6 @@
 
 #include <PA9.h>         // Include for PA_Lib
 #include "gfx/all_gfx.h"
-#include "gfx/all_gfx.c"
 #include <ulib/ulib.h>   // Include for µLibrary
 
 int main(int argc, char ** argv)
