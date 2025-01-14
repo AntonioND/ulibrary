@@ -9,11 +9,21 @@ display simple text boxes.
 
 ## 2. Install
 
-Simply run this to build and install the library in your BlocksDS environment:
+You can install this library directly with ``wf-pacman`` by running:
+
+```bash
+wf-pacman -Sy blocksds-ulibrary
+```
+
+If you want to build it from source instead, simply run this to build and
+install the library in your BlocksDS environment:
 
 ```bash
 make install
 ```
+
+You can also install PAlib from [this link](https://github.com/AntonioND/palib)
+if you want to use PAlib and µLibrary at the same time (some examples do it!).
 
 ## 3. Examples
 
