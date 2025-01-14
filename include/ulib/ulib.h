@@ -35,8 +35,7 @@ typedef enum UL_INIT_FLAGS
     /// Initialize all to get started easily
     UL_INIT_ALL = 0,
 
-    /// Initialize the library only, IRQ init and powerOn will be done by
-    /// yourself
+    /// Initialize the library only. powerOn() will be done by yourself
     UL_INIT_LIBONLY = 1,
 } UL_INIT_FLAGS;
 
@@ -46,8 +45,8 @@ typedef enum UL_INIT_FLAGS
 ///     - Pass UL_INIT_ALL by default. µLibrary will initialize everything for
 ///       you so that you can get started very easily.
 ///     - Pass UL_INIT_LIBONLY if you want to initialize the strict minimum to
-///       get µLibrary running. Do that if you know what you are doing, or if
-///       you initialize µLibrary after PA_Lib.
+///       get µLibrary running, and it won't power on any of the hardware with
+///       powerOn().
 void ulInit(UL_INIT_FLAGS flags);
 
 /// De-initialisation of µLibrary.
