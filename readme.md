@@ -60,15 +60,19 @@ You can install this library directly with ``wf-pacman`` by running:
 wf-pacman -Sy blocksds-ulibrary
 ```
 
-If you want to build it from source instead, simply run this to build and
-install the library in your BlocksDS environment:
+You can use µLibrary and [PAlib](https://github.com/AntonioND/palib) at the same
+time (some examples require PAlib!). You can install it with this command:
 
 ```bash
-make install
+wf-pacman -Sy blocksds-palib
 ```
 
-You can also install PAlib from [this link](https://github.com/AntonioND/palib)
-if you want to use PAlib and µLibrary at the same time (some examples do it!).
+If you want to build µLibrary from source instead, simply clone this repository
+and run this to build and install the library in your BlocksDS environment:
+
+```bash
+make -j`nproc` install
+```
 
 ## 3. Examples
 
